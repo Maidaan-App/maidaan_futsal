@@ -8,7 +8,8 @@ const PasswordResetSuccess = ({ onContinue, onBackToLogin }: any) => {
       <img
         src="/Group.png"
         alt=""
-        className="h-[3.4475rem] w-[4.625rem] mb-4"
+        className="h-[3.4475rem] w-[4.625rem] mb-4 "
+
       />
       <Heading heading={`Forgot password`} />
       <Description
