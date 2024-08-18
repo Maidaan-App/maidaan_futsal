@@ -1,0 +1,32 @@
+// Define the enum types
+enum UserType {
+  admin
+  player
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id                        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name                      String?
+  email                     String?   @unique
+  image                     String?
+  password                  String?
+  userType                  UserType  @default(player)
+  status                    Boolean   @default(false)
+  createdAt                 DateTime  @default(now())
+  // Optional fields
+  setupPasswordToken       String?
+  forgotPasswordToken       String?
+  forgotPasswordTokenExpiry DateTime?
+  verifyToken               String?
+  verifyTokenExpiry         DateTime?
+}
