@@ -143,9 +143,7 @@ const Loginpage = () => {
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 1 }}
           >
-            
-            <ForgotPassword onBackToLogin={handleBackToLogin}  />
-
+            <ForgotPassword onBackToLogin={handleBackToLogin} />
           </motion.div>
         )}
       </AnimatePresence>
