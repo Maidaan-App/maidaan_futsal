@@ -14,7 +14,7 @@ const PasswordResetSuccess = ({ onContinue, onBackToLogin }: any) => {
   return (
     <>
       <AnimatePresence>
-        {!showSetNewPassword ? (
+        {showSetNewPassword ? (
           <motion.div
             key="forgot-password"
             initial={{ opacity: 0, y: 25 }}
@@ -38,7 +38,7 @@ const PasswordResetSuccess = ({ onContinue, onBackToLogin }: any) => {
               <Button
                 variant={"default"}
                 className="w-full mb-4"
-                onClick={() => setShowSetNewPassword(true)}
+                onClick={() => setShowSetNewPassword(false)}
               >
                 Continue
               </Button>
