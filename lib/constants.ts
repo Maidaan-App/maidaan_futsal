@@ -9,3 +9,6 @@ export const DOMAIN =
   process.env.NODE_ENV == "production"
     ? process.env.DOMAIN
     : "http://localhost:3000/";
+
+export const statusTypes = ["pending", "enrolled", "blocked"];
+
