@@ -22,7 +22,7 @@ model User {
   password                  String?
   userType                  UserType  @default(player)
   status                    Boolean   @default(false)
-  createdAt                 DateTime  @default(now())
+  createdDate               DateTime  @default(now())
   // Optional fields
   setupPasswordToken       String?
   forgotPasswordToken       String?
