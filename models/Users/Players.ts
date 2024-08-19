@@ -1,22 +1,27 @@
+import { statusTypes } from "@/lib/constants";
 import { Schema, model, models, Model } from "mongoose";
 
 const playerSchema = new Schema(
   {
     linkedUserId: {
       type: Schema.Types.ObjectId,
-      ref: "Users",
-      required: [true, "Linked user ID is required"],
+      ref: "Users"
     },
-    name: String,
-    image: String,
-    phone: String,
     email: {
       type: String,
       required: [true, "Email is required"],
       unique: true,
     },
+    name: String,
+    image: String,
+    phone: String,
     address: String,
-    createdAt: {
+    status: {
+      type: String,
+      enum: statusTypes,
+      default: 'pending',
+    },
+    createdDate: {
       type: Date,
       default: Date.now(),
     },
