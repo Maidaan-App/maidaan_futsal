@@ -2,10 +2,10 @@
 import { z } from "zod";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
-import { getUserByEmail } from "@/actions/user";
 import bcrypt from "bcryptjs";
 import { LoginSchema } from "@/schemas/authSchemas";
 import { paths } from "@/lib/paths";
+import { getUserByEmail } from "@/data/user";
 
 export const login = async (
   values: z.infer<typeof LoginSchema>,
@@ -16,7 +16,8 @@ export const login = async (
     return { error: "Invalid fields" };
   }
   const { email, password } = values;
-  const exisitingUser = await getUserByEmail(email.toLowerCase());
+  const exisitingUser = await getUserByEmail(email);
+
   if (!exisitingUser || !exisitingUser.email) {
     return { error: "Invalid credentials" };
   }
@@ -25,7 +26,7 @@ export const login = async (
   //   return { error: "Please Setup your Password. Check email for setup link or contact Admin" };
   // }
 
-  const passwordsMatch = await bcrypt.compare(password, exisitingUser.password);
+  const passwordsMatch = await bcrypt.compare(password, exisitingUser.password!);
   if (!passwordsMatch) return { error: "Invalid Credentials!" };
 
   // if (!exisitingUser.status && exisitingUser.userType !== "company" ) {
