@@ -9,13 +9,10 @@ export const paths = {
     login: "/login",
     error: "/auth/error",
   },
-  public: {
-   
-  },
+  public: {},
 
   admin: {
     dashboard: `${ROOTS.admin}`,
     profile: `${ROOTS.admin}/profile`,
-
   },
 };
