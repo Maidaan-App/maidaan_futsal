@@ -59,6 +59,11 @@
   }
 }
 
+.sub-menu {
+  overflow: hidden;
+  transition: height 300ms;
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -66,4 +71,17 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.7s forwards;
 }
