@@ -9,21 +9,12 @@ export const paths = {
     login: "/login",
     error: "/auth/error",
   },
-  public: {
-   
-  },
+  public: {},
 
   admin: {
     dashboard: `${ROOTS.admin}`,
     profile: `${ROOTS.admin}/profile`,
     playertable: `${ROOTS.admin}/playertable`,
     addplayertable: `${ROOTS.admin}/playertable/add`,
-
-
-
-
-
-
-
   },
 };
