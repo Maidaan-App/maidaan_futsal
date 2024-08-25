@@ -5,9 +5,7 @@ import React from "react";
 const Admin = () => {
   return (
     <div>
-      {/* <PlayerTable /> */}
-
-      admin
+      <PlayerTable />
     </div>
   );
 };
