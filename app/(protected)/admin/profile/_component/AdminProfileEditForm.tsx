@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from "react";
 import {
   Form,
@@ -14,21 +13,9 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 
 import TextField from "@mui/material/TextField";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { CalendarIcon } from "lucide-react";
-import { toast } from "sonner";
-import { uploadToMinIO } from "@/lib/helper";
-import { paths } from "@/lib/paths";
-import { useRouter } from "next/navigation";
-import { MINIOURL } from "@/lib/constants";
 import SCNSingleImagePicker from "@/components/image-picker/SCNSingleImagePicker";
 import { poppins } from "@/app/lib/constants";
+import { MINIOURL } from "@/lib/constants";
 
 const formSchema = z.object({
   logo: z.any({
@@ -40,7 +27,6 @@ const formSchema = z.object({
   address: z.string().min(2, {
     message: " Address is required",
   }),
-
   phone: z.string().min(2, {
     message: "Phone Number is required",
   }),
@@ -49,10 +35,6 @@ const formSchema = z.object({
 
 const AdminProfileEditForm = ({ type, ExistingDetail }: any) => {
   const [Loading, setLoading] = useState(false);
-  const router = useRouter();
-
-  const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: currentYear - 1899 }, (_, i) => 1900 + i);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -68,27 +50,27 @@ const AdminProfileEditForm = ({ type, ExistingDetail }: any) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log("values", values);
   };
+
   return (
-    <div className={`w-full h-full  ${poppins.className} `}>
+    <div className={`w-full h-full ${poppins.className}`}>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className={` flex gap-5  ${poppins.className} font-normal text-[1rem]`}
+          className={`flex flex-col lg:flex-row gap-5 font-normal text-[1rem]`}
         >
-          <div className="w-[35%] flex flex-col gap-7 p-4 ">
+          <div className="w-full lg:w-[35%] flex flex-col gap-7 lg:p-4">
             <SCNSingleImagePicker
-              //   name="Company Logo"
               variant="avatar"
               schemaName="logo"
             ></SCNSingleImagePicker>
           </div>
-          <div className="w-[65%] bg-white  border-[#0A41CC] border-opacity-[10%] p-5 rounded-md flex flex-col gap-5 mt-6 h-fit">
-            <div className="flex w-full gap-4">
+          <div className="w-full lg:w-[65%] bg-white border-[#0A41CC] border-opacity-[10%] p-5 rounded-md flex flex-col gap-5 mt-6 h-fit">
+            <div className="flex flex-col lg:flex-row w-full gap-4">
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
-                  <FormItem className="lg:w-1/2">
+                  <FormItem className="w-full lg:w-1/2">
                     <FormControl>
                       <TextField
                         id="outlined-basic"
@@ -106,7 +88,7 @@ const AdminProfileEditForm = ({ type, ExistingDetail }: any) => {
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem className="lg:w-1/2">
+                  <FormItem className="w-full lg:w-1/2">
                     <FormControl>
                       <TextField
                         id="outlined-basic"
@@ -116,19 +98,18 @@ const AdminProfileEditForm = ({ type, ExistingDetail }: any) => {
                         className="w-full"
                       />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
 
-            <div className="flex w-full gap-4">
+            <div className="flex flex-col lg:flex-row w-full gap-4">
               <FormField
                 control={form.control}
                 name="phone"
                 render={({ field }) => (
-                  <FormItem className="lg:w-1/2">
+                  <FormItem className="w-full lg:w-1/2">
                     <FormControl>
                       <TextField
                         id="outlined-basic"
@@ -138,27 +119,24 @@ const AdminProfileEditForm = ({ type, ExistingDetail }: any) => {
                         className="w-full"
                       />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="address"
                 render={({ field }) => (
-                  <FormItem className="lg:w-1/2">
+                  <FormItem className="w-full lg:w-1/2">
                     <FormControl>
                       <TextField
                         id="outlined-basic"
                         label="Address"
                         variant="outlined"
-                        className="w-full"
                         {...field}
+                        className="w-full"
                       />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
@@ -182,6 +160,33 @@ const AdminProfileEditForm = ({ type, ExistingDetail }: any) => {
           </div>
         </form>
       </Form>
+      {/* Media Query for Mobile View */}
+      <style jsx>{`
+        @media (max-width: 768px) {
+          form {
+            flex-direction: column;
+            align-items: center;
+          }
+          .flex-col {
+            width: 100%;
+          }
+          .w-full {
+            width: 100%;
+          }
+          .gap-4 {
+            gap: 1rem;
+          }
+          .lg\\:w-1\\/2 {
+            width: 100%;
+          }
+          .p-4 {
+            padding: 1rem;
+          }
+          .mt-6 {
+            margin-top: 1.5rem;
+          }
+        }
+      `}</style>
     </div>
   );
 };

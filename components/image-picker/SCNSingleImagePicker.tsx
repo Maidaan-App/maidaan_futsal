@@ -362,7 +362,7 @@ const SCNSingleImagePicker = ({
                   </Label>
                 )}
 
-                <p className="font-normal text-[#919EAB] text-[0.875rem] text-center">
+                <p className="font-normal text-[#919EAB] text-[0.5rem] md:text-[0.75rem] lg:text-[0.875rem] text-center">
                   Allowed *.jpeg, *.jpg, *.png, *.gif <br />  max size of 3 Mb
                 </p>
               </>
