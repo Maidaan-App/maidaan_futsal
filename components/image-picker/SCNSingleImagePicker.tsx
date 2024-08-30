@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,6 +11,8 @@ import { cn } from "@/lib/utils";
 import { Poppins } from "next/font/google";
 import { toast } from "sonner";
 import { poppins } from "@/app/lib/constants";
+import { usePathname } from "next/navigation";
+import { paths } from "@/lib/paths";
 
 const pop = Poppins({ subsets: ["latin"], weight: ["300", "400", "500"] });
 
@@ -34,6 +36,7 @@ const SCNSingleImagePicker = ({
   >(null);
   const inputFileRef = useRef<HTMLInputElement>(null);
   const { control, setValue, watch, resetField, getValues } = useFormContext();
+  const pathname = usePathname();
 
   const watcher = watch(schemaName);
   useEffect(() => {
@@ -70,6 +73,9 @@ const SCNSingleImagePicker = ({
     setValue(schemaName, file);
     if (onImageSelect) onImageSelect();
   };
+
+  // Conditionally render the "Active" badge if the path is "/admin/profile"
+  const isProfilePage = pathname === paths.admin.profile;
 
   if (variant === "standard") {
     return (
@@ -240,14 +246,19 @@ const SCNSingleImagePicker = ({
     );
   } else if (variant === "avatar") {
     return (
-      <div className="flex flex-col gap-2">
+      <div className="relative flex flex-col gap-2">
+        {isProfilePage && (
+          <span className="absolute top-7 right-5 bg-[#17C9641A] text-primary rounded-lg px-3 py-1 text-xs font-medium">
+            Active
+          </span>
+        )}
         <Label
           htmlFor={schemaName}
           className={`${poppins.className} font-medium text-[1.1875rem]`}
         >
           {name}
         </Label>
-        <div className="w-auto bg-slate-50  h-[21.875rem] gap-4 rounded-lg flex flex-col justify-center items-center ">
+        <div className="w-auto bg-white  h-[21.875rem] gap-4 rounded-lg flex flex-col justify-center items-center ">
           {selectedImage ? (
             <AnimatePresence>
               <motion.div
@@ -305,15 +316,15 @@ const SCNSingleImagePicker = ({
             </AnimatePresence>
           ) : (
             <div className="p-2 border rounded-full">
-            <div
-              className="
+              <div
+                className="
               bg-[#F6F7F8] hover:bg-slate-200
               duration-300 cursor-pointer   rounded-full h-40 w-40 flex flex-col items-center justify-center text-black gap-2"
-              onClick={handleContainerClick}
-            >
-              <Camera />
-              <p className="text-sm ">Upload photo</p>
-            </div>
+                onClick={handleContainerClick}
+              >
+                <Camera />
+                <p className="text-sm ">Upload photo</p>
+              </div>
             </div>
           )}
 
@@ -351,7 +362,9 @@ const SCNSingleImagePicker = ({
                   </Label>
                 )}
 
-<p className="font-normal text-[#919EAB] text-[0.875rem] text-center">Allowed *.jpeg, *.jpg, *.png, *.gif <br/>  max size of 3 Mb</p>
+                <p className="font-normal text-[#919EAB] text-[0.5rem] md:text-[0.75rem] lg:text-[0.875rem] text-center">
+                  Allowed *.jpeg, *.jpg, *.png, *.gif <br />  max size of 3 Mb
+                </p>
               </>
             )}
           />
@@ -535,7 +548,6 @@ const SCNSingleImagePicker = ({
                   placeholder="Picture"
                   type="file"
                   accept={accept}
-                 
                   onChange={(event) => {
                     onChange(event.target.files && event.target.files[0]);
                     setSelectedImage(event.target.files?.[0] || null);
