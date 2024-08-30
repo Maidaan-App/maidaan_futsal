@@ -79,7 +79,7 @@ const Plan = () => {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex justify-end space-x-4">
+      <div className="flex lg:flex-row flex-col gap-4 justify-end space-x-4">
         <Button variant="outline" className="text-[#FF5733] border-[#FF5733]">
           Cancel Subscription
         </Button>

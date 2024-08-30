@@ -58,13 +58,13 @@ const AdminProfileEditForm = ({ type, ExistingDetail }: any) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className={`flex flex-col lg:flex-row gap-5 font-normal text-[1rem]`}
         >
-          <div className="w-full lg:w-[35%] flex flex-col gap-7 lg:p-4">
+          <div className="w-full lg:w-[35%] flex flex-col gap-7 ">
             <SCNSingleImagePicker
               variant="avatar"
               schemaName="logo"
             ></SCNSingleImagePicker>
           </div>
-          <div className="w-full lg:w-[65%] bg-white border-[#0A41CC] border-opacity-[10%] p-5 rounded-md flex flex-col gap-5 mt-6 h-fit">
+          <div className="w-full lg:w-[65%] bg-white border-[#0A41CC] border-opacity-[10%] p-5 rounded-md flex flex-col gap-5 mt-2 h-fit">
             <div className="flex flex-col lg:flex-row w-full gap-4">
               <FormField
                 control={form.control}
