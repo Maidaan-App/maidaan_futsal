@@ -32,17 +32,16 @@ const players = [
     contact: "+977 9812345680",
     address: "Lalitpur, Nepal",
     date: "18th August, 2024",
-
     status: "Banned",
   },
 ];
 
 const columns: Column<PlayerType>[] = [
-  { header: "Player Name", accessor: "name" },
-  { header: "Email", accessor: "email" },
-  { header: "Contact", accessor: "contact" },
-  { header: "Address", accessor: "address" },
-  { header: "Date", accessor: "date" },
+  { header: "#", accessor: "name" },
+  { header: "Total", accessor: "email" },
+  { header: "ISSUED DATE", accessor: "contact" },
+  { header: "STATUS", accessor: "address" },
+  { header: "ACTION", accessor: "date" },
   {
     header: "Status",
     accessor: "status",
@@ -65,6 +64,7 @@ const columns: Column<PlayerType>[] = [
 ];
 
 const filterTabs = ["All", "Active", "Pending", "Banned", "Rejected"];
+
 const sortOptions = [
   { label: "Newest", value: "newest" },
   { label: "Oldest", value: "oldest" },

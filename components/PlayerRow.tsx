@@ -11,6 +11,14 @@ export type PlayerType = {
   status: string;
 };
 
+export type BillingType = {
+  id: number;
+  total: string;
+  date: string;
+  status: string;
+  unique : string;
+};
+
 type Props = {
   player: PlayerType;
   isSelected: boolean;

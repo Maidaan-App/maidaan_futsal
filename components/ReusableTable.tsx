@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState } from "react";
 import {
   Select,
@@ -11,6 +13,7 @@ import { Button } from "./ui/button";
 import { User } from "lucide-react";
 import Link from "next/link";
 import { paths } from "@/lib/paths";
+import { usePathname } from "next/navigation";
 
 export type Column<T> = {
   header: string;
@@ -39,6 +42,12 @@ const ReusableTable = <T extends { id: number; [key: string]: any }>({
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [sortOrder, setSortOrder] = useState<string>(sortOptions[0].value);
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const pathname = usePathname();
+
+
+  // Check if the current route matches "/admin/playertable"
+  const isPlayertableRoute = pathname === '/admin/playertable';
 
   const getStatusCount = (status: string) => {
     return data.filter((item) => item[statusKey] === status).length;
@@ -146,12 +155,14 @@ const ReusableTable = <T extends { id: number; [key: string]: any }>({
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
+        {isPlayertableRoute && (
         <Link href={`${paths.admin.addplayertable}`}>
           <Button variant={"default"} className="flex gap-3 items-center">
             <User className="h-[1.2rem] w-[1.2rem]" />
             New Player
           </Button>
         </Link>
+      )}
       </div>
       <div className="overflow-x-auto">
         <table className="w-full min-w-max">
