@@ -72,7 +72,8 @@ const sortOptions = [
 
 const PlayerTable = () => {
   return (
-    <div className="mt-10">
+    <div className="md:p-5">
+      <h1 className="text-[#232D42] font-medium text-[1.5rem] my-3 px-3 lg:px-0">Players</h1>
       <ReusableTable
         data={players}
         columns={columns}

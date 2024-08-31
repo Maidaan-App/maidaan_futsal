@@ -32,7 +32,6 @@ const Loginpage = () => {
   const router = useRouter();
   const callbackUrl = searchParams.get("callbackUrl");
 
-
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -69,7 +68,6 @@ const Loginpage = () => {
     }
   }
 
-
   return (
     <AuthLayout>
       <AnimatePresence>
@@ -80,8 +78,8 @@ const Loginpage = () => {
           exit={{ opacity: 0, y: 20 }}
           transition={{ duration: 0.5 }}
         >
-          <Form {...form}>
-            <div className="mb-4">
+          <Form {...form} >
+            <div className="mb-4 ">
               <img
                 src="/Group.png"
                 alt=""
@@ -92,7 +90,7 @@ const Loginpage = () => {
                 description={`Enter Maidaan to play, compete & conquer.`}
               />
             </div>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 px-4 lg:px-0">
               <FormField
                 control={form.control}
                 name="email"
@@ -101,7 +99,7 @@ const Loginpage = () => {
                     <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input
-                      type="email"
+                        type="email"
                         placeholder="Enter your email address"
                         {...field}
                       />
@@ -117,7 +115,11 @@ const Loginpage = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="Enter password" {...field} />
+                      <Input
+                        type="password"
+                        placeholder="Enter password"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -145,7 +147,12 @@ const Loginpage = () => {
                 </div>
               </div>
 
-              <Button disabled={loading} variant={"default"} type="submit" className="w-full">
+              <Button
+                disabled={loading}
+                variant={"default"}
+                type="submit"
+                className="w-full"
+              >
                 Login
               </Button>
             </form>

@@ -8,7 +8,7 @@ interface Props {
 const Copyright = () => {
   return (
     <div
-      className={`font-normal text-[1rem] text-[#6F797A] text-opacity-60 leading-[1.75rem] ${poppins.className}`}
+      className={`font-normal text-[1rem] text-[#6F797A] text-opacity-60 leading-[1.75rem] text-center lg:text-start ${poppins.className}`}
     >
       © 2024 | maidaan.com
     </div>

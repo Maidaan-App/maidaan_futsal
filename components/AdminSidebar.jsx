@@ -5,10 +5,6 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { paths } from "@/lib/paths";
 
-
-
-
-
 export default function MakeSidebar() {
   const [expanded, setExpanded] = useState(true);
   const pathname = usePathname();

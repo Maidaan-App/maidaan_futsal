@@ -70,21 +70,22 @@ const UsersVendorForm = ({ type, ExistingDetail }: any) => {
   };
   return (
     <div className={`w-full h-full  ${poppins.className} `}>
-          <h1 className="font-medium text-[#232D42] text-[1.5rem] p-4">Add New Player</h1>
+      <h1 className="font-medium text-[#232D42] text-[1.5rem] p-4">
+        Add New Player
+      </h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className={` flex gap-5  ${poppins.className} font-normal text-[1rem]`}
+          className={` flex flex-col lg:flex-row lg:gap-5  ${poppins.className} font-normal text-[1rem]`}
         >
-        
-          <div className="w-[35%] flex flex-col gap-7 p-4 ">
+          <div className="lg:w-[35%] flex flex-col gap-7 p-4 z-10">
             <SCNSingleImagePicker
-            //   name="Company Logo"
+              //   name="Company Logo"
               variant="avatar"
               schemaName="logo"
             ></SCNSingleImagePicker>
           </div>
-          <div className="w-[65%] bg-white border-[1px] border-[#0A41CC] border-opacity-[10%] p-5 rounded-md flex flex-col gap-5 mt-6 h-fit">
+          <div className="lg:w-[65%] bg-white border-[1px] border-[#0A41CC] border-opacity-[10%] p-5 rounded-md flex flex-col gap-5 mt-6 h-fit mx-4 lg:mx-0">
             <div className="flex w-full gap-4">
               <FormField
                 control={form.control}

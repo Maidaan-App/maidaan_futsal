@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import {
@@ -45,9 +45,8 @@ const ReusableTable = <T extends { id: number; [key: string]: any }>({
 
   const pathname = usePathname();
 
-
   // Check if the current route matches "/admin/playertable"
-  const isPlayertableRoute = pathname === '/admin/playertable';
+  const isPlayertableRoute = pathname === "/admin/playertable";
 
   const getStatusCount = (status: string) => {
     return data.filter((item) => item[statusKey] === status).length;
@@ -98,11 +97,10 @@ const ReusableTable = <T extends { id: number; [key: string]: any }>({
       alert(`Item with ID ${id} deleted`);
     }
   };
-
   return (
-    <div className={`bg-white p-6 rounded-lg shadow-lg ${poppins.className}`}>
-      <div className="flex flex-col md:flex-row justify-between items-center mb-4 space-y-4 md:space-y-0">
-        <div className="flex flex-wrap">
+    <div className={`bg-white  rounded-lg shadow-lg ${poppins.className} p-5`}>
+      <div className="flex overflow-x-auto justify-between items-center  md:space-y-0">
+        <div className="flex ">
           {filterTabs.map((tab) => (
             <button
               key={tab}
@@ -131,12 +129,13 @@ const ReusableTable = <T extends { id: number; [key: string]: any }>({
           ))}
         </div>
       </div>
-      <div className="flex gap-4 items-center my-5">
+
+      <div className="flex flex-col lg:flex-row gap-4 my-5">
         <Select
           value={sortOrder}
           onValueChange={(value) => setSortOrder(value)}
         >
-          <SelectTrigger className="w-fit lg:w-64">
+          <SelectTrigger className="w-full lg:w-64">
             <SelectValue placeholder="Theme" />
           </SelectTrigger>
           <SelectContent>
@@ -151,19 +150,24 @@ const ReusableTable = <T extends { id: number; [key: string]: any }>({
         <input
           type="text"
           placeholder="Search..."
-          className="px-4 py-2 border rounded-lg w-fit lg:flex-grow"
+          className="px-4 py-2 border rounded-lg w-fit "
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
+
         {isPlayertableRoute && (
-        <Link href={`${paths.admin.addplayertable}`}>
-          <Button variant={"default"} className="flex gap-3 items-center">
-            <User className="h-[1.2rem] w-[1.2rem]" />
-            New Player
-          </Button>
-        </Link>
-      )}
+          <Link href={`${paths.admin.addplayertable}`}>
+            <Button
+              variant={"default"}
+              className="flex gap-3 items-center w-full md:w-auto"
+            >
+              <User className="h-[1.2rem] w-[1.2rem]" />
+              New Player
+            </Button>
+          </Link>
+        )}
       </div>
+
       <div className="overflow-x-auto">
         <table className="w-full min-w-max">
           <thead>
