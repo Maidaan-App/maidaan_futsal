@@ -31,7 +31,7 @@ const players = [
 // Main BillingInvoice component rendering the InvoiceList
 const BillingInvoice = () => {
   return (
-    <div className="p-6 bg-white rounded-lg shadow-lg">
+    <div className=" bg-white rounded-lg shadow-lg">
       <InvoiceList data={players} />
     </div>
   );
