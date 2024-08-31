@@ -65,17 +65,21 @@ const NotificationsContent: React.FC = () => {
 
   return (
     <div className={`${poppins.className} bg-white p-6 rounded-[12px]`}>
-      <h2 className="text-lg font-medium mb-2 text-[#28353D]">Notifications</h2>
-      <p className="text-[#8A92A6] font-normal text-base mb-6">
+      <h2 className="lg:text-lg text-sm font-medium mb-2 text-[#28353D]">
+        Notifications
+      </h2>
+      <p className="text-[#8A92A6] font-normal text-xs lg:text-base mb-6">
         Change notification options according to your preferences
       </p>
 
       {/* Activity Section */}
       <div className="bg-[#8A92A612] p-6 rounded-[12px] mb-6">
-        <h3 className="text-lg font-medium text-[#28353D] mb-6">Activity</h3>
+        <h3 className="lg:text-lg text-sm font-medium text-[#28353D] mb-6">
+          Activity
+        </h3>
         <div className="flex flex-col gap-5">
           <div className="flex justify-between items-center">
-            <p className="text-base text-[#52525B] font-normal">
+            <p className="lg:text-base text-xs  text-[#52525B] font-normal">
               Email me when someone comments on my article
             </p>
             <Switch
@@ -84,7 +88,7 @@ const NotificationsContent: React.FC = () => {
             />
           </div>
           <div className="flex justify-between items-center">
-            <p className="text-base text-[#52525B] font-normal">
+            <p className="lg:text-base text-xs  text-[#52525B] font-normal">
               Email me when someone answers on my form
             </p>
             <Switch
@@ -93,7 +97,7 @@ const NotificationsContent: React.FC = () => {
             />
           </div>
           <div className="flex justify-between items-center">
-            <p className="text-base text-[#52525B] font-normal">
+            <p className="lg:text-base text-xs  text-[#52525B] font-normal">
               Email me when someone books the slot
             </p>
             <Switch
@@ -106,10 +110,12 @@ const NotificationsContent: React.FC = () => {
 
       {/* Application Section */}
       <div className="bg-[#8A92A612] p-6 rounded-[12px] mb-6">
-        <h3 className="text-lg font-medium text-[#28353D] mb-6">Application</h3>
+        <h3 className="lg:text-lg text-sm font-medium text-[#28353D] mb-6">
+          Application
+        </h3>
         <div className="flex flex-col gap-5">
           <div className="flex justify-between items-center">
-            <p className="text-base text-[#52525B] font-normal">
+            <p className="lg:text-base text-xs  text-[#52525B] font-normal">
               News and announcements
             </p>
             <Switch
@@ -118,7 +124,7 @@ const NotificationsContent: React.FC = () => {
             />
           </div>
           <div className="flex justify-between items-center">
-            <p className="text-base text-[#52525B] font-normal">
+            <p className="lg:text-base text-xs  text-[#52525B] font-normal">
               Account activity
             </p>
             <Switch
@@ -127,7 +133,7 @@ const NotificationsContent: React.FC = () => {
             />
           </div>
           <div className="flex justify-between items-center">
-            <p className="text-base text-[#52525B] font-normal">
+            <p className="lg:text-base text-xs  text-[#52525B] font-normal">
               A new browser used to sign in
             </p>
             <Switch
@@ -136,7 +142,7 @@ const NotificationsContent: React.FC = () => {
             />
           </div>
           <div className="flex justify-between items-center">
-            <p className="text-base text-[#52525B] font-normal">
+            <p className="lg:text-base text-xs text-[#52525B] font-normal">
               A new device is linked
             </p>
             <Switch
