@@ -1,5 +1,6 @@
 import React from "react";
 import AdminSidebar from "@/components/AdminSidebar";
+import PublicSidebar from "@/components/PublicSidebar";
 import { Inter, Poppins } from "next/font/google";
 import {
   DropdownMenu,
@@ -33,18 +34,21 @@ const pop = Poppins({
 const layout = async ({ children }: { children: React.ReactNode }) => {
   const user = await currentUser();
   return (
-    <div className="flex h-screen w-full">
-      {/* Sidebar */}
-      <div className="z-50 w-fit h-full">
+    <div className={`flex h-screen w-full ${pop.className}`}>
+      <div className="z-50 w-fit h-full flex  lg:hidden">
+        <PublicSidebar />
+      </div>
+      <div className="z-50 w-fit h-full hidden  lg:flex">
         <AdminSidebar />
       </div>
+
       {/* Main Content */}
-      <main className="flex-grow bg-[#F4F4F5] p-6 overflow-auto">
-        <div className="flex justify-between items-center bg-white rounded-md p-5">
+      <main className="flex-grow bg-[#F4F4F5]  overflow-auto">
+        <div className="flex flex-col lg:flex-row justify-between items-center bg-white  p-5 sticky top-0 gap-3 z-50">
           <div className="relative">
             <input
               type="text"
-              className="bg-[#F4F4F5] outline-none border-none rounded-lg px-7 py-1"
+              className="bg-[#F4F4F5] outline-none border-none rounded-lg px-7 py-2"
               placeholder="Search for products"
             />
 
@@ -76,17 +80,8 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
-                <DropdownMenuItem>
-                  {/* <Link
-                    href={`${paths.admin.profile}`}
-                    className="text-black w-full p-1 cursor-pointer rounded-md"
-                  >
-                    My Profile
-                  </Link> */}
+                <DropdownMenuItem className="hover:bg-primary hover:text-white">
                   <Logout />
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  {/* Logout component can be added here */}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

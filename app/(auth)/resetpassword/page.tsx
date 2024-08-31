@@ -90,7 +90,7 @@ const ResetPassword = ({ onPasswordReset }: any) => {
               </div>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8"
+                className="space-y-8 px-4 lg:px-0"
               >
                 <FormField
                   control={form.control}

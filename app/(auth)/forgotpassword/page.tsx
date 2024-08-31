@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -76,7 +76,7 @@ const ForgotPassword = ({ onBackToLogin }: any) => {
               </div>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8"
+                className="space-y-8 px-4 lg:px-0"
               >
                 <FormField
                   control={form.control}

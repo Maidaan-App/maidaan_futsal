@@ -87,7 +87,7 @@ const SetNewPassword = ({ onPasswordReset }: any) => {
               description={`Password must be at least 8 characters.`}
             />
           </div>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 px-4 lg:px-0">
             <FormField
               control={form.control}
               name="newPassword"

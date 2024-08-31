@@ -26,17 +26,20 @@ const PasswordResetSuccess = ({ onContinue, onBackToLogin }: any) => {
               <img
                 src="/Group.png"
                 alt=""
-                className="h-[3.4475rem] w-[4.625rem] mb-4 "
+                className="h-[3.4475rem] w-[4.625rem] mx-auto lg:mx-0 mb-4 "
               />
               <Heading heading={`Forgot password`} />
               <Description
                 description={`We have sent a password reset link in your email`}
               />
-              <p className="font-normal text-[1rem] mb-6 text-[#1E1E1E]">
+              <p className="font-normal text-[1rem] mb-6 text-[#1E1E1E] px-1 lg:px-0">
                 maidaan@gmail.com
               </p>
+
+              <div className="px-2 lg:px-0">
+
               <Button
-                variant={"default"}
+                variant={"default"} 
                 className="w-full mb-4"
                 onClick={() => setShowSetNewPassword(false)}
               >
@@ -49,7 +52,9 @@ const PasswordResetSuccess = ({ onContinue, onBackToLogin }: any) => {
               >
                 Back to login
               </Button>
-              <p className="mt-4 text-sm">
+              </div>
+
+              <p className="mt-4 text-sm text-center lg:text-start">
                 Didn&apos;t receive the mail?{" "}
                 <a href="#" className="text-[#3169FF] font-medium">
                   Click to resend
