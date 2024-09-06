@@ -13,14 +13,14 @@ export const POST = async (request: NextRequest) => {
 
     const { email } = await request.json();
     const lowerCaseEmail = email.toLowerCase();
-
+    
     const existingUser = await User.findOne({ email: lowerCaseEmail });
 
     if (!existingUser)
       return NextResponse.json(
         {
           message:
-            "Password reset link has been sent to your email if it exist",
+            "Password reset link has been sent to your email if it exists",
         },
         { status: 201 }
       );
@@ -40,7 +40,7 @@ export const POST = async (request: NextRequest) => {
 
     return NextResponse.json(
       {
-        message: "Password reset link has been sent to your email if it exist",
+        message: "Password reset link has been sent to your email if it exists",
       },
       { status: 201 }
     );
