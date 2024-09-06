@@ -147,15 +147,15 @@ const Page = () => {
           <div className="flex justify-center space-x-8">
             <div className="max-w-md">
               <p className="text-lg italic">
-                "Amazing experience! Booking was easy and the venue was
-                top-notch."
+              &quot;Amazing experience! Booking was easy and the venue was
+                top-notch.&quot;
               </p>
               <p className="mt-4 font-semibold">- John Doe</p>
             </div>
             <div className="max-w-md">
               <p className="text-lg italic">
-                "Great service and excellent facilities. Will definitely book
-                again!"
+              &quot;Great service and excellent facilities. Will definitely book
+                again!&quot;
               </p>
               <p className="mt-4 font-semibold">- Jane Smith</p>
             </div>
