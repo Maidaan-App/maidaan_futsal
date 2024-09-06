@@ -21,15 +21,16 @@ import Heading from "@/components/Heading";
 import Description from "@/components/Description";
 import { poppins } from "@/app/lib/constants";
 import { AnimatePresence, motion } from "framer-motion";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { LoginSchema } from "@/schemas/authSchemas";
 import { login } from "@/actions/login";
 import { toast } from "sonner";
+import Link from "next/link";
+import { paths } from "@/lib/paths";
 
 const Loginpage = () => {
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const callbackUrl = searchParams.get("callbackUrl");
 
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -39,10 +40,6 @@ const Loginpage = () => {
       password: "",
     },
   });
-
-  const handleClick = () => {
-    router.push("/forgotpassword");
-  };
 
   async function onSubmit(values: z.infer<typeof LoginSchema>) {
     try {
@@ -78,7 +75,7 @@ const Loginpage = () => {
           exit={{ opacity: 0, y: 20 }}
           transition={{ duration: 0.5 }}
         >
-          <Form {...form} >
+          <Form {...form}>
             <div className="mb-4 ">
               <img
                 src="/Group.png"
@@ -87,10 +84,13 @@ const Loginpage = () => {
               />
               <Heading heading={`Glad to see you again!`} />
               <Description
-                description={`Enter Maidaan to play, compete & conquer.`}
+                description={`Enter Maidaan to Play, Compete & Conquer.`}
               />
             </div>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 px-4 lg:px-0">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-8 px-4 lg:px-0"
+            >
               <FormField
                 control={form.control}
                 name="email"
@@ -136,14 +136,14 @@ const Loginpage = () => {
                   >
                     Remember me
                   </label>
-
-                  <button
-                    type="button"
-                    onClick={handleClick}
-                    className="text-[#3169FF] font-medium text-[0.875rem]"
-                  >
-                    Forgot password?
-                  </button>
+                  <Link href={paths.auth.forgotpassword}>
+                    <button
+                      type="button"
+                      className="text-[#3169FF] font-medium text-[0.875rem]"
+                    >
+                      Forgot password?
+                    </button>
+                  </Link>
                 </div>
               </div>
 

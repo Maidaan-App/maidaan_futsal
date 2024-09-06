@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 import { adminPlayersApi } from "./api/Admin/adminPlayers";
+import { authsApi } from "./api/Auth/auths";
 
 export const store = configureStore({
   reducer: {
@@ -10,13 +11,20 @@ export const store = configureStore({
     //admin
     [adminPlayersApi.reducerPath]: adminPlayersApi.reducer,
 
+    //auths
+    [authsApi.reducerPath]: authsApi.reducer,
+    
+
     //public
   },
   devTools: true,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       //admin
-      adminPlayersApi.middleware
+      adminPlayersApi.middleware,
+
+      //auths
+      authsApi.middleware,
 
       //public
     ),
