@@ -1,4 +1,4 @@
-import { currentRole } from "@/lib/auth";
+import { currentUser } from "@/lib/auth";
 import connectMongo from "@/lib/connectMongo";
 import { BUCKET_NAME } from "@/lib/constants";
 import minioClient from "@/lib/minioClient";
@@ -7,14 +7,17 @@ import { NextResponse, NextRequest } from "next/server";
 
 export const POST = async (request: NextRequest) => {
   console.log("Running POST request: Admin Add/Update Court");
-  const user = await currentRole();
+  const user = await currentUser();
 
   try {
     const Data = await request.json();
     await connectMongo();
 
-    if (user === "admin") {
-      const existingDoc = await Courts.findOne({ _id: Data?._id });
+    if (user?.role === "admin") {
+      const existingDoc = await Courts.findOne({
+        _id: Data?._id,
+        linkedUserId: user.id,
+      });
       if (existingDoc) {
         //check if image has been changed or not if yes delete previous one
         if (existingDoc.image && existingDoc.image != Data.image) {
@@ -23,7 +26,7 @@ export const POST = async (request: NextRequest) => {
         await existingDoc.updateOne(Data);
         return NextResponse.json({ message: "Court Updated" }, { status: 201 });
       } else {
-        const newDoc = new Courts({ ...Data });
+        const newDoc = new Courts({ ...Data, linkedUserId: user.id });
         await newDoc.save();
         return NextResponse.json(
           { message: "New Court Added" },
@@ -44,12 +47,12 @@ export const POST = async (request: NextRequest) => {
 
 export const GET = async () => {
   console.log("Running GET request:Admin Get all Courts");
-  const user = await currentRole();
+  const user = await currentUser();
 
   try {
     await connectMongo();
-    if (user === "admin") {
-      const docs = await Courts.find().sort({
+    if (user?.role === "admin") {
+      const docs = await Courts.find({ linkedUserId: user.id }).sort({
         createdDate: -1,
       });
       return NextResponse.json(docs, { status: 201 });
@@ -67,15 +70,15 @@ export const GET = async () => {
 
 export const DELETE = async (request: NextRequest) => {
   console.log("Running DELETE request: Admin DELETE Court by id");
-  const user = await currentRole();
+  const user = await currentUser();
 
   try {
     await connectMongo();
     const { searchParams } = new URL(request.url);
     const _id = searchParams.get("id");
 
-    if (user === "admin") {
-      const exisitingDoc = await Courts.findOne({ _id });
+    if (user?.role === "admin") {
+      const exisitingDoc = await Courts.findOne({ _id, linkedUserId: user.id });
       if (!exisitingDoc) {
         return NextResponse.json(
           { message: "No Court Found" },

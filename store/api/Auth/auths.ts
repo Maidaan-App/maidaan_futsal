@@ -15,9 +15,19 @@ export const authsApi = createApi({
       }),
       invalidatesTags: ["Auth"],
     }),
+
+    AuthResetPassword: builder.mutation<{ message: string }, any>({
+      query: ({ ...body }) => ({
+        url: `auth/resetpassword`,
+        method: "POST",
+        body: body,
+      }),
+      invalidatesTags: ["Auth"],
+    }),
   }),
 });
 
 export const {
   useAuthForgotPasswordMutation,
+  useAuthResetPasswordMutation
 } = authsApi;

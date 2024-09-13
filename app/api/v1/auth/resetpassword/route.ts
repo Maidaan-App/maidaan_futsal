@@ -8,12 +8,8 @@ export async function POST(request: NextRequest) {
   console.log("Running POST request: Reset Password");
 
   try {
-    const { searchParams } = new URL(request.url);
-    const _id = searchParams.get("id");
-
-    const token = searchParams.get("token");
-    const { password } = await request.json();
-    console.log(_id, token);
+    const {_id, token, password } = await request.json();
+    console.log(_id,token,password)
     await connectMongo();
 
     const existingUser = await User.findOne({

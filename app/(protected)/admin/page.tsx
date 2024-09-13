@@ -1,13 +1,10 @@
-import Logout from "@/components/auth/Logout";
-import PlayerTable from "@/components/PlayerTable";
 import React from "react";
+import PlayerAddEditForm from "./players/_components/PlayerAddEditForm";
 
 const Admin = () => {
   return (
     <div>
-      {/* <PlayerTable /> */}
-
-      admin
+      <PlayerAddEditForm/>
     </div>
   );
 };
