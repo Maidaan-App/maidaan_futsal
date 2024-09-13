@@ -1,5 +1,18 @@
 import { Schema, model, models, Model } from "mongoose";
 
+const shiftDetailSchema = {
+  startTime: String,
+  endTime: String,
+  price: String,
+};
+
+const shiftSchema = {
+  morningShift: shiftDetailSchema,
+  dayShift: shiftDetailSchema,
+  eveningShift: shiftDetailSchema,
+  holidayShift: shiftDetailSchema,
+};
+
 const courtSchema = new Schema(
   {
     linkedUserId: {
@@ -10,6 +23,7 @@ const courtSchema = new Schema(
     image: String,
     openingTime: String,
     closingTime: String,
+    shifts: shiftSchema,
     status: {
       type: Boolean,
       default: true,

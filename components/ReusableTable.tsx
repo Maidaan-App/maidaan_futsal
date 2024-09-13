@@ -156,7 +156,7 @@ const ReusableTable = <T extends { id: number; [key: string]: any }>({
         />
 
         {isPlayertableRoute && (
-          <Link href={`${paths.admin.addplayertable}`}>
+          <Link href={`${paths.admin.addPlayers}`}>
             <Button
               variant={"default"}
               className="flex gap-3 items-center w-full md:w-auto"
