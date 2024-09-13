@@ -65,7 +65,7 @@ const SetNewPassword = ({ onPasswordReset }: any) => {
              exit={{ opacity: 0, y: 20 }}
              transition={{ duration: 1 }}
            >
-        <PasswordResetDone onLogin={onPasswordReset} />
+        <PasswordResetDone />
         </motion.div>
       ) : (
         <motion.div
