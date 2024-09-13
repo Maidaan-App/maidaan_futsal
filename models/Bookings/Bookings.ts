@@ -1,4 +1,11 @@
+import { bookingStatusTypes } from "@/lib/constants";
 import { Schema, model, models, Model } from "mongoose";
+
+const itemPurchasedSchema = {
+  name: String,
+  quantity: Number,
+  price: Number,
+};
 
 const bookingSchema = new Schema(
   {
@@ -6,17 +13,21 @@ const bookingSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    linkedPlayerId: {
+    linkedFutsalId: {
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    name: String,
-    image: String,
-    openingTime: String,
-    closingTime: String,
+    linkedCourtId: {
+      type: Schema.Types.ObjectId,
+      ref: "Courts",
+    },
+    selectedDate: Date,
+    selectedslots: [String],
+    itemPurchased: [itemPurchasedSchema],
     status: {
-      type: Boolean,
-      default: true,
+      type: String,
+      enum: bookingStatusTypes,
+      default: 'booked',
     },
     createdDate: {
       type: Date,
