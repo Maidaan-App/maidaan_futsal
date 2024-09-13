@@ -46,14 +46,14 @@ const ForgotPasswordPage = () => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setLoading(true);
-      const response = await ForgotPassword({
-        ...values,
-      }).unwrap();
       toast.success("Reset Email Sent !!");
       setUserEmail(values.email)
       form.reset({ email: "" });
       setIsSuccessful(true);
       setLoading(false);
+      const response = await ForgotPassword({
+        ...values,
+      }).unwrap();
     } catch (error) {
       toast.error(`Something went wrong !!`);
       setLoading(false);

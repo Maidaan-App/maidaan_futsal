@@ -24,6 +24,7 @@ import Link from "next/link";
 import { paths } from "@/lib/paths";
 import { Bell, MessageSquareMore, Search } from "lucide-react";
 import Logout from "@/components/auth/Logout";
+import { Separator } from "@/components/ui/separator";
 
 const inter = Inter({ subsets: ["latin"] });
 const pop = Poppins({
@@ -80,6 +81,10 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
+                <DropdownMenuItem className="hover:bg-primary hover:text-white">
+                  <Link href={paths.admin.profile}>My Profile</Link>
+                </DropdownMenuItem>
+                <Separator className="" />
                 <DropdownMenuItem className="hover:bg-primary hover:text-white">
                   <Logout />
                 </DropdownMenuItem>

@@ -1,6 +1,7 @@
 // Define the enum types
 enum UserType {
   admin
+  superadmin
   player
 }
 
@@ -13,9 +14,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
   id                        String    @id @default(auto()) @map("_id") @db.ObjectId
+  linkedFutsalId            String?
   name                      String?
   email                     String?   @unique
   image                     String?
@@ -24,7 +25,7 @@ model User {
   status                    Boolean   @default(false)
   createdDate               DateTime  @default(now())
   // Optional fields
-  setupPasswordToken       String?
+  setupPasswordToken        String?
   forgotPasswordToken       String?
   forgotPasswordTokenExpiry DateTime?
   verifyToken               String?

@@ -1,3 +1,4 @@
+import { paths } from "@/lib/paths";
 import { PLAYER } from "@/lib/types";
 import { baseQuery } from "@/store/global";
 import { createApi } from "@reduxjs/toolkit/query/react";
@@ -10,20 +11,20 @@ export const adminPlayersApi = createApi({
   endpoints: (builder) => ({
     //Get All Players
     getAllAdminPlayers: builder.query<PLAYER[], string>({
-      query: () => `admin/players`,
+      query: () => `${paths.admin.players}`,
       providesTags: ["Admin Players"],
     }),
 
     // Player by Id
     getAdminPlayerById: builder.query<PLAYER, string>({
-      query: (id) => `admin/players/byid?id=${id}`,
+      query: (id) => `${paths.admin.players}/byid?id=${id}`,
       providesTags: ["Admin Players"],
     }),
 
     // Admin Delete Players
     AdminDeletePlayerById: builder.mutation<{ message: string }, any>({
       query: (id) => ({
-        url: `admin/players?id=${id}`,
+        url: `${paths.admin.players}?id=${id}`,
         method: "DELETE",
       }),  
       invalidatesTags: ["Admin Players"],
@@ -32,7 +33,7 @@ export const adminPlayersApi = createApi({
     //Add Update Players
     AdminAddUpdatePlayers: builder.mutation<{ message: string }, any>({
       query: ({ ...body }) => ({
-        url: `admin/players`,
+        url: `${paths.admin.players}`,
         method: "POST",
         body: body,
       }),
@@ -45,7 +46,7 @@ export const adminPlayersApi = createApi({
       { ids: string[] }
     >({
       query: (body) => ({
-        url: `admin/players/deletemultiple`,
+        url: `${paths.admin.players}/deletemultiple`,
         method: "DELETE",
         body: body,
       }),   

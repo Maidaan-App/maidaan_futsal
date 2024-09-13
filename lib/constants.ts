@@ -1,7 +1,8 @@
 export const MINIOURL = "https://uploads.clockb.io/maidaan/";
 export const userTypes = [
   "admin",
-  "player"
+  "superadmin",
+  "player",
 ];
 
 export const BUCKET_NAME = "maidaan";

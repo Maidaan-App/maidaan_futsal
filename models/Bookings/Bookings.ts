@@ -1,8 +1,12 @@
 import { Schema, model, models, Model } from "mongoose";
 
-const courtSchema = new Schema(
+const bookingSchema = new Schema(
   {
     linkedUserId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+    linkedPlayerId: {
       type: Schema.Types.ObjectId,
       ref: "User",
     },
@@ -22,11 +26,11 @@ const courtSchema = new Schema(
   { strict: false }
 );
 
-let Courts: Model<any>;
+let Bookings: Model<any>;
 try {
-  Courts = models.Courts || model("Courts", courtSchema, "Courts");
+  Bookings = models.Bookings || model("Bookings", bookingSchema, "Bookings");
 } catch (error) {
-  Courts = model("Courts", courtSchema, "Courts");
+  Bookings = model("Bookings", bookingSchema, "Bookings");
 }
 
-export default Courts;
+export default Bookings;

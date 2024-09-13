@@ -46,7 +46,7 @@ const ReusableTable = <T extends { id: number; [key: string]: any }>({
   const pathname = usePathname();
 
   // Check if the current route matches "/admin/playertable"
-  const isPlayertableRoute = pathname === "/admin/playertable";
+  const isPlayertableRoute = pathname === paths.admin.players;
 
   const getStatusCount = (status: string) => {
     return data.filter((item) => item[statusKey] === status).length;

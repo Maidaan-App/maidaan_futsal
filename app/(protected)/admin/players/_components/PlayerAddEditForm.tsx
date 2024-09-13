@@ -47,7 +47,7 @@ const formSchema = z.object({
   email: z.string().email(),
 });
 
-const UsersVendorForm = ({ type, ExistingDetail }: any) => {
+const PlayerAddEditForm = ({ type, ExistingDetail }: any) => {
   const [Loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -190,4 +190,4 @@ const UsersVendorForm = ({ type, ExistingDetail }: any) => {
   );
 };
 
-export default UsersVendorForm;
+export default PlayerAddEditForm;

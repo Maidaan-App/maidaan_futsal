@@ -5,7 +5,7 @@ const playerSchema = new Schema(
   {
     linkedUserId: {
       type: Schema.Types.ObjectId,
-      ref: "Users"
+      ref: "User"
     },
     email: {
       type: String,

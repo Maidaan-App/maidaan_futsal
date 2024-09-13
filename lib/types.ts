@@ -25,3 +25,15 @@ export interface PLAYER {
   status: string;
   createdDate: Date;
 }
+
+
+export interface COURT {
+  _id: string;
+  linkedUserId:string;
+  image: string;
+  name: string;
+  openingTime: string;
+  closingTime: string;
+  status: string;
+  createdDate: Date;
+}
