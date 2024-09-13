@@ -48,6 +48,24 @@ export interface COURT {
   openingTime: string;
   closingTime: string;
   shifts: shiftSchema;
+  status: boolean;
+  createdDate: Date;
+}
+
+export interface itemPurchasedSchema {
+  name: string;
+  quantity: number;
+  price: number;
+}
+
+export interface BOOKING {
+  _id: string;
+  linkedUserId: string;
+  linkedFutsalId: string;
+  linkedCourtId: string;
+  selectedDate: Date;
+  selectedslots: string[];
+  itemPurchased: itemPurchasedSchema[];
   status: string;
   createdDate: Date;
 }
