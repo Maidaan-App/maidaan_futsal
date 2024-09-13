@@ -67,7 +67,7 @@ const ResetPasswordPage = () => {
         token,
         password: values.newPassword
       }).unwrap();
-      console.log("response:", response);
+      // console.log("response:", response);
 
       if (response) {
         toast.success(response.message);
