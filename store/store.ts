@@ -4,6 +4,7 @@ import { TypedUseSelectorHook, useSelector } from "react-redux";
 import { adminPlayersApi } from "./api/Admin/adminPlayers";
 import { authsApi } from "./api/Auth/auths";
 import { adminCourtsApi } from "./api/Admin/adminCourts";
+import { configsApi } from "./api/Config/configs";
 
 export const store = configureStore({
   reducer: {
@@ -18,7 +19,9 @@ export const store = configureStore({
     [authsApi.reducerPath]: authsApi.reducer,
     
 
-    //public
+    //configs
+    [configsApi.reducerPath]: configsApi.reducer,
+    
   },
   devTools: true,
   middleware: (getDefaultMiddleware) =>
@@ -30,6 +33,9 @@ export const store = configureStore({
 
       //auths
       authsApi.middleware,
+
+      //configs
+      configsApi.middleware,
 
       //public
     ),

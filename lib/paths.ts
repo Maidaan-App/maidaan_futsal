@@ -1,5 +1,6 @@
 const ROOTS = {
   admin: "/admin",
+  configuration: "/configuration",
 };
 
 export const paths = {
@@ -9,7 +10,9 @@ export const paths = {
     login: "/login",
     error: "/auth/error",
   },
-  public: {},
+  configuration: {
+    authConfiguration: `${ROOTS.configuration}/auth`,
+  },
 
   admin: {
     dashboard: `${ROOTS.admin}`,
