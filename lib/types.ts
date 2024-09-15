@@ -69,3 +69,11 @@ export interface BOOKING {
   status: string;
   createdDate: Date;
 }
+
+
+export interface AUTHCONFIGURATION {
+  _id: string;
+  bannerImage: string;
+  createdDate: Date;
+
+}

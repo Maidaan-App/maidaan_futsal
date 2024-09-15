@@ -27,6 +27,8 @@ import { login } from "@/actions/login";
 import { toast } from "sonner";
 import Link from "next/link";
 import { paths } from "@/lib/paths";
+import { useGetAuthConfigQuery } from "@/store/api/Config/configs";
+import { MINIOURL } from "@/lib/constants";
 
 const Loginpage = () => {
   const searchParams = useSearchParams();
