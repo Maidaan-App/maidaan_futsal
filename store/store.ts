@@ -5,6 +5,7 @@ import { adminPlayersApi } from "./api/Admin/adminPlayers";
 import { authsApi } from "./api/Auth/auths";
 import { adminCourtsApi } from "./api/Admin/adminCourts";
 import { configsApi } from "./api/Config/configs";
+import { adminProfileApi } from "./api/Admin/adminProfile";
 
 export const store = configureStore({
   reducer: {
@@ -13,15 +14,13 @@ export const store = configureStore({
     //admin
     [adminPlayersApi.reducerPath]: adminPlayersApi.reducer,
     [adminCourtsApi.reducerPath]: adminCourtsApi.reducer,
-    
+    [adminProfileApi.reducerPath]: adminProfileApi.reducer,
 
     //auths
     [authsApi.reducerPath]: authsApi.reducer,
-    
 
     //configs
     [configsApi.reducerPath]: configsApi.reducer,
-    
   },
   devTools: true,
   middleware: (getDefaultMiddleware) =>
@@ -29,13 +28,13 @@ export const store = configureStore({
       //admin
       adminPlayersApi.middleware,
       adminCourtsApi.middleware,
-    
+      adminProfileApi.middleware,
 
       //auths
       authsApi.middleware,
 
       //configs
-      configsApi.middleware,
+      configsApi.middleware
 
       //public
     ),

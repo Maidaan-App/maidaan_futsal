@@ -70,10 +70,21 @@ export interface BOOKING {
   createdDate: Date;
 }
 
-
 export interface AUTHCONFIGURATION {
   _id: string;
   bannerImage: string;
   createdDate: Date;
+}
 
+export interface socialLinksSchema {
+  facebook: string;
+  instagram: string;
+  linkedIn: string;
+  twitter: string;
+}
+
+export interface FUTSALPROFILE {
+  _id: string;
+  linkedUserId: string;
+  socialLinks: socialLinksSchema;
 }
