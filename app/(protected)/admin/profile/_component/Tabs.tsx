@@ -6,6 +6,7 @@ import SecurityContent from "./SecurityContent";
 import BillingContent from "./BillingContent";
 import NotificationsContent from "./NotificationsContent";
 import SocialLinksContent from "./SocialLinksContent";
+import { useGetAdminMyPlayerByIdQuery } from "@/store/api/Admin/adminProfile";
 
 const Tabs = () => {
   const categories = [
@@ -18,6 +19,10 @@ const Tabs = () => {
 
   const [activeTab, setActiveTab] = useState(categories[0].category);
 
+  const { data: ProfileDetail, isLoading: profileLoading } =
+  useGetAdminMyPlayerByIdQuery("");
+  console.log("ProfileDetail:",ProfileDetail)
+
   const renderContent = () => {
     switch (activeTab) {
       case "General":
@@ -29,7 +34,7 @@ const Tabs = () => {
       case "Notifications":
         return <NotificationsContent />;
       case "Social Links":
-        return <SocialLinksContent />;
+        return <SocialLinksContent ProfileDetail={ProfileDetail} />;
       default:
         return null;
     }

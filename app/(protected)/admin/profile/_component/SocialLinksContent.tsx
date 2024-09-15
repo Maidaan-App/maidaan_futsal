@@ -1,30 +1,67 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { poppins } from "@/app/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/customUI/input";
 import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa"; // Importing icons
+import { useAdminAddUpdateProfileMutation } from "@/store/api/Admin/adminProfile";
+import { toast } from "sonner";
+import { FUTSALPROFILE } from "@/lib/types";
 
-const SocialLinksContent: React.FC = () => {
-  const [socialLinks, setSocialLinks] = useState({
-    facebook: "https://www.facebook.com/naxalfutsal",
-    instagram: "https://www.instagram.com/naxalfutsal",
-    linkedin: "https://www.linkedin.com/in/naxalfutsal",
-    twitter: "https://www.x.com/naxalfutsal",
-  });
+interface props {
+  ProfileDetail: FUTSALPROFILE | undefined;
+}
+
+const SocialLinksContent = ({ ProfileDetail }: props) => {
+  const [loading, setLoading] = useState(false);
+
+  // const [socialLinks, setSocialLinks] = useState({
+  //   facebook: "https://www.facebook.com/naxalfutsal",
+  //   instagram: "https://www.instagram.com/naxalfutsal",
+  //   linkedin: "https://www.linkedin.com/in/naxalfutsal",
+  //   twitter: "https://www.x.com/naxalfutsal",
+  // });
+  const [socialLinks, setSocialLinks] = useState<any>();
+  const [AdminAddUpdateProfile] = useAdminAddUpdateProfileMutation();
+
+  useEffect(() => {
+    if (ProfileDetail?.socialLinks) {
+      setSocialLinks(ProfileDetail.socialLinks);
+    }
+  }, [ProfileDetail]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setSocialLinks((prevLinks) => ({
+    setSocialLinks((prevLinks: any) => ({
       ...prevLinks,
       [name]: value,
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Social Links Submitted:", socialLinks);
-    // Here you can send the data to your backend or handle it as needed.
+  const handleSubmit = async (e: React.FormEvent) => {
+    try {
+      e.preventDefault();
+
+      setLoading(true);
+
+      const response = await AdminAddUpdateProfile({
+        _id: ProfileDetail?._id,
+        socialLinks: socialLinks,
+      }).unwrap();
+      if (response) {
+        toast.success(response.message);
+        setLoading(false);
+      } else {
+        toast.error(`Couldn't Update Profile`);
+        setLoading(false);
+      }
+    } catch (error: any) {
+      // toast.error(`Something went wrong !!`);
+      toast.error(error.data.message);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -37,7 +74,8 @@ const SocialLinksContent: React.FC = () => {
           <Input
             type="text"
             name="facebook"
-            value={socialLinks.facebook}
+            placeholder="Facebook URL"
+            value={socialLinks?.facebook}
             onChange={handleInputChange}
             className="w-full pl-16 border border-[#919EAB33] rounded-[8px] text-[16px] font-normal"
           />
@@ -49,7 +87,8 @@ const SocialLinksContent: React.FC = () => {
           <Input
             type="text"
             name="instagram"
-            value={socialLinks.instagram}
+            placeholder="Instagram URL"
+            value={socialLinks?.instagram}
             onChange={handleInputChange}
             className="w-full pl-16 border border-[#919EAB33] rounded-[8px] text-[16px] font-normal"
           />
@@ -61,7 +100,8 @@ const SocialLinksContent: React.FC = () => {
           <Input
             type="text"
             name="linkedin"
-            value={socialLinks.linkedin}
+            placeholder="LinkedIn URL"
+            value={socialLinks?.linkedin}
             onChange={handleInputChange}
             className="w-full pl-16 border border-[#919EAB33] rounded-[8px] text-[16px] font-normal"
           />
@@ -73,7 +113,8 @@ const SocialLinksContent: React.FC = () => {
           <Input
             type="text"
             name="twitter"
-            value={socialLinks.twitter}
+            placeholder="Twitter URL"
+            value={socialLinks?.twitter}
             onChange={handleInputChange}
             className="w-full pl-16 border border-[#919EAB33] rounded-[8px] text-[16px] font-normal"
           />
@@ -85,6 +126,7 @@ const SocialLinksContent: React.FC = () => {
             type="submit"
             variant="default"
             className="bg-[#00A86B] text-white"
+            disabled={loading}
           >
             Save changes
           </Button>
