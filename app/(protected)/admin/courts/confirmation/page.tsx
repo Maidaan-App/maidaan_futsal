@@ -215,120 +215,201 @@ export default function ConfirmationPage() {
               )}
 
               {/* Form for New Player */}
+              <Form {...form}>
+                <form className="mt-4" onSubmit={form.handleSubmit(onSubmit)}>
+                  <FormField
+                    control={form.control}
+                    name="fullName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            placeholder="Full Name"
+                            {...field}
+                            className="border rounded-md w-full p-2 mb-2"
+                          />
+                        </FormControl>
 
-              <form className="mt-4">
-                <Input
-                  type="text"
-                  placeholder="Full Name"
-                  className="border rounded-md w-full p-2 mb-2"
-                />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <Input
-                  type="email"
-                  placeholder="Email Address"
-                  className="border rounded-md w-full p-2 mb-2"
-                />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            placeholder="Email Address"
+                            {...field}
+                            className="border rounded-md w-full p-2 mb-2"
+                          />
+                        </FormControl>
 
-                <Input
-                  type="number"
-                  placeholder="Contact"
-                  className="border rounded-md w-full p-2 mb-2"
-                />
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <Input
-                  type="text"
-                  placeholder="Address"
-                  className="border rounded-md w-full p-2 mb-2"
-                />
+                  <FormField
+                    control={form.control}
+                    name="contact"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="Contact"
+                            {...field}
+                            className="border rounded-md w-full p-2 mb-2"
+                          />
+                        </FormControl>
 
-                <div className="flex flex-col lg:flex-row gap-2 w-full">
-                  {/* Booking Status */}
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                  <div className="relative w-full">
-                    <select className="border border-gray-300 p-3 w-full rounded-md bg-white text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 appearance-none">
-                      <option>Booking Status</option>
-                      <option>Confirmed</option>
-                      <option>Pending</option>
-                    </select>
-                    {/* Custom Dropdown Icon */}
-                    <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                      <svg
-                        className="w-5 h-5 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
+                  <FormField
+                    control={form.control}
+                    name="address"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            placeholder="Address"
+                            {...field}
+                            className="border rounded-md w-full p-2 mb-2"
+                          />
+                        </FormControl>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <div className="flex flex-col lg:flex-row gap-2 w-full">
+                    {/* Booking Status */}
+
+                    <FormField
+                      control={form.control}
+                      name="bookingStatus"
+                      render={({ field }) => (
+                        <FormItem className="lg:w-1/2">
+                          <FormLabel>Booking Status</FormLabel>
+
+                          <FormControl>
+                            <select
+                              {...field}
+                              className="border border-gray-300 p-3 w-full rounded-md bg-white text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 appearance-none"
+                            >
+                              <option value="Confirmed">Confirmed</option>
+                              <option value="Pending">Pending</option>
+                            </select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    {/* Payment Status */}
+                    <FormField
+                      control={form.control}
+                      name="paymentStatus"
+                      render={({ field }) => (
+                        <FormItem className="lg:w-1/2">
+                          <FormLabel>Payment Status</FormLabel>
+                          <FormControl>
+                            <select
+                              {...field}
+                              className="border border-gray-300 p-3 w-full rounded-md bg-white text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 appearance-none"
+                            >
+                              <option value="Paid">Paid</option>
+                              <option value="Unpaid">Unpaid</option>
+                            </select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                   </div>
 
-                  {/* Payment Status */}
-                  <div className="relative w-full">
-                    <select className="border border-gray-300 p-3 w-full rounded-md bg-white text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 appearance-none">
-                      <option>Payment Status</option>
-                      <option>Paid</option>
-                      <option>Unpaid</option>
-                    </select>
-                    {/* Custom Dropdown Icon */}
-                    <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                      <svg
-                        className="w-5 h-5 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
+                  {/* <div className="flex space-x-4"></div> */}
+
+                  <div className="flex  justify-end mb-4 mt-3 gap-2 ">
+                    <span>Slot's Total:</span>
+                    <span>Rs. 2000</span>
                   </div>
-                </div>
-
-                {/* <div className="flex space-x-4"></div> */}
-
-                <div className="flex  justify-end mb-4 gap-2 ">
-                  <span>Slot's Total:</span>
-                  <span>Rs. 2000</span>
-                </div>
-                <div className="flex justify-end font-bold mb-4 gap-2">
-                  <span>Total:</span>
-                  <span className="text-green-500">Rs. 2000</span>
-                </div>
-                <div className="flex justify-end">
-                  <button className="bg-primary text-white px-4 py-2 rounded-md">
-                    Submit
-                  </button>
-                </div>
-              </form>
+                  <div className="flex justify-end font-bold mb-4 gap-2">
+                    <span>Total:</span>
+                    <span className="text-green-500">Rs. 2000</span>
+                  </div>
+                  <div className="flex justify-end">
+                    <button className="bg-primary text-white px-4 py-2 rounded-md">
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </Form>
             </>
           )}
 
           {/* Additional Details Section */}
           {selectedPlayer && (
-            <div className="mt-4 grid grid-cols-2 gap-4">
-              <select className="border p-2 rounded-md">
-                <option>Booking Status</option>
-                <option>Confirmed</option>
-                <option>Pending</option>
-              </select>
-              <select className="border p-2 rounded-md">
-                <option>Payment Status</option>
-                <option>Paid</option>
-                <option>Unpaid</option>
-              </select>
-            </div>
+            <Form {...form}>
+              <form
+                className="mt-4 w-full"
+                onSubmit={form.handleSubmit(onSubmit)}
+              >
+                <div className="flex flex-col lg:flex-row gap-2 w-full">
+                  {/* Booking Status */}
+
+                  <FormField
+                    control={form.control}
+                    name="bookingStatus"
+                    render={({ field }) => (
+                      <FormItem className="lg:w-1/2">
+                        <FormLabel>Booking Status</FormLabel>
+
+                        <FormControl>
+                          <select
+                            {...field}
+                            className="border border-gray-300 p-3 w-full rounded-md bg-white text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 appearance-none"
+                          >
+                            <option value="Confirmed">Confirmed</option>
+                            <option value="Pending">Pending</option>
+                          </select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Payment Status */}
+                  <FormField
+                    control={form.control}
+                    name="paymentStatus"
+                    render={({ field }) => (
+                      <FormItem className="lg:w-1/2">
+                        <FormLabel>Payment Status</FormLabel>
+                        <FormControl>
+                          <select
+                            {...field}
+                            className="border border-gray-300 p-3 w-full rounded-md bg-white text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 appearance-none"
+                          >
+                            <option value="Paid">Paid</option>
+                            <option value="Unpaid">Unpaid</option>
+                          </select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </form>
+            </Form>
           )}
 
           {selectedPlayer && (

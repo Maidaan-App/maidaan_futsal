@@ -36,7 +36,7 @@ export function DateSection({ selectedDate, setSelectedDate }: any) {
         </p>
         <p>Monday, August 27</p>
       </div>
-      <Carousel className="w-[90%] container mb-10 mt-5">
+      <Carousel className="lg:w-[90%] container mb-10 mt-5">
         <CarouselContent className="-ml-1">
           {Array.from({ length: totalItems }).map((_, index) => (
             <CarouselItem
@@ -69,8 +69,10 @@ export function DateSection({ selectedDate, setSelectedDate }: any) {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <div className="hidden lg:flex">
+          <CarouselPrevious />
+          <CarouselNext />
+        </div>
       </Carousel>
     </div>
   );

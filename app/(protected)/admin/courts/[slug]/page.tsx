@@ -18,11 +18,6 @@ export default function BookingPage() {
   );
 }
 
-
-
-
-
-
 // "use client";
 
 // import * as React from "react";
