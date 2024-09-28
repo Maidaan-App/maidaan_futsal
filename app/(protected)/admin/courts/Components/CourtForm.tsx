@@ -1,23 +1,12 @@
 "use client";
-import React, { useState } from "react";
-import TextField from "@mui/material/TextField";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@radix-ui/react-dropdown-menu";
-import { z } from "zod";
-import { Clock4 } from "lucide-react";
-import { poppins } from "@/app/lib/constants";
-import { TimePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import dayjs, { Dayjs } from "dayjs";
+import React, { useEffect, useState } from "react";
+import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs, { Dayjs } from "dayjs";
+import TextField from "@mui/material/TextField";
+import { Separator } from "@radix-ui/react-dropdown-menu";
+import { Button } from "@/components/ui/button";
 
-// Define Zod schema for validation
-const formSchema = z.object({
-  courtName: z.string().min(1, {
-    message: "Court Name is required",
-  }),
-});
-
-// Define type for shift times
 interface ShiftTimes {
   morningShiftStart: Dayjs | null;
   morningShiftEnd: Dayjs | null;
@@ -30,7 +19,6 @@ interface ShiftTimes {
 }
 
 const CourtForm: React.FC = () => {
-  // Define shift states
   const [shifts, setShifts] = useState<ShiftTimes>({
     morningShiftStart: dayjs(),
     morningShiftEnd: dayjs(),
@@ -42,24 +30,41 @@ const CourtForm: React.FC = () => {
     holidayShiftEnd: dayjs(),
   });
 
-  // Handle form submission
-  const onSubmit = (data: Record<string, any>) => {
-    console.log("Form Data:", data);
-  };
-
   // Handle time change
   const handleTimeChange = (key: keyof ShiftTimes, newValue: Dayjs | null) => {
-    setShifts((prevShifts) => ({
-      ...prevShifts,
-      [key]: newValue,
-    }));
+    setShifts((prevShifts) => {
+      const updatedShifts: ShiftTimes = {
+        ...prevShifts,
+        [key]: newValue,
+      };
+
+      // Implementing your time logic
+      if (key === "morningShiftEnd") {
+        updatedShifts.dayShiftStart = newValue;
+      } else if (key === "dayShiftEnd") {
+        updatedShifts.eveningShiftStart = newValue;
+      } else if (key === "eveningShiftEnd") {
+        updatedShifts.holidayShiftStart = newValue;
+      }
+
+      // If you want to set the opening and closing time based on shifts
+      updatedShifts.morningShiftStart =
+        updatedShifts.morningShiftStart || newValue;
+      updatedShifts.eveningShiftEnd = updatedShifts.eveningShiftEnd || newValue;
+
+      return updatedShifts;
+    });
+  };
+
+  // Handle form submission
+  const handleSubmit = () => {
+    console.log("Shift Times:", shifts);
+    // Here you can add logic to send the data to your backend
   };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div
-        className={`bg-white p-5 rounded-lg shadow-lg lg:w-[820px] ${poppins.className}`}
-      >
+      <div className="bg-white p-5 rounded-lg shadow-lg lg:w-[820px]">
         <div className="flex flex-col gap-6">
           {/* Court Name */}
           <TextField
@@ -74,13 +79,19 @@ const CourtForm: React.FC = () => {
           <div className="flex md:flex-row flex-col gap-5">
             <TimePicker
               label="Opening Time"
-              defaultValue={shifts.morningShiftStart}
+              value={shifts.morningShiftStart}
+              onChange={(newValue) =>
+                handleTimeChange("morningShiftStart", newValue)
+              }
               className="w-full"
             />
 
             <TimePicker
               label="Closing Time"
-              defaultValue={shifts.morningShiftEnd}
+              value={shifts.eveningShiftEnd}
+              onChange={(newValue) =>
+                handleTimeChange("eveningShiftEnd", newValue)
+              }
               className="w-full"
             />
           </div>
@@ -122,15 +133,22 @@ const CourtForm: React.FC = () => {
               <div className="flex md:flex-row flex-col gap-4 w-full md:w-3/4">
                 <TimePicker
                   label="Start Time"
-                  defaultValue={shifts.morningShiftEnd}
+                  value={shifts[shift.start as keyof ShiftTimes]}
+                  onChange={(newValue) =>
+                    handleTimeChange(shift.start as keyof ShiftTimes, newValue)
+                  }
                   className="md:w-1/3"
                 />
 
                 <TimePicker
                   label="End Time"
-                  defaultValue={shifts.morningShiftEnd}
+                  value={shifts[shift.end as keyof ShiftTimes]}
+                  onChange={(newValue) =>
+                    handleTimeChange(shift.end as keyof ShiftTimes, newValue)
+                  }
                   className="md:w-1/3"
                 />
+
                 <TextField
                   id={`${shift.name
                     .toLowerCase()
@@ -150,12 +168,7 @@ const CourtForm: React.FC = () => {
 
         {/* Submit Button */}
         <div className="flex justify-end mt-6">
-          <Button
-            type="submit"
-            className="bg-green-500 w-full md:w-auto text-white px-6 py-2 rounded-md hover:bg-green-600"
-          >
-            Submit
-          </Button>
+          <Button onClick={handleSubmit}>Submit</Button>
         </div>
       </div>
     </LocalizationProvider>
