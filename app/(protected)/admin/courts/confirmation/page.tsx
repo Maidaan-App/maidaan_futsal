@@ -338,8 +338,8 @@ export default function ConfirmationPage() {
 
                   {/* <div className="flex space-x-4"></div> */}
 
-                  <div className="flex  justify-end mb-4 mt-3 gap-2 ">
-                    <span>Slot's Total:</span>
+                  <div className="flex justify-end mb-4 mt-3 gap-2 ">
+                    <span>Slot&apos;s Total:</span>
                     <span>Rs. 2000</span>
                   </div>
                   <div className="flex justify-end font-bold mb-4 gap-2">
@@ -414,7 +414,7 @@ export default function ConfirmationPage() {
 
           {selectedPlayer && (
             <div className="flex justify-between mt-4">
-              <span>Slot's Total:</span>
+              <span>Slot&apos;s Total:</span>
               <span>Rs. 2000</span>
             </div>
           )}
