@@ -6,6 +6,7 @@ import { authsApi } from "./api/Auth/auths";
 import { adminCourtsApi } from "./api/Admin/adminCourts";
 import { configsApi } from "./api/Config/configs";
 import { adminProfileApi } from "./api/Admin/adminProfile";
+import { adminBillingspi } from "./api/Admin/adminBillings";
 
 export const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ export const store = configureStore({
     [adminPlayersApi.reducerPath]: adminPlayersApi.reducer,
     [adminCourtsApi.reducerPath]: adminCourtsApi.reducer,
     [adminProfileApi.reducerPath]: adminProfileApi.reducer,
-
+    [adminBillingspi.reducerPath]: adminBillingspi.reducer,
+    
     //auths
     [authsApi.reducerPath]: authsApi.reducer,
 
@@ -29,6 +31,7 @@ export const store = configureStore({
       adminPlayersApi.middleware,
       adminCourtsApi.middleware,
       adminProfileApi.middleware,
+      adminBillingspi.middleware,
 
       //auths
       authsApi.middleware,

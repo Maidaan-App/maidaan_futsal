@@ -18,6 +18,7 @@ export const paths = {
     dashboard: `${ROOTS.admin}`,
     profile: `${ROOTS.admin}/profile`,
     changepassword: `${ROOTS.admin}/profile/changepassword`,
+    billings: `${ROOTS.admin}/profile/billings`,
 
 
     players: `${ROOTS.admin}/players`,
