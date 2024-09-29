@@ -14,7 +14,7 @@ export const DELETE = async (request: NextRequest) => {
     await connectMongo();
     const { ids } = await request.json();
 
-    if (user.role === "admin") {
+    if (user?.role === "admin") {
       const playersToDelete = await Players.find({
         _id: { $in: ids },
       }).populate({

@@ -82,11 +82,11 @@ export const GET = async () => {
   try {
     await connectMongo();
 
-    if (user.role === "admin") {
+    if (user?.role === "admin") {
       const players = await Players.find()
         .populate({
           path: "linkedUserId",
-          match: { linkedFutsalId: user.id },
+          match: { linkedFutsalId: user?.id },
           select: "_id",
         })
         .sort({
@@ -119,7 +119,7 @@ export const DELETE = async (request: NextRequest) => {
     const { searchParams } = new URL(request.url);
     const _id = searchParams.get("id");
 
-    if (user.role === "admin") {
+    if (user?.role === "admin") {
       const exisitingDoc = await Players.findOne({ _id }).populate({
         path: "linkedUserId",
         select: "linkedFutsalId", // Only select linkedFutsalId to match

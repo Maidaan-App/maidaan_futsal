@@ -12,7 +12,7 @@ export const GET = async (request: NextRequest) => {
 
   try {
     await connectMongo();
-    if (user.role === "admin") {
+    if (user?.role === "admin") {
       const player = await Players.findOne({ _id }).populate({
         path: "linkedUserId",
         select: "linkedFutsalId",
