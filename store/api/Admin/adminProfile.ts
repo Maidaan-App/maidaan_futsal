@@ -9,7 +9,7 @@ export const adminProfileApi = createApi({
   baseQuery: baseQuery,
   keepUnusedDataFor: 2,
   endpoints: (builder) => ({
-    // // Profile by Id
+    // Profile by Id
     getAdminMyPlayerById: builder.query<FUTSALPROFILE, string>({
       query: () => `${paths.admin.profile}`,
       providesTags: ["Admin Profile"],
@@ -24,10 +24,21 @@ export const adminProfileApi = createApi({
       }),
       invalidatesTags: ["Admin Profile"],
     }),
+
+    //Add Update Profile
+    AdminChangePassword: builder.mutation<{ message: string }, any>({
+      query: ({ ...body }) => ({
+        url: `${paths.admin.changepassword}`,
+        method: "POST",
+        body: body,
+      }),
+      invalidatesTags: ["Admin Profile"],
+    }),
   }),
 });
 
 export const {
   useAdminAddUpdateProfileMutation,
   useGetAdminMyPlayerByIdQuery,
+  useAdminChangePasswordMutation,
 } = adminProfileApi;

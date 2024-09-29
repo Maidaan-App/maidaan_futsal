@@ -9,6 +9,8 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import { Eye, EyeOff } from "lucide-react";
 import { poppins } from "@/app/lib/constants";
+import { toast } from "sonner";
+import { useAdminChangePasswordMutation } from "@/store/api/Admin/adminProfile";
 
 // Zod schema for form validation
 const formSchema = z
@@ -32,10 +34,13 @@ const SecurityContent = () => {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [Loading, setLoading] = useState(false);
+  const [AdminChangePassword] = useAdminChangePasswordMutation();
 
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(formSchema),
@@ -46,9 +51,30 @@ const SecurityContent = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log("Form Submitted:", values);
-    // Implement your password reset logic here
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      setLoading(true);
+      const response = await AdminChangePassword({
+        ...values,
+      }).unwrap();
+      if (response) {
+        toast.success(response.message);
+        setLoading(false);
+        reset({
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        });
+      } else {
+        toast.error(`Couldn't Change Password`);
+        setLoading(false);
+      }
+    } catch (error: any) {
+      toast.error(error.data.message);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -167,6 +193,7 @@ const SecurityContent = () => {
       <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
         <Button
           variant={"default"}
+          disabled={Loading}
           type="submit"
           className="w-full sm:w-auto bg-[#28A745] text-white px-6 py-3 rounded-lg text-base"
         >

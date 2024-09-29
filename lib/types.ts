@@ -86,5 +86,10 @@ export interface socialLinksSchema {
 export interface FUTSALPROFILE {
   _id: string;
   linkedUserId: string;
+  name: string;
+  emai: string;
+  phone: string;
+  address: string;
+  image: string;
   socialLinks: socialLinksSchema;
 }
