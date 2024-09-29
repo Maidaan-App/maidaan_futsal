@@ -13,6 +13,11 @@ const futsalProfileSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    name: String,
+    email: String,
+    phone: String,
+    address: String,
+    image: String,
     socialLinks: socialLinksSchema,
     createdDate: {
       type: Date,

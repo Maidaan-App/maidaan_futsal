@@ -12,7 +12,9 @@ export const POST = async (request: NextRequest) => {
     await connectMongo();
 
     if (user?.role === "admin") {
-      const existingDoc = await FutsalProfile.findOne({ _id: Data?._id });
+      const existingDoc = await FutsalProfile.findOne({
+        linkedUserId: user.id,
+      });
       if (existingDoc) {
         await existingDoc.updateOne(Data);
         return NextResponse.json(
@@ -45,8 +47,8 @@ export const GET = async (request: NextRequest) => {
 
   try {
     await connectMongo();
-    if (user.role === "admin") {
-      const doc = await FutsalProfile.findOne();
+    if (user?.role === "admin") {
+      const doc = await FutsalProfile.findOne({ linkedUserId: user.id });
 
       if (!doc) {
         return NextResponse.json(

@@ -5,6 +5,7 @@ export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
   const user = req.auth?.user;
+  console.log("LoggedIn User", user)
   const authRoutes = [
     "/login",
     "/signup",

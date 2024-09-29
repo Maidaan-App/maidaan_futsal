@@ -14,13 +14,6 @@ interface props {
 
 const SocialLinksContent = ({ ProfileDetail }: props) => {
   const [loading, setLoading] = useState(false);
-
-  // const [socialLinks, setSocialLinks] = useState({
-  //   facebook: "https://www.facebook.com/naxalfutsal",
-  //   instagram: "https://www.instagram.com/naxalfutsal",
-  //   linkedin: "https://www.linkedin.com/in/naxalfutsal",
-  //   twitter: "https://www.x.com/naxalfutsal",
-  // });
   const [socialLinks, setSocialLinks] = useState<any>();
   const [AdminAddUpdateProfile] = useAdminAddUpdateProfileMutation();
 

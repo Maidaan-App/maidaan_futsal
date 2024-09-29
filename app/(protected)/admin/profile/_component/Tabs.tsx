@@ -8,7 +8,7 @@ import NotificationsContent from "./NotificationsContent";
 import SocialLinksContent from "./SocialLinksContent";
 import { useGetAdminMyPlayerByIdQuery } from "@/store/api/Admin/adminProfile";
 
-const Tabs = () => {
+const Tabs = ({current_user}:any) => {
   const categories = [
     { category: "General" },
     { category: "Security" },
@@ -26,7 +26,7 @@ const Tabs = () => {
   const renderContent = () => {
     switch (activeTab) {
       case "General":
-        return <GeneralContent />;
+        return <GeneralContent current_user={current_user} ProfileDetail={ProfileDetail} />;
       case "Security":
         return <SecurityContent />;
       case "Billing":
