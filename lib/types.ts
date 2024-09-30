@@ -87,9 +87,20 @@ export interface FUTSALPROFILE {
   _id: string;
   linkedUserId: string;
   name: string;
-  emai: string;
+  email: string;
   phone: string;
   address: string;
   image: string;
   socialLinks: socialLinksSchema;
+  createdDate: Date;
+}
+
+export interface BILLINGS {
+  _id: string;
+  linkedUserId: string;
+  companyName: string;
+  billingEmail: string;
+  billingPhone: string;
+  billingAddress: string;
+  createdDate: Date;
 }

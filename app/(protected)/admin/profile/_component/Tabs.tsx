@@ -7,8 +7,9 @@ import BillingContent from "./BillingContent";
 import NotificationsContent from "./NotificationsContent";
 import SocialLinksContent from "./SocialLinksContent";
 import { useGetAdminMyPlayerByIdQuery } from "@/store/api/Admin/adminProfile";
+import { useGetAdminMyBillingByIdQuery } from "@/store/api/Admin/adminBillings";
 
-const Tabs = ({current_user}:any) => {
+const Tabs = ({ current_user }: any) => {
   const categories = [
     { category: "General" },
     { category: "Security" },
@@ -20,17 +21,24 @@ const Tabs = ({current_user}:any) => {
   const [activeTab, setActiveTab] = useState(categories[0].category);
 
   const { data: ProfileDetail, isLoading: profileLoading } =
-  useGetAdminMyPlayerByIdQuery("");
-  console.log("ProfileDetail:",ProfileDetail)
+    useGetAdminMyPlayerByIdQuery("");
+
+    const { data: BillingDetail, isLoading: billingLoading } =
+    useGetAdminMyBillingByIdQuery("");
 
   const renderContent = () => {
     switch (activeTab) {
       case "General":
-        return <GeneralContent current_user={current_user} ProfileDetail={ProfileDetail} />;
+        return (
+          <GeneralContent
+            current_user={current_user}
+            ProfileDetail={ProfileDetail}
+          />
+        );
       case "Security":
         return <SecurityContent />;
       case "Billing":
-        return <BillingContent />;
+        return <BillingContent BillingDetail={BillingDetail} />;
       case "Notifications":
         return <NotificationsContent />;
       case "Social Links":

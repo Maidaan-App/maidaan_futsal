@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -6,6 +6,9 @@ import { Button } from "@/components/ui/button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import { poppins } from "@/app/lib/constants";
+import { useAdminAddUpdateBillingMutation } from "@/store/api/Admin/adminBillings";
+import { toast } from "sonner";
+import { BILLINGS } from "@/lib/types";
 
 // Validation schema using Zod
 const validationSchema = z.object({
@@ -15,30 +18,61 @@ const validationSchema = z.object({
     .email("Invalid email format")
     .min(1, "Billing Email is required"),
   billingPhone: z.string().min(1, "Billing Phone Number is required"),
-  taxId: z.string().min(1, "Tax ID is required"),
-  vatNumber: z.string().min(1, "VAT Number is required"),
   billingAddress: z.string().min(1, "Billing Address is required"),
 });
 
-const BillingAddressContent: React.FC = () => {
+interface props {
+  ExistingDetail: BILLINGS | undefined;
+}
+
+const BillingAddressContent = ({ ExistingDetail }: props) => {
+  const [Loading, setLoading] = useState(false);
+  const [AdminAddUpdateBilling] = useAdminAddUpdateBillingMutation();
   const {
     handleSubmit,
+    reset,
     control,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(validationSchema),
     defaultValues: {
-      companyName: "Naxal Futsal Pvt. Ltd",
-      billingEmail: "naxalfutsal@gmail.com",
-      billingPhone: "+ 977 9812345678",
-      taxId: "342624",
-      vatNumber: "16161494",
-      billingAddress: "Naxal, Hadigau, Kathmandu",
+      companyName: "",
+      billingEmail: "",
+      billingPhone: "",
+      billingAddress: "",
     },
   });
 
-  const onSubmit = (data: any) => {
-    console.log("Form Submitted with values:", data);
+  useEffect(() => {
+    if (ExistingDetail) {
+      reset({
+        companyName: ExistingDetail?.companyName || "",
+        billingEmail: ExistingDetail?.billingEmail || "",
+        billingPhone: ExistingDetail?.billingPhone || "",
+        billingAddress: ExistingDetail?.billingAddress || "",
+      });
+    }
+  }, [ExistingDetail]);
+
+  const onSubmit = async (values: z.infer<typeof validationSchema>) => {
+    try {
+      setLoading(true);
+      const response = await AdminAddUpdateBilling({
+        ...values,
+      }).unwrap();
+      if (response) {
+        toast.success(response.message);
+        setLoading(false);
+      } else {
+        toast.error(`Couldn't Update Profile`);
+        setLoading(false);
+      }
+    } catch (error: any) {
+      toast.error(error.data.message);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -54,7 +88,7 @@ const BillingAddressContent: React.FC = () => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <h2 className="text-lg font-medium mb-1 text-[#28353D]">
-        Billing Address
+        Billing Information
       </h2>
 
       {/* Company Name - Full Width */}
@@ -100,45 +134,12 @@ const BillingAddressContent: React.FC = () => {
           <TextField
             {...field}
             id="billing-phone"
+            type="number"
             label="Billing Phone Number"
             variant="outlined"
             fullWidth
             error={!!errors.billingPhone}
             helperText={errors.billingPhone?.message}
-          />
-        )}
-      />
-
-      {/* Tax ID */}
-      <Controller
-        name="taxId"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            id="tax-id"
-            label="Tax ID"
-            variant="outlined"
-            fullWidth
-            error={!!errors.taxId}
-            helperText={errors.taxId?.message}
-          />
-        )}
-      />
-
-      {/* VAT Number */}
-      <Controller
-        name="vatNumber"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            id="vat-number"
-            label="VAT Number"
-            variant="outlined"
-            fullWidth
-            error={!!errors.vatNumber}
-            helperText={errors.vatNumber?.message}
           />
         )}
       />
@@ -172,6 +173,7 @@ const BillingAddressContent: React.FC = () => {
         <Button
           variant="default"
           type="submit"
+          disabled={Loading}
           className="bg-[#00A86B] text-white"
         >
           Save changes

@@ -1,28 +1,21 @@
 import React from "react";
-import ActionMenu from "./ActionMenu";
-
-export type PlayerType = {
-  id: number;
-  name: string;
-  email: string;
-  contact: string;
-  address: string;
-  date: string;
-  status: string;
-};
+import { PLAYER } from "@/lib/types";
+import { convertToHumanReadable } from "@/lib/helper";
+import ActionMenu from "@/components/ActionMenu";
+import moment from "moment";
 
 export type BillingType = {
   id: number;
   total: string;
   date: string;
   status: string;
-  unique : string;
+  unique: string;
 };
 
 type Props = {
-  player: PlayerType;
+  player: PLAYER;
   isSelected: boolean;
-  toggleSelectPlayer: (id: number) => void;
+  toggleSelectPlayer: (id: string) => void;
 };
 
 const PlayerRow = ({ player, isSelected, toggleSelectPlayer }: Props) => {
@@ -32,14 +25,16 @@ const PlayerRow = ({ player, isSelected, toggleSelectPlayer }: Props) => {
         <input
           type="checkbox"
           checked={isSelected}
-          onChange={() => toggleSelectPlayer(player.id)}
+          onChange={() => toggleSelectPlayer(player._id)}
         />
       </td>
       <td>{player.name}</td>
       <td>{player.email}</td>
-      <td>{player.contact}</td>
+      <td>{player.phone}</td>
       <td>{player.address}</td>
-      <td>{player.date}</td>
+      {/* <td>{convertToHumanReadable(player.createdDate)}</td> */}
+      <td>{moment(player.createdDate).format("MMMM Do YYYY, h:mm:ss A")}</td>
+
       <td>
         <span
           className={`${

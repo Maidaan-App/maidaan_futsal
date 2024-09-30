@@ -196,18 +196,13 @@ const AdminProfileEditForm = ({ type, ExistingDetail, current_user }: any) => {
             </div>
 
             <div className="flex justify-end my-2">
-              {Loading ? (
-                <div>
-                  <div className="loader"></div>
-                </div>
-              ) : (
-                <Button
-                  type="submit"
-                  className="bg-primary text-white px-5 rounded-md py-1 hover:bg-blue-900"
-                >
-                  Save Changes
-                </Button>
-              )}
+              <Button
+                type="submit"
+                disabled={Loading}
+                className="bg-primary text-white px-5 rounded-md py-1 hover:bg-blue-900"
+              >
+                Save Changes
+              </Button>
             </div>
           </div>
         </form>
