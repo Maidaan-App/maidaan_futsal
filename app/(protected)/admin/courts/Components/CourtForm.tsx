@@ -6,6 +6,7 @@ import dayjs, { Dayjs } from "dayjs";
 import TextField from "@mui/material/TextField";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Button } from "@/components/ui/button";
+import UploadCourtCard from "./UploadCourtCard";
 
 interface ShiftTimes {
   morningShiftStart: Dayjs | null;
@@ -63,115 +64,121 @@ const CourtForm: React.FC = () => {
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div className="bg-white p-5 rounded-lg shadow-lg lg:w-[820px]">
-        <div className="flex flex-col gap-6">
-          {/* Court Name */}
-          <TextField
-            id="court-name"
-            label="Court Name"
-            variant="outlined"
-            defaultValue="Court 1"
-            className="w-full"
-          />
-
-          {/* Opening Time and Closing Time */}
-          <div className="flex md:flex-row flex-col gap-5">
-            <TimePicker
-              label="Opening Time"
-              value={shifts.morningShiftStart}
-              onChange={(newValue) =>
-                handleTimeChange("morningShiftStart", newValue)
-              }
+    <div className="flex md:flex-row flex-col justify-between gap-4">
+      <UploadCourtCard />
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <div className="bg-white p-5 rounded-lg shadow-lg lg:w-[820px]">
+          <div className="flex flex-col gap-6">
+            {/* Court Name */}
+            <TextField
+              id="court-name"
+              label="Court Name"
+              variant="outlined"
+              defaultValue="Court 1"
               className="w-full"
             />
 
-            <TimePicker
-              label="Closing Time"
-              value={shifts.eveningShiftEnd}
-              onChange={(newValue) =>
-                handleTimeChange("eveningShiftEnd", newValue)
-              }
-              className="w-full"
-            />
+            {/* Opening Time and Closing Time */}
+            <div className="flex md:flex-row flex-col gap-5">
+              <TimePicker
+                label="Opening Time"
+                value={shifts.morningShiftStart}
+                onChange={(newValue) =>
+                  handleTimeChange("morningShiftStart", newValue)
+                }
+                className="w-full"
+              />
+
+              <TimePicker
+                label="Closing Time"
+                value={shifts.eveningShiftEnd}
+                onChange={(newValue) =>
+                  handleTimeChange("eveningShiftEnd", newValue)
+                }
+                className="w-full"
+              />
+            </div>
+          </div>
+
+          {/* Separator */}
+          <Separator className="my-10 h-px bg-[#28353D1A]" />
+
+          {/* Shifts Section */}
+          <div>
+            <h1 className="font-semibold text-[#28353D] text-lg">Shifts</h1>
+
+            {/* Shift Fields */}
+            {[
+              {
+                name: "Morning Shift",
+                start: "morningShiftStart",
+                end: "morningShiftEnd",
+              },
+              { name: "Day Shift", start: "dayShiftStart", end: "dayShiftEnd" },
+              {
+                name: "Evening Shift",
+                start: "eveningShiftStart",
+                end: "eveningShiftEnd",
+              },
+              {
+                name: "Holiday (Saturday)",
+                start: "holidayShiftStart",
+                end: "holidayShiftEnd",
+              },
+            ].map((shift, idx) => (
+              <div
+                key={idx}
+                className="flex md:flex-row flex-col justify-between items-center gap-4 mt-4"
+              >
+                <p className="md:w-1/4 w-full text-[#28353D] text-base font-medium">
+                  {shift.name}
+                </p>
+                <div className="flex md:flex-row flex-col gap-4 w-full md:w-3/4">
+                  <TimePicker
+                    label="Start Time"
+                    value={shifts[shift.start as keyof ShiftTimes]}
+                    onChange={(newValue) =>
+                      handleTimeChange(
+                        shift.start as keyof ShiftTimes,
+                        newValue
+                      )
+                    }
+                    className="md:w-1/3"
+                  />
+
+                  <TimePicker
+                    label="End Time"
+                    value={shifts[shift.end as keyof ShiftTimes]}
+                    onChange={(newValue) =>
+                      handleTimeChange(shift.end as keyof ShiftTimes, newValue)
+                    }
+                    className="md:w-1/3"
+                  />
+
+                  <TextField
+                    id={`${shift.name
+                      .toLowerCase()
+                      .replace(/ /g, "-")}-offer-rate`}
+                    label="Offer Rate"
+                    type="number"
+                    variant="outlined"
+                    className="md:w-1/3"
+                    InputProps={{
+                      inputProps: { min: 0 },
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Submit Button */}
+          <div className="flex justify-end mt-6">
+            <Button onClick={handleSubmit}>Submit</Button>
           </div>
         </div>
-
-        {/* Separator */}
-        <Separator className="my-10 h-px bg-[#28353D1A]" />
-
-        {/* Shifts Section */}
-        <div>
-          <h1 className="font-semibold text-[#28353D] text-lg">Shifts</h1>
-
-          {/* Shift Fields */}
-          {[
-            {
-              name: "Morning Shift",
-              start: "morningShiftStart",
-              end: "morningShiftEnd",
-            },
-            { name: "Day Shift", start: "dayShiftStart", end: "dayShiftEnd" },
-            {
-              name: "Evening Shift",
-              start: "eveningShiftStart",
-              end: "eveningShiftEnd",
-            },
-            {
-              name: "Holiday (Saturday)",
-              start: "holidayShiftStart",
-              end: "holidayShiftEnd",
-            },
-          ].map((shift, idx) => (
-            <div
-              key={idx}
-              className="flex md:flex-row flex-col justify-between items-center gap-4 mt-4"
-            >
-              <p className="md:w-1/4 w-full text-[#28353D] text-base font-medium">
-                {shift.name}
-              </p>
-              <div className="flex md:flex-row flex-col gap-4 w-full md:w-3/4">
-                <TimePicker
-                  label="Start Time"
-                  value={shifts[shift.start as keyof ShiftTimes]}
-                  onChange={(newValue) =>
-                    handleTimeChange(shift.start as keyof ShiftTimes, newValue)
-                  }
-                  className="md:w-1/3"
-                />
-
-                <TimePicker
-                  label="End Time"
-                  value={shifts[shift.end as keyof ShiftTimes]}
-                  onChange={(newValue) =>
-                    handleTimeChange(shift.end as keyof ShiftTimes, newValue)
-                  }
-                  className="md:w-1/3"
-                />
-
-                <TextField
-                  id={`${shift.name
-                    .toLowerCase()
-                    .replace(/ /g, "-")}-offer-rate`}
-                  label="Offer Rate"
-                  type="number"
-                  variant="outlined"
-                  className="md:w-1/3"
-                  InputProps={{
-                    inputProps: { min: 0 },
-                  }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Submit Button */}
-        <div className="flex justify-end mt-6">
-          <Button onClick={handleSubmit}>Submit</Button>
-        </div>
-      </div>
-    </LocalizationProvider>
+      </LocalizationProvider>
+    </div>
   );
 };
 

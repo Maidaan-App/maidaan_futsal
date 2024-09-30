@@ -4,7 +4,7 @@ import PlayerAddEditForm from "../_components/PlayerAddEditForm";
 const AddPlayer = () => {
   return (
     <div>
-      <PlayerAddEditForm />
+      <PlayerAddEditForm type={"Add"} />
     </div>
   );
 };

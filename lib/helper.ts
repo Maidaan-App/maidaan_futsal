@@ -44,9 +44,15 @@ export async function generateRandomPassword() {
 }
 
 
+// export function convertToHumanReadable(params: any) {
+//     return moment(params).format("MMM Do YYYY");
+// }
+
 export function convertToHumanReadable(params: any) {
-    return moment(params).format("MMM Do YYYY");
+  const formattedDate = moment(params).format('MMMM Do YYYY, h:mm:ss A');
+  return formattedDate;
 }
+
 
 export function exportCSV(data:any, name:string){
   const json2csvParser = new Parser();

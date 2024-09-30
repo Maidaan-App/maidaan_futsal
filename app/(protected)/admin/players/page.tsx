@@ -1,5 +1,5 @@
-import PlayerTable from '@/components/PlayerTable'
 import React from 'react'
+import PlayerTable from './_components/PlayerTable'
 
 const Players = () => {
   return (

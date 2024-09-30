@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import PlayerBeforeAddEditForm from "../_components/PlayerBeforeAddEditForm";
 
 const EditPlayer = () => {
   return (
-    <div>EditPlayer</div>
-  )
-}
+    <div>
+      <PlayerBeforeAddEditForm  />
+    </div>
+  );
+};
 
-export default EditPlayer
+export default EditPlayer;

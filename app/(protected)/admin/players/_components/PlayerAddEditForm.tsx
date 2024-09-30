@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Form,
   FormControl,
@@ -14,26 +14,17 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 
 import TextField from "@mui/material/TextField";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { CalendarIcon } from "lucide-react";
 import { toast } from "sonner";
 import { uploadToMinIO } from "@/lib/helper";
-import { paths } from "@/lib/paths";
 import { useRouter } from "next/navigation";
 import { MINIOURL } from "@/lib/constants";
 import SCNSingleImagePicker from "@/components/image-picker/SCNSingleImagePicker";
 import { poppins } from "@/app/lib/constants";
+import { useAdminAddUpdatePlayersMutation } from "@/store/api/Admin/adminPlayers";
+import { paths } from "@/lib/paths";
 
 const formSchema = z.object({
-  logo: z.any({
-    message: "Logo is Required!",
-  }),
+  image: z.any(),
   name: z.string().min(2, {
     message: "Please Enter Full Name",
   }),
@@ -50,6 +41,7 @@ const formSchema = z.object({
 const PlayerAddEditForm = ({ type, ExistingDetail }: any) => {
   const [Loading, setLoading] = useState(false);
   const router = useRouter();
+  const [AdminAddUpdatePlayer] = useAdminAddUpdatePlayersMutation();
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: currentYear - 1899 }, (_, i) => 1900 + i);
@@ -58,20 +50,70 @@ const PlayerAddEditForm = ({ type, ExistingDetail }: any) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: ExistingDetail?.name || "",
-      logo: ExistingDetail?.logo ? `${MINIOURL}${ExistingDetail?.logo}` : null,
+      image: ExistingDetail?.image
+        ? `${MINIOURL}${ExistingDetail?.image}`
+        : null,
       address: ExistingDetail?.address || "",
       phone: ExistingDetail?.phone || "",
       email: ExistingDetail?.email || "",
     },
   });
 
+  useEffect(() => {
+    if (ExistingDetail) {
+      form.reset({
+        name: ExistingDetail?.name || "",
+        image: ExistingDetail?.image
+          ? `${MINIOURL}${ExistingDetail?.image}`
+          : null,
+        email: ExistingDetail?.email || "",
+        address: ExistingDetail?.address || "",
+        phone: ExistingDetail?.phone || "",
+      });
+    }
+  }, [ExistingDetail]);
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log("values", values);
+    try {
+      setLoading(true);
+      if (!values.image) {
+        toast.error("Please select Image");
+        return;
+      }
+      let ImageUrl = null;
+      if (values.image != `${MINIOURL}${ExistingDetail?.image}`) {
+        ImageUrl = await uploadToMinIO(values.image, "players");
+        if (ImageUrl === "") {
+          toast.error("Image Upload Failed Please try again");
+          return;
+        }
+      }
+
+      const response = await AdminAddUpdatePlayer({
+        _id: ExistingDetail?._id ?? undefined,
+        ...values,
+        image: ImageUrl ?? ExistingDetail?.image,
+      }).unwrap();
+      if (response) {
+        toast.success(response.message);
+        setLoading(false);
+        router.push(paths.admin.players);
+      } else {
+        toast.error(`Something Went Wrong`);
+        setLoading(false);
+      }
+    } catch (error: any) {
+      toast.error(error.data.message);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <div className={`w-full h-full  ${poppins.className} `}>
       <h1 className="font-medium text-[#232D42] text-[1.5rem] p-4">
-        Add New Player
+        {type === "Add" ? "Add New Player" : "Edit Player"}
       </h1>
       <Form {...form}>
         <form
@@ -80,9 +122,8 @@ const PlayerAddEditForm = ({ type, ExistingDetail }: any) => {
         >
           <div className="lg:w-[35%] flex flex-col gap-7 p-4 z-10">
             <SCNSingleImagePicker
-              //   name="Company Logo"
               variant="avatar"
-              schemaName="logo"
+              schemaName="image"
             ></SCNSingleImagePicker>
           </div>
           <div className="lg:w-[65%] bg-white border-[1px] border-[#0A41CC] border-opacity-[10%] p-5 rounded-md flex flex-col gap-5 mt-6 h-fit mx-4 lg:mx-0">
@@ -137,6 +178,7 @@ const PlayerAddEditForm = ({ type, ExistingDetail }: any) => {
                       <TextField
                         id="outlined-basic"
                         label="Contact"
+                        type="number"
                         variant="outlined"
                         {...field}
                         className="w-full"
@@ -170,18 +212,13 @@ const PlayerAddEditForm = ({ type, ExistingDetail }: any) => {
             </div>
 
             <div className="flex justify-end my-2">
-              {Loading ? (
-                <div>
-                  <div className="loader"></div>
-                </div>
-              ) : (
-                <Button
-                  type="submit"
-                  className="bg-primary text-white px-5 rounded-md py-1 hover:bg-blue-900"
-                >
-                  Submit
-                </Button>
-              )}
+              <Button
+                type="submit"
+                disabled={Loading}
+                className="bg-primary text-white px-5 rounded-md py-1 hover:bg-blue-900"
+              >
+                Submit
+              </Button>
             </div>
           </div>
         </form>

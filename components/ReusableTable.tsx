@@ -30,7 +30,7 @@ type ReusableTableProps<T> = {
   searchKeys: (keyof T)[];
 };
 
-const ReusableTable = <T extends { id: number; [key: string]: any }>({
+const ReusableTable = <T extends { _id: string; [key: string]: any }>({
   data,
   columns,
   filterTabs,
@@ -39,7 +39,7 @@ const ReusableTable = <T extends { id: number; [key: string]: any }>({
   searchKeys,
 }: ReusableTableProps<T>) => {
   const [selectedTab, setSelectedTab] = useState<string>("All");
-  const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [sortOrder, setSortOrder] = useState<string>(sortOptions[0].value);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -67,11 +67,11 @@ const ReusableTable = <T extends { id: number; [key: string]: any }>({
         : new Date(a.date).getTime() - new Date(b.date).getTime()
     );
 
-  const toggleSelectItem = (id: number) => {
-    if (selectedItems.includes(id)) {
-      setSelectedItems(selectedItems.filter((itemId) => itemId !== id));
+  const toggleSelectItem = (_id: string) => {
+    if (selectedItems.includes(_id)) {
+      setSelectedItems(selectedItems.filter((itemId) => itemId !== _id));
     } else {
-      setSelectedItems([...selectedItems, id]);
+      setSelectedItems([...selectedItems, _id]);
     }
   };
 
@@ -79,7 +79,7 @@ const ReusableTable = <T extends { id: number; [key: string]: any }>({
     if (selectedItems.length === filteredData.length) {
       setSelectedItems([]);
     } else {
-      setSelectedItems(filteredData.map((item) => item.id));
+      setSelectedItems(filteredData.map((item) => item._id));
     }
   };
 
@@ -91,10 +91,10 @@ const ReusableTable = <T extends { id: number; [key: string]: any }>({
     }
   };
 
-  const handleIndividualDelete = (id: number) => {
-    if (confirm(`Are you sure you want to delete the item with ID: ${id}?`)) {
-      console.log(`Deleting item with ID: ${id}`);
-      alert(`Item with ID ${id} deleted`);
+  const handleIndividualDelete = (_id: string) => {
+    if (confirm(`Are you sure you want to delete the item with ID: ${_id}?`)) {
+      console.log(`Deleting item with ID: ${_id}`);
+      alert(`Item with ID ${_id} deleted`);
     }
   };
   return (
@@ -193,14 +193,14 @@ const ReusableTable = <T extends { id: number; [key: string]: any }>({
           <tbody key={selectedTab} className="transition-opacity duration-500">
             {filteredData.map((item) => (
               <tr
-                key={item.id}
+                key={item._id}
                 className="border-b hover:bg-gray-50 text-[1rem] font-normal text-[#28353D] cursor-pointer h-16 opacity-0 animate-fadeIn"
               >
                 <td className="px-4 py-2">
                   <input
                     type="checkbox"
-                    checked={selectedItems.includes(item.id)}
-                    onChange={() => toggleSelectItem(item.id)}
+                    checked={selectedItems.includes(item._id)}
+                    onChange={() => toggleSelectItem(item._id)}
                   />
                 </td>
                 {columns.map((column, index) => (
@@ -211,15 +211,15 @@ const ReusableTable = <T extends { id: number; [key: string]: any }>({
                   </td>
                 ))}
                 <td className="px-4 py-2">
-                  <button
+                  <Link
+                    href={`${paths.admin.editPlayers}?id=${item._id}`}
                     className="text-white mr-2 bg-primary px-5 py-2 rounded-full"
-                    onClick={() => alert(`Editing item with ID: ${item.id}`)}
                   >
                     Edit
-                  </button>
+                  </Link>
                   <button
                     className="bg-red-500 text-white  px-5 py-2 rounded-full"
-                    onClick={() => handleIndividualDelete(item.id)}
+                    onClick={() => handleIndividualDelete(item._id)}
                   >
                     Delete
                   </button>
