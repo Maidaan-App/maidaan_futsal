@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import CourtBeforeAddEditForm from "../_components/CourtBeforeAddEditForm";
 
 const EditCourt = () => {
   return (
-    <div>EditCourt</div>
-  )
-}
+    <div>
+      <CourtBeforeAddEditForm  />
+    </div>
+  );
+};
 
-export default EditCourt
+export default EditCourt;
