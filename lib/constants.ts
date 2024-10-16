@@ -1,9 +1,7 @@
+import { Poppins } from "next/font/google";
+
 export const MINIOURL = "https://uploads.clockb.io/maidaan/";
-export const userTypes = [
-  "admin",
-  "superadmin",
-  "player",
-];
+export const userTypes = ["admin", "superadmin", "player"];
 
 export const BUCKET_NAME = "maidaan";
 export const DOMAIN =
@@ -14,3 +12,7 @@ export const DOMAIN =
 export const statusTypes = ["pending", "enrolled", "blocked"];
 export const bookingStatusTypes = ["prebooked", "soldout", "booked"];
 
+export const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
