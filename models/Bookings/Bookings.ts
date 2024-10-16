@@ -23,11 +23,12 @@ const bookingSchema = new Schema(
     },
     selectedDate: Date,
     selectedslots: [String],
+    remarks: String,
     itemPurchased: [itemPurchasedSchema],
     status: {
       type: String,
       enum: bookingStatusTypes,
-      default: 'booked',
+      default: 'Booked',
     },
     createdDate: {
       type: Date,

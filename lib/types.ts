@@ -66,6 +66,7 @@ export interface BOOKING {
   selectedDate: Date;
   selectedslots: string[];
   itemPurchased: itemPurchasedSchema[];
+  remarks: string;
   status: string;
   createdDate: Date;
 }

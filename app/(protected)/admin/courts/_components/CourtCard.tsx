@@ -48,7 +48,7 @@ const CourtCard: React.FC<CourtCardProps> = ({ courtData }) => {
   };
   return (
     <Link
-      href={""}
+      href={`${paths.admin.addBookings}?id=${courtData._id}`}
       className="bg-white rounded-lg overflow-hidden p-4 flex gap-4 flex-col "
     >
       <img
@@ -74,9 +74,11 @@ const CourtCard: React.FC<CourtCardProps> = ({ courtData }) => {
               <BsThreeDotsVertical className="w-6 h-6" />
             </DropdownMenuTrigger>
             <DropdownMenuContent className="shadow-md">
+              <Link href={`${paths.admin.addBookings}?id=${courtData._id}`}>
               <DropdownMenuItem className="cursor-pointer">
                 <Eye className="w-4 h-4 mr-2" /> View
               </DropdownMenuItem>
+              </Link>
               <Link href={`${paths.admin.editCourts}?id=${courtData._id}`}>
                 <DropdownMenuItem className="cursor-pointer">
                   <Edit className="w-4 h-4 mr-2" /> Edit
