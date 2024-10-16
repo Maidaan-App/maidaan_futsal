@@ -7,6 +7,7 @@ import { adminCourtsApi } from "./api/Admin/adminCourts";
 import { configsApi } from "./api/Config/configs";
 import { adminProfileApi } from "./api/Admin/adminProfile";
 import { adminBillingspi } from "./api/Admin/adminBillings";
+import { adminBookingsApi } from "./api/Admin/adminBookings";
 
 export const store = configureStore({
   reducer: {
@@ -17,7 +18,8 @@ export const store = configureStore({
     [adminCourtsApi.reducerPath]: adminCourtsApi.reducer,
     [adminProfileApi.reducerPath]: adminProfileApi.reducer,
     [adminBillingspi.reducerPath]: adminBillingspi.reducer,
-    
+    [adminBookingsApi.reducerPath]: adminBookingsApi.reducer,
+
     //auths
     [authsApi.reducerPath]: authsApi.reducer,
 
@@ -32,6 +34,7 @@ export const store = configureStore({
       adminCourtsApi.middleware,
       adminProfileApi.middleware,
       adminBillingspi.middleware,
+      adminBookingsApi.middleware,
 
       //auths
       authsApi.middleware,

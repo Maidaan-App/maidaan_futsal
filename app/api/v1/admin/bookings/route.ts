@@ -4,6 +4,8 @@ import { BUCKET_NAME } from "@/lib/constants";
 import minioClient from "@/lib/minioClient";
 import Bookings from "@/models/Bookings/Bookings";
 import Courts from "@/models/Courts/Courts";
+import Players from "@/models/Users/Players";
+import User from "@/models/Users/User";
 import { NextResponse, NextRequest } from "next/server";
 
 export const POST = async (request: NextRequest) => {
@@ -20,19 +22,78 @@ export const POST = async (request: NextRequest) => {
         linkedFutsalId: user.id,
       });
       if (existingDoc) {
-
         //handle for new user
         await existingDoc.updateOne(Data);
-        return NextResponse.json({ message: "Booking Updated" }, { status: 201 });
-      } else {
-        //handle for new user
-
-        const newDoc = new Bookings({ ...Data, linkedFutsalId: user.id });
-        await newDoc.save();
         return NextResponse.json(
-          { message: "New Booking Added" },
+          { message: "Booking Updated" },
           { status: 201 }
         );
+      } else {
+        //check for new user
+        if (Data.playerId) {
+          const existingPlayer = await Players.findOne({ _id: Data.playerId });
+          if (!existingPlayer) {
+            return NextResponse.json(
+              { message: "Player Not Found" },
+              { status: 404 }
+            );
+          }
+          const newDoc = new Bookings({
+            linkedFutsalId: user.id,
+            linkedUserId: existingPlayer.linkedUserId,
+            linkedCourtId: Data.linkedCourtId,
+            selectedDate: Data.selectedDate,
+            selectedslots: Data.selectedslots,
+            status: Data.bookingStatus,
+            remarks: Data.remarks,
+          });
+          await newDoc.save();
+          return NextResponse.json(
+            { message: "New Booking Added" },
+            { status: 201 }
+          );
+        } else {
+          const existingEmail = await User.findOne({ email: Data.email });
+          if (existingEmail) {
+            return NextResponse.json(
+              { message: "User with that Email already Exists" },
+              { status: 400 }
+            );
+          }
+          const userData = {
+            linkedFutsalId: user.id,
+            name: Data.name,
+            email: Data.email,
+            userType: "player",
+          };
+          const newUser = new User({ ...userData });
+          const playerData = {
+            linkedUserId: newUser._id,
+            name: Data.name,
+            phone: Data.phone,
+            address: Data.address,
+            email: Data.email,
+            status: "enrolled",
+          };
+          const newPlayer = new Players({ ...playerData });
+
+          const newBooking = new Bookings({
+            linkedFutsalId: user.id,
+            linkedUserId: newUser._id,
+            linkedCourtId: Data.linkedCourtId,
+            selectedDate: Data.selectedDate,
+            selectedslots: Data.selectedslots,
+            status: Data.bookingStatus,
+            remarks: Data.remarks,
+          });
+          await newUser.save();
+          await newPlayer.save();
+          await newBooking.save();
+          return NextResponse.json(
+            { message: "New Booking Added" },
+            { status: 201 }
+          );
+        }
       }
     } else {
       return NextResponse.json({ message: "Forbidden" }, { status: 400 });

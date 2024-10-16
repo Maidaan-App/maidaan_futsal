@@ -12,5 +12,5 @@ export const DOMAIN =
     : "http://localhost:3000/";
 
 export const statusTypes = ["pending", "enrolled", "blocked"];
-export const bookingStatusTypes = ["prebooked", "soldout", "booked"];
+export const bookingStatusTypes = ["Pre-Booked", "Sold", "Booked"];
 

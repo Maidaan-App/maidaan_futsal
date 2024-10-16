@@ -1,21 +1,88 @@
-
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DateSection } from "../../courts/[slug]/_components/DateSection";
 import { TimeSlotSection } from "../../courts/[slug]/_components/TimeSlots";
+import { useSearchParams } from "next/navigation";
+import {
+  useGetAdminCourtByIdQuery,
+  useGetAllAdminCourtsQuery,
+} from "@/store/api/Admin/adminCourts";
+import { COURT } from "@/lib/types";
+import BookingConfirmationPage from "../../courts/[slug]/_components/BookingConfirmationPage";
 
 const AddBooking = () => {
-  const [selectedDate, setSelectedDate] = useState(1); // Default to the first date
+  const [completeBooking, setcompleteBooking] = useState(false);
+  const [selectedDate, setSelectedDate] = useState();
+  const [selectedTimeSlots, setSelectedTimeSlots] = useState();
+  const [selectedCourt, setSelectedCourt] = useState<COURT>();
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id") as string;
+  console.log("selectedDate:", selectedDate);
+  console.log("selectedTimeSlots:", selectedTimeSlots);
+
+  const { data: ExistingDetail, isLoading: Loading } =
+    useGetAdminCourtByIdQuery(id, { skip: !id });
+
+  const { data: CourtsData, isLoading: CourtsDataLoading } =
+    useGetAllAdminCourtsQuery("");
+
+  useEffect(() => {
+    if (ExistingDetail?.name) {
+      setSelectedCourt(ExistingDetail);
+    } else {
+      if (CourtsData && CourtsData.length > 0) {
+        setSelectedCourt(CourtsData[0]);
+      }
+    }
+  }, [ExistingDetail, CourtsData]);
+
+  const handleCourtClick = (court: COURT) => {
+    setSelectedCourt(court);
+  };
 
   return (
     <div>
-    <DateSection
-      selectedDate={selectedDate}
-      setSelectedDate={setSelectedDate}
-    />
-    <TimeSlotSection selectedDate={selectedDate} />
-  </div>
-  )
-}
+      {completeBooking ? (
+        <BookingConfirmationPage
+          setcompleteBooking={setcompleteBooking}
+          selectedDate={selectedDate}
+          selectedTimeSlots={selectedTimeSlots}
+          selectedCourt={selectedCourt}
+        />
+      ) : (
+        <>
+          <div className="flex space-x-4 mb-6">
+            {CourtsData?.map((court: COURT) => (
+              <button
+                key={court._id}
+                onClick={() => handleCourtClick(court)}
+                className={`px-4 py-2 border rounded-md ${
+                  selectedCourt?._id === court._id
+                    ? "bg-blue-500 text-white border-blue-500"
+                    : "bg-gray-200 text-gray-800 border-gray-300"
+                } hover:bg-blue-400 hover:text-white transition`}
+              >
+                {court.name}
+              </button>
+            ))}
+          </div>
+          {selectedCourt && (
+            <>
+              <DateSection
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
+              />
+              <TimeSlotSection
+                setcompleteBooking={setcompleteBooking}
+                selectedCourt={selectedCourt}
+                setSelectedTimeSlots={setSelectedTimeSlots}
+              />
+            </>
+          )}
+        </>
+      )}
+    </div>
+  );
+};
 
-export default AddBooking
+export default AddBooking;

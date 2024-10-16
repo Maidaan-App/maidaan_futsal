@@ -45,8 +45,8 @@ export interface COURT {
   linkedUserId: string;
   image: string;
   name: string;
-  openingTime: string;
-  closingTime: string;
+  openingTime: Date;
+  closingTime: Date;
   shifts: shiftSchema;
   status: boolean;
   createdDate: Date;
@@ -66,6 +66,7 @@ export interface BOOKING {
   selectedDate: Date;
   selectedslots: string[];
   itemPurchased: itemPurchasedSchema[];
+  remarks: string;
   status: string;
   createdDate: Date;
 }
