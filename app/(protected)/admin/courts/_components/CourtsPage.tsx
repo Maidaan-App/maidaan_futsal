@@ -35,7 +35,7 @@ const CourtsPage = () => {
             {CourtsData &&
               CourtsData.length > 0 &&
               CourtsData.map((element, index) => (
-                <CourtCard courtData={element} />
+                <CourtCard key={index} courtData={element} />
               ))}
           </div>
         </div>
