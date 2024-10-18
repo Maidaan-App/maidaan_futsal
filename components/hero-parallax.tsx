@@ -10,6 +10,7 @@ import {
 } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { montserrat } from "@/lib/constants";
 
 // Define the type for the product
 interface Product {
@@ -63,7 +64,7 @@ export const HeroParallax: React.FC<HeroParallaxProps> = ({ products }) => {
   return (
     <div
       ref={ref}
-      className="h-[300vh] py-40 overflow-hidden antialiased relative flex flex-col [perspective:1000px] [transform-style:preserve-3d]"
+      className="h-[300vh]  overflow-hidden antialiased relative flex flex-col [perspective:1000px] [transform-style:preserve-3d]"
     >
       <Header />
       <motion.div
@@ -103,17 +104,47 @@ export const HeroParallax: React.FC<HeroParallaxProps> = ({ products }) => {
 };
 
 const Header: React.FC = () => {
+  const titleWords = "MAIDAAN FUTSAL CENTER".split(" ");
   return (
-    <div className="max-w-7xl mx-auto py-20 md:py-40 px-4">
+    <div
+      className={`max-w-7xl mx-auto py-20 md:py-40 px-4 mt-32 ${montserrat.className}`}
+    >
       <h1 className="text-2xl text-center md:text-7xl font-bold text-white">
-        X-CEL FUTSAL CENTER
+        {titleWords.map((word, index) => (
+          <motion.span
+            key={index}
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.3,
+              delay: index * 0.15,
+              ease: "easeInOut",
+            }}
+            style={{
+              transform: "translate(0%, -11.1771%) translate3d(0px, 0px, 0px)",
+            }} // Apply the transform here
+            className="inline-block mr-4"
+          >
+            {word}
+          </motion.span>
+        ))}
       </h1>
-      <p className="max-w-2xl text-base md:text-xl mt-8 text-neutral-200">
+      {/* Updated paragraph animation */}
+      <motion.p
+        className="max-w-2xl text-base md:text-xl mt-8 text-neutral-200"
+        initial={{ opacity: 0, y: 100 }} // Slide in from left
+        animate={{ opacity: 1, y: 0 }} // Move to normal position
+        transition={{
+          duration: 0.3,
+          delay: titleWords.length * 0.2,
+          ease: "easeOut",
+        }}
+      >
         X-cEl Futsal is a premier futsal facility offering top-notch courts for
         players of all levels. We promote teamwork and fitness through leagues,
         tournaments, and training sessions. Join us to enhance your skills and
         enjoy the excitement of futsal!
-      </p>
+      </motion.p>
     </div>
   );
 };

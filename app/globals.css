@@ -84,3 +84,24 @@
 .animate-fadeIn {
   animation: fadeIn 0.7s forwards;
 }
+
+@font-face {
+  font-family: "Founders Grotesk";
+  src: url("/fonts/FoundersGrotesk-Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Founders Grotesk Bold";
+  src: url("/fonts/FoundersGrotesk-Bold.otf") format("opentype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Founders Grotesk Light";
+  src: url("/fonts/FoundersGrotesk-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+}
