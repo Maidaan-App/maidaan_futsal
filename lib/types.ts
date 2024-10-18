@@ -50,6 +50,7 @@ export interface COURT {
   shifts: shiftSchema;
   status: boolean;
   createdDate: Date;
+  bookings?: any;
 }
 
 export interface itemPurchasedSchema {

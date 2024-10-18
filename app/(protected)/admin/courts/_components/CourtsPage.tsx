@@ -11,6 +11,7 @@ import { useGetAllAdminCourtsQuery } from "@/store/api/Admin/adminCourts";
 const CourtsPage = () => {
   const { data: CourtsData, isLoading: CourtsDataLoading } =
     useGetAllAdminCourtsQuery("");
+    console.log("CourtsData:",CourtsData)
   return (
     <>
       {CourtsDataLoading ? (
