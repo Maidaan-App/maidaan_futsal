@@ -17,9 +17,7 @@ const AddBooking = () => {
   const [selectedCourt, setSelectedCourt] = useState<COURT>();
   const searchParams = useSearchParams();
   const id = searchParams.get("id") as string;
-  console.log("selectedDate:", selectedDate);
-  console.log("selectedTimeSlots:", selectedTimeSlots);
-
+  
   const { data: ExistingDetail, isLoading: Loading } =
     useGetAdminCourtByIdQuery(id, { skip: !id });
 
@@ -75,6 +73,7 @@ const AddBooking = () => {
               <TimeSlotSection
                 setcompleteBooking={setcompleteBooking}
                 selectedCourt={selectedCourt}
+                selectedDate={selectedDate}
                 setSelectedTimeSlots={setSelectedTimeSlots}
               />
             </>

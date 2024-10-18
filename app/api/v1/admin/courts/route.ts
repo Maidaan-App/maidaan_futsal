@@ -1,9 +1,11 @@
 import { currentUser } from "@/lib/auth";
 import connectMongo from "@/lib/connectMongo";
-import { BUCKET_NAME } from "@/lib/constants";
+import { bookingStatusTypes, BUCKET_NAME } from "@/lib/constants";
 import minioClient from "@/lib/minioClient";
+import Bookings from "@/models/Bookings/Bookings";
 import Courts from "@/models/Courts/Courts";
 import { NextResponse, NextRequest } from "next/server";
+import { format } from "date-fns";
 
 export const POST = async (request: NextRequest) => {
   console.log("Running POST request: Admin Add/Update Court");
@@ -52,10 +54,44 @@ export const GET = async () => {
   try {
     await connectMongo();
     if (user?.role === "admin") {
-      const docs = await Courts.find({ linkedUserId: user.id }).sort({
+      const courts = await Courts.find({ linkedUserId: user.id }).sort({
         createdDate: -1,
       });
-      return NextResponse.json(docs, { status: 201 });
+      // Loop through each court and fetch its bookings
+      const courtsWithGroupedBookings = await Promise.all(
+        courts.map(async (court) => {
+          // Fetch all bookings for the current court
+          const allBookings = await Bookings.find({
+            linkedCourtId: court._id,
+          });
+
+          // Group the bookings by date and booking status
+          const groupedBookingsByDay = allBookings.reduce((acc: any, booking) => {
+            // Get the local date for each booking (formatted as "YYYY-MM-DD")
+            const bookingDate = format(new Date(booking.selectedDate), 'yyyy-MM-dd');
+
+            // Initialize the date group if not present
+            if (!acc[bookingDate]) {
+              acc[bookingDate] = {};
+              bookingStatusTypes.forEach((status) => {
+                acc[bookingDate][status] = []; // Initialize arrays for each booking status
+              });
+            }
+
+            // Push the booking to the appropriate status group for that date
+            acc[bookingDate][booking.status].push(booking);
+
+            return acc;
+          }, {});
+
+          return {
+            ...court.toObject(), // Convert court document to plain object
+            bookings: groupedBookingsByDay, // Attach the grouped bookings by day and status to the court
+          };
+        })
+      );
+
+      return NextResponse.json(courtsWithGroupedBookings, { status: 201 });
     } else {
       return NextResponse.json({ message: "Forbidden" }, { status: 400 });
     }
