@@ -35,7 +35,7 @@ const pageVariants = {
 export default function ImagesSliderDemo() {
   return (
     <motion.div
-      className="bg-[#182b2a]"
+      className="bg-[#182b2a] overflow-x-hidden"
       initial="initial"
       animate="animate"
       exit="exit"

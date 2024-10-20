@@ -46,7 +46,7 @@ const TextParallaxContent: React.FC<TextParallaxContentProps> = ({
 }) => {
   return (
     <div style={{ paddingLeft: IMG_PADDING, paddingRight: IMG_PADDING }}>
-      <div className="relative h-[150vh] mx-20">
+      <div className="relative  mx-20">
         <StickyImage imgUrl={imgUrl} />
         <OverlayCopy heading={heading} subheading={subheading} />
       </div>

@@ -71,7 +71,7 @@ export const HeroParallax: React.FC<HeroParallaxProps> = ({ products }) => {
         style={{ rotateX, rotateZ, translateY, opacity }}
         className="relative"
       >
-        <motion.div className="flex flex-row-reverse mb-20 space-x-reverse space-x-20">
+        <motion.div className="flex flex-row-reverse mb-20 space-x-reverse  space-x-20">
           {firstRow.map((product) => (
             <ProductCard
               product={product}
