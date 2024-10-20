@@ -1,6 +1,5 @@
 "use client";
 
-import { poppins } from "@/app/lib/constants";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { X } from "lucide-react";
 import { useGetAllAdminPlayersQuery } from "@/store/api/Admin/adminPlayers";
 import { PLAYER } from "@/lib/types";
-import { bookingStatusTypes, MINIOURL } from "@/lib/constants";
+import { bookingStatusTypes, MINIOURL, poppins } from "@/lib/constants";
 import { toast } from "sonner";
 import { paths } from "@/lib/paths";
 import { useRouter } from "next/navigation";
