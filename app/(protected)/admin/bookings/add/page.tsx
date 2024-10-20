@@ -17,7 +17,7 @@ const AddBooking = () => {
   const [selectedCourt, setSelectedCourt] = useState<COURT>();
   const searchParams = useSearchParams();
   const id = searchParams.get("id") as string;
-  
+
   const { data: ExistingDetail, isLoading: Loading } =
     useGetAdminCourtByIdQuery(id, { skip: !id });
 
@@ -56,9 +56,9 @@ const AddBooking = () => {
                 onClick={() => handleCourtClick(court)}
                 className={`px-4 py-2 border rounded-md ${
                   selectedCourt?._id === court._id
-                    ? "bg-blue-500 text-white border-blue-500"
+                    ? "bg-blue-500 text-[#f1f1f1] border-blue-500"
                     : "bg-gray-200 text-gray-800 border-gray-300"
-                } hover:bg-blue-400 hover:text-white transition`}
+                } hover:bg-blue-400 hover:text-[#f1f1f1] transition`}
               >
                 {court.name}
               </button>

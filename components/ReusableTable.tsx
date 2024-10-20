@@ -213,12 +213,12 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
                 <td className="px-4 py-2">
                   <Link
                     href={`${paths.admin.editPlayers}?id=${item._id}`}
-                    className="text-white mr-2 bg-primary px-5 py-2 rounded-full"
+                    className="text-[#f1f1f1] mr-2 bg-primary px-5 py-2 rounded-full"
                   >
                     Edit
                   </Link>
                   {/* <button
-                    className="bg-red-500 text-white  px-5 py-2 rounded-full"
+                    className="bg-red-500 text-[#f1f1f1]  px-5 py-2 rounded-full"
                     onClick={() => handleIndividualDelete(item._id)}
                   >
                     Delete
@@ -236,7 +236,7 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
         <div className="flex space-x-2">
           {selectedItems.length > 0 && (
             <button
-              className="bg-red-500 text-white px-4 py-2 rounded-lg"
+              className="bg-red-500 text-[#f1f1f1] px-4 py-2 rounded-lg"
               onClick={deleteItems}
             >
               Delete Selected
