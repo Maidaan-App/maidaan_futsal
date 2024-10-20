@@ -1,4 +1,4 @@
-import { poppins } from "@/app/lib/constants";
+import { poppins } from "@/lib/constants";
 import React from "react";
 
 interface Props {

@@ -1,6 +1,6 @@
 "use client";
 
-import { poppins } from "@/app/lib/constants";
+import { poppins } from "@/lib/constants";
 import React from "react";
 
 // InvoiceList component accepting props

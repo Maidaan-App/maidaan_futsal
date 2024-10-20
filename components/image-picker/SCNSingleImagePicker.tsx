@@ -10,7 +10,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Poppins } from "next/font/google";
 import { toast } from "sonner";
-import { poppins } from "@/app/lib/constants";
+import { poppins } from "@/lib/constants";
 import { usePathname } from "next/navigation";
 import { paths } from "@/lib/paths";
 

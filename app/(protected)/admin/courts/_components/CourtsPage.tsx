@@ -1,5 +1,5 @@
 "use client";
-import { poppins } from "@/app/lib/constants";
+import { poppins } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { SquarePlus } from "lucide-react";
 import React from "react";
@@ -11,7 +11,7 @@ import { useGetAllAdminCourtsQuery } from "@/store/api/Admin/adminCourts";
 const CourtsPage = () => {
   const { data: CourtsData, isLoading: CourtsDataLoading } =
     useGetAllAdminCourtsQuery("");
-    console.log("CourtsData:",CourtsData)
+  console.log("CourtsData:", CourtsData);
   return (
     <>
       {CourtsDataLoading ? (

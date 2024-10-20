@@ -19,7 +19,7 @@ import { Input } from "@/components/ui/input";
 import AuthLayout from "@/components/AuthLayout";
 import Heading from "@/components/Heading";
 import Description from "@/components/Description";
-import { poppins } from "@/app/lib/constants";
+import { poppins } from "@/lib/constants";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import { LoginSchema } from "@/schemas/authSchemas";

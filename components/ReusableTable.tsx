@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { poppins } from "@/app/lib/constants";
+import { poppins } from "@/lib/constants";
 import { Button } from "./ui/button";
 import { User } from "lucide-react";
 import Link from "next/link";

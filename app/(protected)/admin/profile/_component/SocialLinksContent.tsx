@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from "react";
-import { poppins } from "@/app/lib/constants";
+import { poppins } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/customUI/input";
 import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa"; // Importing icons

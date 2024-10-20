@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { poppins } from "@/app/lib/constants";
+import { poppins } from "@/lib/constants";
 import { User } from "lucide-react";
 import Link from "next/link";
 import { paths } from "@/lib/paths";
@@ -65,8 +65,6 @@ const BookingTableComponent = <T extends { _id: string; [key: string]: any }>({
         ? new Date(b.date).getTime() - new Date(a.date).getTime()
         : new Date(a.date).getTime() - new Date(b.date).getTime()
     );
-
-
 
   return (
     <div className={`bg-white  rounded-lg shadow-lg ${poppins.className} p-5`}>
@@ -181,7 +179,6 @@ const BookingTableComponent = <T extends { _id: string; [key: string]: any }>({
         <p className="text-sm text-gray-600">
           Showing 1 to {filteredData.length} of {filteredData.length} results
         </p>
-        
       </div>
     </div>
   );

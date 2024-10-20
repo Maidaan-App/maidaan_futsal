@@ -18,7 +18,7 @@ import { uploadToMinIO } from "@/lib/helper";
 import { useRouter } from "next/navigation";
 import { MINIOURL } from "@/lib/constants";
 import SCNSingleImagePicker from "@/components/image-picker/SCNSingleImagePicker";
-import { poppins } from "@/app/lib/constants";
+import { poppins } from "@/lib/constants";
 import { paths } from "@/lib/paths";
 import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";

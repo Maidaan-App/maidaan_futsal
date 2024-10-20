@@ -1,4 +1,4 @@
-import { poppins } from "@/app/lib/constants";
+import { poppins } from "@/lib/constants";
 import React, { useState } from "react";
 import { Switch } from "@/components/ui/switch";
 
