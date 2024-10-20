@@ -30,7 +30,10 @@ const Footer = () => {
       ></div>
 
       {/* Address Information Overlay */}
-      <div className="absolute top-32 left-10 bg-[#1d3535] w-[35%] flex flex-col gap-4 text-[#f1f1f1] p-6 rounded-3xl shadow-xl z-10">
+      <div
+        id="contact"
+        className="absolute top-32 left-10 bg-[#1d3535] w-[35%] flex flex-col gap-4 text-[#f1f1f1] p-6 rounded-3xl shadow-xl z-10"
+      >
         <h2 className="text-xl font-bold text-neutral-300">Contact Us</h2>
         <div className="flex flex-col">
           <p className="text-2xl font-semibold">Clinic Beethovenstrasse AG</p>

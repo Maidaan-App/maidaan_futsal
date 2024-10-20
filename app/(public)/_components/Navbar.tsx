@@ -65,6 +65,13 @@ const FlipLink: React.FC<FlipLinkProps> = ({ children }) => {
     </motion.div>
   );
 };
+const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+  e.preventDefault(); // Prevent default link behavior
+  const target = document.getElementById("contact"); // Get contact section by id
+  if (target) {
+    target.scrollIntoView({ behavior: "smooth" }); // Smooth scroll to the section
+  }
+};
 
 const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
   return (
@@ -102,7 +109,7 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
           </Link>
         </li>
         <li>
-          <Link href="/contact" passHref>
+          <Link href="#contact" passHref onClick={handleScroll}>
             <FlipLink>CONTACT</FlipLink>
           </Link>
         </li>
