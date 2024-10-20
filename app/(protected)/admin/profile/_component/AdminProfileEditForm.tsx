@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 
 import TextField from "@mui/material/TextField";
 import SCNSingleImagePicker from "@/components/image-picker/SCNSingleImagePicker";
-import { poppins } from "@/app/lib/constants";
+import { poppins } from "@/lib/constants";
 import { MINIOURL } from "@/lib/constants";
 import { useAdminAddUpdateProfileMutation } from "@/store/api/Admin/adminProfile";
 import { toast } from "sonner";

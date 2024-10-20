@@ -5,7 +5,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import { poppins } from "@/app/lib/constants";
+import { poppins } from "@/lib/constants";
 import { useAdminAddUpdateBillingMutation } from "@/store/api/Admin/adminBillings";
 import { toast } from "sonner";
 import { BILLINGS } from "@/lib/types";

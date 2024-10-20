@@ -1,8 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { poppins } from "@/app/lib/constants";
-
+import { poppins } from "@/lib/constants";
 const Plan = () => {
   return (
     <div className={`${poppins.className} rounded-[12px] bg-white p-6`}>

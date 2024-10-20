@@ -1,8 +1,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { poppins } from "@/app/lib/constants";
-
+import { poppins } from "@/lib/constants";
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 

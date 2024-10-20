@@ -19,7 +19,7 @@ import { uploadToMinIO } from "@/lib/helper";
 import { useRouter } from "next/navigation";
 import { MINIOURL } from "@/lib/constants";
 import SCNSingleImagePicker from "@/components/image-picker/SCNSingleImagePicker";
-import { poppins } from "@/app/lib/constants";
+import { poppins } from "@/lib/constants";
 import { useAdminAddUpdatePlayersMutation } from "@/store/api/Admin/adminPlayers";
 import { paths } from "@/lib/paths";
 

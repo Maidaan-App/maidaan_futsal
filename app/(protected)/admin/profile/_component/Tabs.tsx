@@ -1,5 +1,5 @@
 "use client";
-import { poppins } from "@/app/lib/constants";
+import { poppins } from "@/lib/constants";
 import React, { useState } from "react";
 import GeneralContent from "./GeneralContent";
 import SecurityContent from "./SecurityContent";
@@ -23,7 +23,7 @@ const Tabs = ({ current_user }: any) => {
   const { data: ProfileDetail, isLoading: profileLoading } =
     useGetAdminMyPlayerByIdQuery("");
 
-    const { data: BillingDetail, isLoading: billingLoading } =
+  const { data: BillingDetail, isLoading: billingLoading } =
     useGetAdminMyBillingByIdQuery("");
 
   const renderContent = () => {

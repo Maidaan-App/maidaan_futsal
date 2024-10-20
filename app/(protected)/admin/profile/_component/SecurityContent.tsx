@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import { Eye, EyeOff } from "lucide-react";
-import { poppins } from "@/app/lib/constants";
+import { poppins } from "@/lib/constants";
 import { toast } from "sonner";
 import { useAdminChangePasswordMutation } from "@/store/api/Admin/adminProfile";
 

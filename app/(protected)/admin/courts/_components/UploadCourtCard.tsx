@@ -2,8 +2,7 @@
 import React, { useState } from "react";
 import { Switch } from "@/components/ui/switch"; // ShadCN Switch
 import Image from "next/image";
-import { poppins } from "@/app/lib/constants";
-
+import { poppins } from "@/lib/constants";
 const UploadCourtCard = () => {
   const [isActive, setIsActive] = useState(true);
   const [image, setImage] = useState<string | null>(null); // Adjusted type to string | null
