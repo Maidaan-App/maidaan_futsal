@@ -1,8 +1,11 @@
 import React from 'react'
+import BookingTable from './_components/BookingTable'
 
 const Bookings = () => {
   return (
-    <div>Bookings</div>
+    <div>
+      <BookingTable/>
+    </div>
   )
 }
 

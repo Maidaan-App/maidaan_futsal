@@ -1,8 +1,11 @@
 import React from 'react'
+import BookingEditPage from '../_components/BookingEditPage'
 
 const EditBooking = () => {
   return (
-    <div>EditBooking</div>
+    <div>
+      <BookingEditPage/>
+    </div>
   )
 }
 
