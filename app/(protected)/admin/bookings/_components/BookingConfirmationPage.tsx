@@ -1,8 +1,7 @@
 "use client";
 
 import { poppins } from "@/app/lib/constants";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -14,97 +13,105 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
+import { useGetAllAdminPlayersQuery } from "@/store/api/Admin/adminPlayers";
+import { PLAYER } from "@/lib/types";
+import { bookingStatusTypes, MINIOURL } from "@/lib/constants";
+import { toast } from "sonner";
+import { paths } from "@/lib/paths";
+import { useRouter } from "next/navigation";
+import { useAdminAddUpdateBookingsMutation } from "@/store/api/Admin/adminBookings";
 
-// Define Player Type
-interface Player {
-  fullName: string;
-  contact: string;
-  address: string;
-}
-
-// Zod schema for form validation
-const playerSchema = z.object({
-  fullName: z.string().min(1, "Full Name is required"),
+const formSchema = z.object({
+  name: z.string().min(1, "Full Name is required"),
   email: z.string().email("Invalid email address"),
-  contact: z.string().min(1, "Contact is required"),
+  phone: z.string().min(1, "Contact is required"),
   address: z.string().min(1, "Address is required"),
   bookingStatus: z.string().min(1, "Booking Status is required"),
-  paymentStatus: z.string().min(1, "Payment Status is required"),
+  remarks: z.string().optional(),
 });
 
-export default function ConfirmationPage() {
-  const [isExistingPlayer, setIsExistingPlayer] = useState(false); // Toggle between forms
-  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null); // Selected player state
-  const searchParams = useSearchParams();
+const BookingConfirmationPage = ({
+  setcompleteBooking,
+  selectedDate,
+  selectedTimeSlots,
+  selectedCourt,
+}: any) => {
+  const [selectedPlayer, setSelectedPlayer] = useState<PLAYER | null>(null); // Selected player state
+  const [playerLists, setPlayerLists] = useState<PLAYER[]>([]);
+  const [Loading, setLoading] = useState(false);
+  const { data: PlayersData, isLoading: PlayersDataLoading } =
+    useGetAllAdminPlayersQuery("");
+  const router = useRouter();
+  const [AdminAddUpdateBooking] = useAdminAddUpdateBookingsMutation();
 
-  const date = searchParams.get("date") || "N/A";
-  const timeSlots = JSON.parse(
-    searchParams.get("timeSlots") || "[]"
-  ) as string[];
+  useEffect(() => {
+    if (PlayersData && PlayersData.length > 0) {
+      setPlayerLists(PlayersData);
+    }
+  }, [PlayersData]);
+
+  useEffect(() => {
+    if (selectedPlayer) {
+      form.reset({
+        name: selectedPlayer.name,
+        email: selectedPlayer.email,
+        phone: selectedPlayer.phone,
+        address: selectedPlayer.address,
+      });
+    }
+  }, [selectedPlayer]);
 
   const form = useForm({
-    resolver: zodResolver(playerSchema),
+    resolver: zodResolver(formSchema),
     defaultValues: {
-      fullName: "",
+      name: "",
       email: "",
-      contact: "",
+      phone: "",
       address: "",
-      bookingStatus: "",
-      paymentStatus: "",
+      bookingStatus: bookingStatusTypes[0],
+      remarks: "",
     },
   });
 
-  const onSubmit = (values: any) => {
-    console.log(values); // Handle form submission
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      setLoading(true);
+      const formData = {
+        ...values,
+        playerId: selectedPlayer?._id,
+        linkedCourtId: selectedCourt._id,
+        selectedDate,
+        selectedslots: selectedTimeSlots,
+      };
+      const response = await AdminAddUpdateBooking({
+        ...formData,
+      }).unwrap();
+      if (response) {
+        toast.success(response.message);
+        setLoading(false);
+        router.push(paths.admin.bookings);
+      } else {
+        toast.error(`Something Went Wrong`);
+        setLoading(false);
+      }
+    } catch (error: any) {
+      toast.error(error.data.message);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const [searchTerm, setSearchTerm] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
-  interface Player {
-    id: number;
-    name: string;
-    avatar: string;
-    location: string;
-    contact: string;
-  }
-
-  const players: Player[] = [
-    {
-      id: 1,
-      name: "Mahendra Magar",
-      avatar:
-        "https://images.unsplash.com/photo-1559718062-361155fad299?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      location: "Bishalnagar, Kathmandu",
-      contact: "+977 9840874592",
-    },
-    {
-      id: 2,
-      name: "Roman Shilpakar",
-      avatar:
-        "https://images.unsplash.com/photo-1559718062-361155fad299?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      location: "Location 2",
-      contact: "+977 984087xxxx",
-    },
-  ];
-
-  const filteredPlayers = players.filter((player) =>
+  const filteredPlayers = playerLists.filter((player) =>
     player.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleSelectPlayer = (player: Player) => {
+  const handleSelectPlayer = (player: PLAYER) => {
     setSelectedPlayer(player);
     setSearchTerm("");
     setIsFocused(false);
@@ -113,11 +120,11 @@ export default function ConfirmationPage() {
   const handleRemovePlayer = () => {
     setSelectedPlayer(null);
   };
-
   return (
     <div className={`p-5 ${poppins.className}`}>
       <h1 className="text-[1.5rem] mb-4 font-medium">
-        Creating a booking in <span className="text-primary">Court</span>
+        Creating a booking in{" "}
+        <span className="text-primary">{selectedCourt.name}</span>
       </h1>
 
       <div className="flex flex-col lg:flex-row rounded-xl border w-full">
@@ -126,13 +133,19 @@ export default function ConfirmationPage() {
           <div>
             <p className="text-[1rem] font-medium mb-4">Selected Date</p>
             <p className="text-lg font-semibold border-[1px] border-primary h-[8.875rem] w-[8.125rem] my-5 rounded-xl flex items-center justify-center">
-              <span className="text-[1.625rem] font-semibold">{date}</span>
+              <span className="text-[1.625rem] font-semibold">
+                {selectedDate?.toLocaleDateString("en-US", {
+                  weekday: "long",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </span>
             </p>
           </div>
           <div>
             <p className="text-[1rem] font-medium mb-4">Selected Slot(s)</p>
             <ul className="space-y-5">
-              {timeSlots.map((slot, index) => (
+              {selectedTimeSlots.map((slot: any, index: number) => (
                 <li
                   key={index}
                   className="text-lg font-semibold border-[1px] border-primary w-[16.688rem] h-[4.375rem] rounded-xl flex items-center justify-center"
@@ -155,7 +168,7 @@ export default function ConfirmationPage() {
             <div className="bg-white p-4 rounded-md  flex justify-between shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] relative">
               <div className="flex items-center">
                 <img
-                  src={selectedPlayer.avatar}
+                  src={`${MINIOURL}${selectedPlayer.image}`}
                   alt={selectedPlayer.name}
                   className="w-[5.875rem] h-[5.875rem] rounded-full mr-4 "
                 />
@@ -164,10 +177,10 @@ export default function ConfirmationPage() {
                     {selectedPlayer.name}
                   </h3>
                   <p className="font-normal text-[#8A92A6] text-[0.75rem]">
-                    {selectedPlayer.location}
+                    {selectedPlayer.address}
                   </p>
                   <p className="text-primary font-normal text-[0.75rem]">
-                    {selectedPlayer.contact}
+                    {selectedPlayer.phone}
                   </p>
                 </div>
               </div>
@@ -180,7 +193,6 @@ export default function ConfirmationPage() {
             </div>
           ) : (
             <>
-              {/* Search and Display Results */}
               <Input
                 type="text"
                 placeholder="Search for existing player"
@@ -196,12 +208,12 @@ export default function ConfirmationPage() {
                   {filteredPlayers.length > 0 ? (
                     filteredPlayers.map((player) => (
                       <div
-                        key={player.id}
+                        key={player._id}
                         className="flex items-center p-2 hover:bg-green-50 cursor-pointer hover:border-l-4 hover:border-green-500"
                         onClick={() => handleSelectPlayer(player)}
                       >
                         <img
-                          src={player.avatar}
+                          src={`${MINIOURL}${player.image}`}
                           alt={player.name}
                           className="w-8 h-8 rounded-full mr-2"
                         />
@@ -217,9 +229,12 @@ export default function ConfirmationPage() {
               {/* Form for New Player */}
               <Form {...form}>
                 <form className="mt-4" onSubmit={form.handleSubmit(onSubmit)}>
+                  <h2 className="text-[1rem] font-medium text-[#28353D] mb-4">
+                    For New Player
+                  </h2>
                   <FormField
                     control={form.control}
-                    name="fullName"
+                    name="name"
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
@@ -255,7 +270,7 @@ export default function ConfirmationPage() {
 
                   <FormField
                     control={form.control}
-                    name="contact"
+                    name="phone"
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
@@ -305,8 +320,11 @@ export default function ConfirmationPage() {
                               {...field}
                               className="border border-gray-300 p-3 w-full rounded-md bg-white text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 appearance-none"
                             >
-                              <option value="Confirmed">Confirmed</option>
-                              <option value="Pending">Pending</option>
+                              {bookingStatusTypes.map((item, index) => (
+                                <option key={index} value={item}>
+                                  {item}
+                                </option>
+                              ))}
                             </select>
                           </FormControl>
                           <FormMessage />
@@ -314,22 +332,20 @@ export default function ConfirmationPage() {
                       )}
                     />
 
-                    {/* Payment Status */}
                     <FormField
                       control={form.control}
-                      name="paymentStatus"
+                      name="remarks"
                       render={({ field }) => (
                         <FormItem className="lg:w-1/2">
-                          <FormLabel>Payment Status</FormLabel>
+                          <FormLabel>Remarks</FormLabel>
                           <FormControl>
-                            <select
+                            <Input
+                              placeholder="Remarks"
                               {...field}
-                              className="border border-gray-300 p-3 w-full rounded-md bg-white text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 appearance-none"
-                            >
-                              <option value="Paid">Paid</option>
-                              <option value="Unpaid">Unpaid</option>
-                            </select>
+                              className="border rounded-md w-full p-2 mb-2"
+                            />
                           </FormControl>
+
                           <FormMessage />
                         </FormItem>
                       )}
@@ -347,7 +363,11 @@ export default function ConfirmationPage() {
                     <span className="text-green-500">Rs. 2000</span>
                   </div>
                   <div className="flex justify-end">
-                    <button className="bg-primary text-white px-4 py-2 rounded-md">
+                    <button
+                      disabled={Loading}
+                      type="submit"
+                      className="bg-primary text-white px-4 py-2 rounded-md"
+                    >
                       Submit
                     </button>
                   </div>
@@ -364,8 +384,6 @@ export default function ConfirmationPage() {
                 onSubmit={form.handleSubmit(onSubmit)}
               >
                 <div className="flex flex-col lg:flex-row gap-2 w-full">
-                  {/* Booking Status */}
-
                   <FormField
                     control={form.control}
                     name="bookingStatus"
@@ -378,61 +396,69 @@ export default function ConfirmationPage() {
                             {...field}
                             className="border border-gray-300 p-3 w-full rounded-md bg-white text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 appearance-none"
                           >
-                            <option value="Confirmed">Confirmed</option>
-                            <option value="Pending">Pending</option>
+                            {bookingStatusTypes.map((item, index) => (
+                              <option key={index} value={item}>
+                                {item}
+                              </option>
+                            ))}
                           </select>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-
-                  {/* Payment Status */}
                   <FormField
                     control={form.control}
-                    name="paymentStatus"
+                    name="remarks"
                     render={({ field }) => (
                       <FormItem className="lg:w-1/2">
-                        <FormLabel>Payment Status</FormLabel>
+                        <FormLabel>Remarks</FormLabel>
+
                         <FormControl>
-                          <select
+                          <Input
+                            placeholder="Remarks"
                             {...field}
-                            className="border border-gray-300 p-3 w-full rounded-md bg-white text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 appearance-none"
-                          >
-                            <option value="Paid">Paid</option>
-                            <option value="Unpaid">Unpaid</option>
-                          </select>
+                            className="border rounded-md w-full p-2 mb-2"
+                          />
                         </FormControl>
+
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
+
+                <div className="flex justify-end mb-4 mt-3 gap-2 ">
+                  <span>Slot&apos;s Total:</span>
+                  <span>Rs. 2000</span>
+                </div>
+                <div className="flex justify-end font-bold mb-4 gap-2">
+                  <span>Total:</span>
+                  <span className="text-green-500">Rs. 2000</span>
+                </div>
+                <div className="flex justify-end">
+                  <button
+                    disabled={Loading}
+                    type="submit"
+                    className="bg-primary text-white px-4 py-2 rounded-md"
+                  >
+                    Submit
+                  </button>
+                </div>
               </form>
             </Form>
           )}
-
-          {selectedPlayer && (
-            <div className="flex justify-between mt-4">
-              <span>Slot&apos;s Total:</span>
-              <span>Rs. 2000</span>
-            </div>
-          )}
-
-          {selectedPlayer && (
-            <div className="flex justify-between font-bold mt-2">
-              <span>Net Total:</span>
-              <span className="text-green-500">Rs. 2000</span>
-            </div>
-          )}
-
-          {selectedPlayer && (
-            <button className="bg-green-500 text-white px-4 py-2 rounded-md mt-4">
-              Submit
-            </button>
-          )}
+          <button
+            disabled={Loading}
+            onClick={() => setcompleteBooking(false)}
+            className="bg-white text-green-500 px-4 py-2 rounded-md mt-4 border"
+          >
+            Cancel
+          </button>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default BookingConfirmationPage;

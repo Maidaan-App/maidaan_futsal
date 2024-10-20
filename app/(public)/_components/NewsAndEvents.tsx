@@ -1,6 +1,7 @@
 import React, { useRef, ReactNode } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { FiArrowUpRight } from "react-icons/fi";
+import { montserrat } from "@/lib/constants";
 
 // Define the types for the TextParallaxContent component props
 interface TextParallaxContentProps {
@@ -13,7 +14,10 @@ interface TextParallaxContentProps {
 // Main component
 export const NewsAndEvents: React.FC = () => {
   return (
-    <div>
+    <div className={`${montserrat.className} py-20`}>
+      <h1 className="text-4xl font-bold mb-12 text-center  text-[#f1f1f1]">
+        NEWS AND EVENTS
+      </h1>
       <TextParallaxContent
         imgUrl="/images/futsalEvent.jpg"
         subheading="Upcoming Match"
@@ -32,7 +36,7 @@ export const NewsAndEvents: React.FC = () => {
   );
 };
 
-const IMG_PADDING = 12;
+const IMG_PADDING = 20;
 
 const TextParallaxContent: React.FC<TextParallaxContentProps> = ({
   imgUrl,
@@ -42,7 +46,7 @@ const TextParallaxContent: React.FC<TextParallaxContentProps> = ({
 }) => {
   return (
     <div style={{ paddingLeft: IMG_PADDING, paddingRight: IMG_PADDING }}>
-      <div className="relative h-[150vh]">
+      <div className="relative h-[150vh] mx-20">
         <StickyImage imgUrl={imgUrl} />
         <OverlayCopy heading={heading} subheading={subheading} />
       </div>
@@ -104,31 +108,31 @@ const OverlayCopy: React.FC<{ subheading: string; heading: string }> = ({
         opacity,
       }}
       ref={targetRef}
-      className="absolute left-0 top-0 flex h-screen w-full flex-col items-center justify-center text-white"
+      className="absolute left-0 top-0 flex h-screen w-full flex-col items-center justify-center text-[#f1f1f1]"
     >
-      <p className="mb-2 text-center text-xl md:mb-4 md:text-3xl">
+      <p className="mb-2 text-center text-lg md:mb-4 md:text-xl">
         {subheading}
       </p>
-      <p className="text-center text-4xl font-bold md:text-7xl">{heading}</p>
+      <p className="text-center text-4xl font-bold md:text-5xl">{heading}</p>
     </motion.div>
   );
 };
 
 const ExampleContent: React.FC = () => (
   <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 px-4 pb-24 pt-12 md:grid-cols-12">
-    <h2 className="col-span-1 text-3xl font-bold md:col-span-4 text-white">
+    <h2 className="col-span-1 text-2xl font-bold md:col-span-4 text-[#f1f1f1]">
       Get ready for the exciting futsal events!
     </h2>
     <div className="col-span-1 md:col-span-8">
-      <p className="mb-4 text-xl text-neutral-100 md:text-2xl">
+      <p className="mb-4 text-lg text-neutral-100 md:text-xl">
         Join us as we kick off the Futsal Championship on October 25th.
         Don&apos;t miss out on the action and support your team!
       </p>
-      <p className="mb-8 text-xl text-neutral-300 md:text-2xl">
+      <p className="mb-8 text-lg text-neutral-300 md:text-xl">
         Team selection is currently underway. Gather your friends and form your
         futsal team for the tournament!
       </p>
-      <button className="w-full rounded bg-white px-9 py-4 text-xl text-black transition-colors hover:bg-neutral-700 md:w-fit">
+      <button className="w-full rounded bg-white px-8 py-3 text-xl text-black transition-colors hover:bg-neutral-700 md:w-fit">
         Learn more <FiArrowUpRight className="inline" />
       </button>
     </div>

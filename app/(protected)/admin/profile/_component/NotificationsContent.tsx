@@ -156,7 +156,7 @@ const NotificationsContent: React.FC = () => {
       {/* Save Changes Button */}
       <div className="flex justify-end">
         <button
-          className="bg-[#00A86B] text-white py-2 px-4 rounded-lg"
+          className="bg-[#00A86B] text-[#f1f1f1] py-2 px-4 rounded-lg"
           onClick={handleSaveChanges}
         >
           Save changes

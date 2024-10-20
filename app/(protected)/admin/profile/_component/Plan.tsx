@@ -83,7 +83,7 @@ const Plan = () => {
         <Button variant="outline" className="text-[#FF5733] border-[#FF5733]">
           Cancel Subscription
         </Button>
-        <Button variant="default" className="bg-[#00A86B] text-white">
+        <Button variant="default" className="bg-[#00A86B] text-[#f1f1f1]">
           Upgrade Plan
         </Button>
       </div>

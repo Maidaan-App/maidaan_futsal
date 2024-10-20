@@ -118,7 +118,7 @@ const SocialLinksContent = ({ ProfileDetail }: props) => {
           <Button
             type="submit"
             variant="default"
-            className="bg-[#00A86B] text-white"
+            className="bg-[#00A86B] text-[#f1f1f1]"
             disabled={loading}
           >
             Save changes

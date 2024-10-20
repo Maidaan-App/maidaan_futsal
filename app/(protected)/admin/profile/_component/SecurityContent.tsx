@@ -195,7 +195,7 @@ const SecurityContent = () => {
           variant={"default"}
           disabled={Loading}
           type="submit"
-          className="w-full sm:w-auto bg-[#28A745] text-white px-6 py-3 rounded-lg text-base"
+          className="w-full sm:w-auto bg-[#28A745] text-[#f1f1f1] px-6 py-3 rounded-lg text-base"
         >
           Save changes
         </Button>
