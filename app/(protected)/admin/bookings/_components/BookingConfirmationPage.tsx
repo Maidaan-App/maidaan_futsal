@@ -132,13 +132,19 @@ const BookingConfirmationPage = ({
         <div className="p-5 lg:w-1/3 bg-[#FBFBFB]">
           <div>
             <p className="text-[1rem] font-medium mb-4">Selected Date</p>
-            <p className="text-lg font-semibold border-[1px] border-primary h-[8.875rem] w-[8.125rem] my-5 rounded-xl flex items-center justify-center">
+            <p className="text-lg font-semibold border-[1px] border-primary h-[8.875rem] w-[8.125rem] my-5 rounded-xl flex  flex-col  gap-3 items-center justify-center">
+              <span className="text-[1rem] font-normal">
+                {selectedDate
+                  ?.toLocaleDateString("en-US", { weekday: "short" })
+                  .toUpperCase()}
+              </span>
               <span className="text-[1.625rem] font-semibold">
-                {selectedDate?.toLocaleDateString("en-US", {
-                  weekday: "long",
-                  month: "long",
-                  day: "numeric",
-                })}
+                {selectedDate?.getDate()}
+              </span>
+              <span className="text-[1rem] font-normal">
+                {selectedDate
+                  ?.toLocaleDateString("en-US", { month: "short" })
+                  .toUpperCase()}
               </span>
             </p>
           </div>

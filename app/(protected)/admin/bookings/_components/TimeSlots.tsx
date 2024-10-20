@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Clock } from "lucide-react";
 
 const formatTime = (time: Date) => {
   return new Date(time).toLocaleTimeString("en-US", {
@@ -87,61 +88,56 @@ export function TimeSlotSection({
 
   return (
     <div>
-      {/* <div className="px-3 my-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {timeSlots.map((slot, index) => (
-          <div key={index} className="p-1">
-            <Card
-              onClick={() => handleCardClick(index)}
-              className={`cursor-pointer transition-colors duration-300 ${
-                selectedIndices.includes(index)
-                  ? "bg-green-500 text-white"
-                  : "bg-white"
-              }`}
-            >
-              <CardContent className="flex items-center justify-center px-5 py-5 flex-col">
-                <span className="text-lg font-medium">{slot}</span>
-              </CardContent>
-            </Card>
-          </div>
-        ))}
-      </div> */}
       {selectedDate && selectedCourt && (
-        <div className="px-3 my-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {timeSlots.map((slot, index) => {
-            const slotStatus = getSlotStatus(slot, selectedDate, selectedCourt);
+        <>
+          <div className="flex gap-2 px-3">
+            <Clock />
+            <h1 className="text-[1.125rem] font-medium">Time slots</h1>
+          </div>
 
-            let slotBgColor = "bg-white"; // Default Available
-            let isDisabled = false; // Track if the slot is disabled
+          <div className="px-3 my-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {timeSlots.map((slot, index) => {
+              const slotStatus = getSlotStatus(
+                slot,
+                selectedDate,
+                selectedCourt
+              );
 
-            if (slotStatus === "Sold") {
-              slotBgColor = "bg-red-600 text-white";
-              isDisabled = true; // Disable Sold slots
-            }
-            if (slotStatus === "Pre-Booked") {
-              slotBgColor = "bg-blue-500 text-white";
-              isDisabled = true; // Disable Pre-Booked slots
-            }
-            if (slotStatus === "Booked") {
-              slotBgColor = "bg-green-600 text-white";
-              isDisabled = true; // Disable Booked slots
-            }
+              let slotBgColor = "bg-white"; // Default Available
+              let isDisabled = false; // Track if the slot is disabled
 
-            return (
-              <div key={index} className="p-1">
-                <Card
-                  onClick={() => !isDisabled && handleCardClick(index)} // Only call if not disabled
-                  className={`cursor-pointer transition-colors duration-300 ${slotBgColor} ${
-                    selectedIndices.includes(index) ? "border-4 border-green-500" : ""
-                  } ${isDisabled ? "cursor-not-allowed" : ""}`} // Add styles for disabled
-                >
-                  <CardContent className="flex items-center justify-center px-5 py-5 flex-col">
-                    <span className="text-lg font-medium">{slot}</span>
-                  </CardContent>
-                </Card>
-              </div>
-            );
-          })}
-        </div>
+              if (slotStatus === "Sold") {
+                slotBgColor = "bg-[#FF5630] text-white";
+                isDisabled = true; // Disable Sold slots
+              }
+              if (slotStatus === "Pre-Booked") {
+                slotBgColor = "bg-[#3169FF] text-white";
+                isDisabled = true; // Disable Pre-Booked slots
+              }
+              if (slotStatus === "Booked") {
+                slotBgColor = "bg-primary text-white";
+                isDisabled = true; // Disable Booked slots
+              }
+
+              return (
+                <div key={index} className="p-1">
+                  <Card
+                    onClick={() => !isDisabled && handleCardClick(index)} // Only call if not disabled
+                    className={`cursor-pointer transition-colors duration-300 ${slotBgColor} ${
+                      selectedIndices.includes(index)
+                        ? "border-2 border-primary"
+                        : ""
+                    } ${isDisabled ? "cursor-not-allowed" : ""}`} // Add styles for disabled
+                  >
+                    <CardContent className="flex items-center justify-center px-5 py-5 flex-col">
+                      <span className="text-lg font-medium">{slot}</span>
+                    </CardContent>
+                  </Card>
+                </div>
+              );
+            })}
+          </div>
+        </>
       )}
 
       <div className="flex items-center justify-between pb-10 px-4">
@@ -155,17 +151,17 @@ export function TimeSlotSection({
             Pre-Booked
           </div>
           <div className="flex items-center gap-2">
-            <div className="bg-red-600 border h-5 w-5 rounded-md"></div>
+            <div className="bg-[#FF5630] border h-5 w-5 rounded-md"></div>
             Sold
           </div>
           <div className="flex items-center gap-2">
-            <div className="bg-green-600 border h-5 w-5 rounded-md"></div>
+            <div className="bg-primary border h-5 w-5 rounded-md"></div>
             Booked
           </div>
         </div>
 
         <button
-          className="bg-green-600 hover:bg-green-500 text-white px-5 py-2 rounded-md"
+          className="bg-primary hover:bg-green-500 text-white px-5 py-2 rounded-md"
           onClick={handleContinueClick}
         >
           Continue
