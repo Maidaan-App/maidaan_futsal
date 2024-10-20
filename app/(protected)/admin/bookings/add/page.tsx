@@ -1,14 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { DateSection } from "../../courts/[slug]/_components/DateSection";
-import { TimeSlotSection } from "../../courts/[slug]/_components/TimeSlots";
+import { DateSection } from "../_components/DateSection";
+import { TimeSlotSection } from "../_components/TimeSlots";
 import { useSearchParams } from "next/navigation";
 import {
   useGetAdminCourtByIdQuery,
   useGetAllAdminCourtsQuery,
 } from "@/store/api/Admin/adminCourts";
 import { COURT } from "@/lib/types";
-import BookingConfirmationPage from "../../courts/[slug]/_components/BookingConfirmationPage";
+import BookingConfirmationPage from "../_components/BookingConfirmationPage";
 
 const AddBooking = () => {
   const [completeBooking, setcompleteBooking] = useState(false);

@@ -1,6 +1,6 @@
 "use client";
-import { DateSection } from "@/app/(protected)/admin/courts/[slug]/_components/DateSection";
-import { TimeSlotSection } from "@/app/(protected)/admin/courts/[slug]/_components/TimeSlots";
+import { DateSection } from "@/app/(protected)/admin/bookings/_components/DateSection";
+import { TimeSlotSection } from "@/app/(protected)/admin/bookings/_components/TimeSlots";
 import React, { useState } from "react";
 
 const Bookings = () => {

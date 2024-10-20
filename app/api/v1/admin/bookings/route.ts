@@ -1,9 +1,6 @@
 import { currentUser } from "@/lib/auth";
 import connectMongo from "@/lib/connectMongo";
-import { BUCKET_NAME } from "@/lib/constants";
-import minioClient from "@/lib/minioClient";
 import Bookings from "@/models/Bookings/Bookings";
-import Courts from "@/models/Courts/Courts";
 import Players from "@/models/Users/Players";
 import User from "@/models/Users/User";
 import { NextResponse, NextRequest } from "next/server";
@@ -108,51 +105,38 @@ export const POST = async (request: NextRequest) => {
 };
 
 export const GET = async () => {
-  console.log("Running GET request:Admin Get all Courts");
+  console.log("Running GET request: Admin Get all Bookings");
   const user = await currentUser();
 
   try {
     await connectMongo();
     if (user?.role === "admin") {
-      const docs = await Courts.find({ linkedUserId: user.id }).sort({
+      const bookings = await Bookings.find({ linkedFutsalId: user.id }).sort({
         createdDate: -1,
       });
-      return NextResponse.json(docs, { status: 201 });
-    } else {
-      return NextResponse.json({ message: "Forbidden" }, { status: 400 });
-    }
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { error: "Invalid request body" },
-      { status: 400 }
-    );
-  }
-};
 
-export const DELETE = async (request: NextRequest) => {
-  console.log("Running DELETE request: Admin DELETE Court by id");
-  const user = await currentUser();
+      const bookingsWithPlayerDetails = await Promise.all(
+        bookings.map(async (booking) => {
+          const player = await Players.findOne({
+            linkedUserId: booking.linkedUserId,
+          }).select("name image phone _id");
 
-  try {
-    await connectMongo();
-    const { searchParams } = new URL(request.url);
-    const _id = searchParams.get("id");
+          if (player) {
+            const { _id, ...rest } = player.toObject();
+            return {
+              ...booking.toObject(),
+              ...rest, 
+              playerId: _id,
+            };
+          }
 
-    if (user?.role === "admin") {
-      const exisitingDoc = await Courts.findOne({ _id, linkedUserId: user.id });
-      if (!exisitingDoc) {
-        return NextResponse.json(
-          { message: "No Court Found" },
-          { status: 404 }
-        );
-      }
+          return {
+            ...booking.toObject(),
+          };
+        })
+      );
 
-      await Courts.deleteOne({ _id });
-      if (exisitingDoc.image != null) {
-        await minioClient.removeObject(BUCKET_NAME, exisitingDoc.image);
-      }
-      return NextResponse.json({ message: "Court Deleted" }, { status: 201 });
+      return NextResponse.json(bookingsWithPlayerDetails, { status: 201 });
     } else {
       return NextResponse.json({ message: "Forbidden" }, { status: 400 });
     }
