@@ -54,11 +54,11 @@ const AddBooking = () => {
               <button
                 key={court._id}
                 onClick={() => handleCourtClick(court)}
-                className={`px-4 py-2 border rounded-md ${
+                className={`px-4 py-2  ${
                   selectedCourt?._id === court._id
-                    ? "bg-blue-500 text-[#f1f1f1] border-blue-500"
-                    : "bg-gray-200 text-gray-800 border-gray-300"
-                } hover:bg-blue-400 hover:text-[#f1f1f1] transition`}
+                    ? "border-b-2 border-primary text-[#00A76F]"
+                    : "border-gray-300 text-[#00A76F]"
+                }transition`}
               >
                 {court.name}
               </button>
