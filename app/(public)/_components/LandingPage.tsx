@@ -44,47 +44,49 @@ export default function ImagesSliderDemo() {
     >
       <HeroParallax products={sampleProducts} />
 
-      {/* Wrapping each section in motion.div for animations */}
-      <SectionAnimation>
+      <StaggeredSection>
         <Courts />
-      </SectionAnimation>
-
-      <SectionAnimation>
         <Bookings />
-      </SectionAnimation>
-
-      <SectionAnimation>
         <Facilities />
-      </SectionAnimation>
-
-      <SectionAnimation>
         <NewsAndEvents />
-      </SectionAnimation>
-
-      {/* Footer without padding */}
-      <SectionAnimation noPadding>
-        <Footer />
-      </SectionAnimation>
+      </StaggeredSection>
     </motion.div>
   );
 }
 
-// Reusable Section Animation Component
-const SectionAnimation = ({
-  children,
-  noPadding,
-}: {
-  children: React.ReactNode;
-  noPadding?: boolean;
-}) => (
-  <motion.div
-    initial={{ opacity: 0, y: 50 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: 50 }} // Optional: Add exit animation
-    transition={{ duration: 0.6, ease: "easeInOut" }}
-    viewport={{ once: false }} // Run animation every time it comes into view
-    className={noPadding ? "" : "py-20"} // Conditional padding
-  >
-    {children}
-  </motion.div>
-);
+// Staggered Animation Component
+const StaggeredSection = ({ children }: any) => {
+  const staggerChildren = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1, // Adjust stagger duration for faster/slower effect
+      },
+    },
+  };
+
+  const childVariants = {
+    hidden: { opacity: 0, y: 30 }, // Starting from 30px below
+    show: { opacity: 1, y: 0 }, // Move to original position
+  };
+
+  return (
+    <motion.div
+      variants={staggerChildren}
+      initial="hidden"
+      animate="show"
+      className="py-20"
+    >
+      {React.Children.map(children, (child, index) => (
+        <motion.div
+          key={index}
+          variants={childVariants}
+          // style={{ marginLeft: `${index * 10}px`, marginBottom: "10px" }} // Creates the staircase effect
+        >
+          {child}
+        </motion.div>
+      ))}
+    </motion.div>
+  );
+};

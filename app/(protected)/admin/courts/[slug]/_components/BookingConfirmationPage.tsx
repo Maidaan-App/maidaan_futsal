@@ -366,7 +366,7 @@ const BookingConfirmationPage = ({
                     <button
                       disabled={Loading}
                       type="submit"
-                      className="bg-primary text-white px-4 py-2 rounded-md"
+                      className="bg-primary text-[#f1f1f1] px-4 py-2 rounded-md"
                     >
                       Submit
                     </button>
@@ -440,7 +440,7 @@ const BookingConfirmationPage = ({
                   <button
                     disabled={Loading}
                     type="submit"
-                    className="bg-primary text-white px-4 py-2 rounded-md"
+                    className="bg-primary text-[#f1f1f1] px-4 py-2 rounded-md"
                   >
                     Submit
                   </button>

@@ -70,7 +70,7 @@ export default function BookingPage() {
 //                   className={`
 //                     ${
 //                       selectedDate === index + 1
-//                         ? "bg-green-500 text-white"
+//                         ? "bg-green-500 text-[#f1f1f1]"
 //                         : "bg-white"
 //                     }
 //                     cursor-pointer transition-colors duration-300

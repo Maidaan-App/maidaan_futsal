@@ -139,7 +139,7 @@ const SCNSingleImagePicker = ({
               />
               <X
                 onClick={handleDeleteButtonClicked}
-                className="absolute top-0 right-0 bg-black rounded-full p-1  text-white"
+                className="absolute top-0 right-0 bg-black rounded-full p-1  text-[#f1f1f1]"
               ></X>
             </motion.div>
           )}
@@ -237,7 +237,7 @@ const SCNSingleImagePicker = ({
               />
               <X
                 onClick={handleDeleteButtonClicked}
-                className="absolute top-0 right-0 bg-black rounded-full p-1  text-white"
+                className="absolute top-0 right-0 bg-black rounded-full p-1  text-[#f1f1f1]"
               ></X>
             </motion.div>
           </AnimatePresence>
@@ -307,8 +307,10 @@ const SCNSingleImagePicker = ({
 
                     {/* Light content */}
                     <div className="relative z-10 flex flex-col items-center justify-center">
-                      <Camera className="text-white" size={24} />
-                      <p className="text-sm text-white mt-2">Upload photo</p>
+                      <Camera className="text-[#f1f1f1]" size={24} />
+                      <p className="text-sm text-[#f1f1f1] mt-2">
+                        Upload photo
+                      </p>
                     </div>
                   </motion.div>
                 </AnimatePresence>
@@ -449,7 +451,7 @@ const SCNSingleImagePicker = ({
               />
               <X
                 onClick={handleDeleteButtonClicked}
-                className="absolute top-0 right-0 bg-black rounded-full p-1  text-white"
+                className="absolute top-0 right-0 bg-black rounded-full p-1  text-[#f1f1f1]"
               ></X>
             </motion.div>
           )}

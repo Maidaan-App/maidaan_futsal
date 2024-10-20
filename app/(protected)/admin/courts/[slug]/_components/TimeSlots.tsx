@@ -94,7 +94,7 @@ export function TimeSlotSection({
               onClick={() => handleCardClick(index)}
               className={`cursor-pointer transition-colors duration-300 ${
                 selectedIndices.includes(index)
-                  ? "bg-green-500 text-white"
+                  ? "bg-green-500 text-[#f1f1f1]"
                   : "bg-white"
               }`}
             >
@@ -114,15 +114,15 @@ export function TimeSlotSection({
             let isDisabled = false; // Track if the slot is disabled
 
             if (slotStatus === "Sold") {
-              slotBgColor = "bg-red-600 text-white";
+              slotBgColor = "bg-red-600 text-[#f1f1f1]";
               isDisabled = true; // Disable Sold slots
             }
             if (slotStatus === "Pre-Booked") {
-              slotBgColor = "bg-blue-500 text-white";
+              slotBgColor = "bg-blue-500 text-[#f1f1f1]";
               isDisabled = true; // Disable Pre-Booked slots
             }
             if (slotStatus === "Booked") {
-              slotBgColor = "bg-green-600 text-white";
+              slotBgColor = "bg-green-600 text-[#f1f1f1]";
               isDisabled = true; // Disable Booked slots
             }
 
@@ -131,7 +131,9 @@ export function TimeSlotSection({
                 <Card
                   onClick={() => !isDisabled && handleCardClick(index)} // Only call if not disabled
                   className={`cursor-pointer transition-colors duration-300 ${slotBgColor} ${
-                    selectedIndices.includes(index) ? "border-4 border-green-500" : ""
+                    selectedIndices.includes(index)
+                      ? "border-4 border-green-500"
+                      : ""
                   } ${isDisabled ? "cursor-not-allowed" : ""}`} // Add styles for disabled
                 >
                   <CardContent className="flex items-center justify-center px-5 py-5 flex-col">
@@ -165,7 +167,7 @@ export function TimeSlotSection({
         </div>
 
         <button
-          className="bg-green-600 hover:bg-green-500 text-white px-5 py-2 rounded-md"
+          className="bg-green-600 hover:bg-green-500 text-[#f1f1f1] px-5 py-2 rounded-md"
           onClick={handleContinueClick}
         >
           Continue

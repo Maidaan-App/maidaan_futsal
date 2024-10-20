@@ -44,10 +44,9 @@ export default function MakeSidebar() {
 
   return (
     <div className="relative h-screen">
-
       <button
         onClick={handleClick}
-        className="bg-primary text-white rounded-full p-1.5 hover:text-primary hover:bg-white transition-all duration-300 absolute"
+        className="bg-primary text-[#f1f1f1] rounded-full p-1.5 hover:text-primary hover:bg-white transition-all duration-300 absolute"
       >
         {expanded ? (
           <ChevronLeft className="h-6 w-6" />

@@ -215,7 +215,7 @@ const PlayerAddEditForm = ({ type, ExistingDetail }: any) => {
               <Button
                 type="submit"
                 disabled={Loading}
-                className="bg-primary text-white px-5 rounded-md py-1 hover:bg-blue-900"
+                className="bg-primary text-[#f1f1f1] px-5 rounded-md py-1 hover:bg-blue-900"
               >
                 Submit
               </Button>

@@ -175,8 +175,6 @@ export default function MakeSidebar() {
       href: paths.admin.addBookings,
     },
 
-
-
     {
       icon: (
         <svg
@@ -199,7 +197,7 @@ export default function MakeSidebar() {
       text: "Bookings",
       href: paths.admin.bookings,
     },
-   
+
     // {
     //   icon: (
     //     <svg
@@ -290,7 +288,7 @@ export default function MakeSidebar() {
             />
             <button
               onClick={() => setExpanded(!expanded)}
-              className="bg-primary text-white rounded-full p-1.5 hover:text-primary hover:bg-white transition-all duration-300"
+              className="bg-primary text-[#f1f1f1] rounded-full p-1.5 hover:text-primary hover:bg-white transition-all duration-300"
             >
               {expanded ? (
                 <ChevronLeft className="h-6 w-6" />

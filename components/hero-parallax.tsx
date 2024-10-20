@@ -64,7 +64,7 @@ export const HeroParallax: React.FC<HeroParallaxProps> = ({ products }) => {
   return (
     <div
       ref={ref}
-      className="h-[300vh]  overflow-hidden antialiased relative flex flex-col [perspective:1000px] [transform-style:preserve-3d]"
+      className="h-[300vh]  mb-20 antialiased relative flex flex-col [perspective:1000px] [transform-style:preserve-3d]"
     >
       <Header />
       <motion.div
@@ -109,7 +109,7 @@ const Header: React.FC = () => {
     <div
       className={`max-w-7xl mx-auto py-20 md:py-40 px-4 mt-32 ${montserrat.className}`}
     >
-      <h1 className="text-2xl text-center md:text-7xl font-bold text-white">
+      <h1 className="text-2xl text-center md:text-7xl font-bold text-[#f1f1f1]">
         {titleWords.map((word, index) => (
           <motion.span
             key={index}

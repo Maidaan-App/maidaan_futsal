@@ -347,7 +347,7 @@ export default function ConfirmationPage() {
                     <span className="text-green-500">Rs. 2000</span>
                   </div>
                   <div className="flex justify-end">
-                    <button className="bg-primary text-white px-4 py-2 rounded-md">
+                    <button className="bg-primary text-[#f1f1f1] px-4 py-2 rounded-md">
                       Submit
                     </button>
                   </div>
@@ -427,7 +427,7 @@ export default function ConfirmationPage() {
           )}
 
           {selectedPlayer && (
-            <button className="bg-green-500 text-white px-4 py-2 rounded-md mt-4">
+            <button className="bg-green-500 text-[#f1f1f1] px-4 py-2 rounded-md mt-4">
               Submit
             </button>
           )}

@@ -81,11 +81,11 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
-                <DropdownMenuItem className="hover:bg-primary hover:text-white">
+                <DropdownMenuItem className="hover:bg-primary hover:text-[#f1f1f1]">
                   <Link href={paths.admin.profile}>My Profile</Link>
                 </DropdownMenuItem>
                 <Separator className="" />
-                <DropdownMenuItem className="hover:bg-primary hover:text-white">
+                <DropdownMenuItem className="hover:bg-primary hover:text-[#f1f1f1]">
                   <Logout />
                 </DropdownMenuItem>
               </DropdownMenuContent>

@@ -174,7 +174,7 @@ const BillingAddressContent = ({ ExistingDetail }: props) => {
           variant="default"
           type="submit"
           disabled={Loading}
-          className="bg-[#00A86B] text-white"
+          className="bg-[#00A86B] text-[#f1f1f1]"
         >
           Save changes
         </Button>
