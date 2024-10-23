@@ -21,12 +21,11 @@ import { toast } from "sonner";
 import { paths } from "@/lib/paths";
 import { useRouter } from "next/navigation";
 import { useAdminAddUpdateBookingsMutation } from "@/store/api/Admin/adminBookings";
+import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
 
 const formSchema = z.object({
   name: z.string().min(1, "Full Name is required"),
-  email: z.string().email("Invalid email address"),
   phone: z.string().min(1, "Contact is required"),
-  address: z.string().min(1, "Address is required"),
   bookingStatus: z.string().min(1, "Booking Status is required"),
   remarks: z.string().optional(),
 });
@@ -55,9 +54,7 @@ const BookingConfirmationPage = ({
     if (selectedPlayer) {
       form.reset({
         name: selectedPlayer.name,
-        email: selectedPlayer.email,
         phone: selectedPlayer.phone,
-        address: selectedPlayer.address,
       });
     }
   }, [selectedPlayer]);
@@ -66,48 +63,47 @@ const BookingConfirmationPage = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      email: "",
       phone: "",
-      address: "",
       bookingStatus: bookingStatusTypes[0],
       remarks: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
-      setLoading(true);
-      const formData = {
-        ...values,
-        playerId: selectedPlayer?._id,
-        linkedCourtId: selectedCourt._id,
-        selectedDate,
-        selectedslots: selectedTimeSlots,
-      };
-      const response = await AdminAddUpdateBooking({
-        ...formData,
-      }).unwrap();
-      if (response) {
-        toast.success(response.message);
-        setLoading(false);
-        router.push(paths.admin.bookings);
-      } else {
-        toast.error(`Something Went Wrong`);
-        setLoading(false);
-      }
-    } catch (error: any) {
-      toast.error(error.data.message);
-      setLoading(false);
-    } finally {
-      setLoading(false);
-    }
+    console.log("values:", values);
+    // try {
+    //   setLoading(true);
+    //   const formData = {
+    //     ...values,
+    //     playerId: selectedPlayer?._id,
+    //     linkedCourtId: selectedCourt._id,
+    //     selectedDate,
+    //     selectedslots: selectedTimeSlots,
+    //   };
+    //   const response = await AdminAddUpdateBooking({
+    //     ...formData,
+    //   }).unwrap();
+    //   if (response) {
+    //     toast.success(response.message);
+    //     setLoading(false);
+    //     router.push(paths.admin.bookings);
+    //   } else {
+    //     toast.error(`Something Went Wrong`);
+    //     setLoading(false);
+    //   }
+    // } catch (error: any) {
+    //   toast.error(error.data.message);
+    //   setLoading(false);
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   const [searchTerm, setSearchTerm] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
   const filteredPlayers = playerLists.filter((player) =>
-    player.name.toLowerCase().includes(searchTerm.toLowerCase())
+    player.phone.toString().includes(searchTerm)
   );
 
   const handleSelectPlayer = (player: PLAYER) => {
@@ -117,6 +113,7 @@ const BookingConfirmationPage = ({
   };
 
   const handleRemovePlayer = () => {
+    form.setValue("name", "");
     setSelectedPlayer(null);
   };
   return (
@@ -165,11 +162,11 @@ const BookingConfirmationPage = ({
         {/* Right Side - Player Form */}
         <div className="lg:w-2/3 mx-auto p-10  bg-white">
           <h2 className="text-[1rem] font-medium text-[#28353D] mb-4">
-            {selectedPlayer ? "Player" : "For Existing Player "}
+            Player Details
           </h2>
 
           {/* If Player Selected */}
-          {selectedPlayer ? (
+          {selectedPlayer && (
             <div className="bg-white p-4 rounded-md  flex justify-between shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] relative">
               <div className="flex items-center">
                 <img
@@ -181,9 +178,11 @@ const BookingConfirmationPage = ({
                   <h3 className="text-[1.125rem] font-medium mb-3">
                     {selectedPlayer.name}
                   </h3>
-                  <p className="font-normal text-[#8A92A6] text-[0.75rem]">
-                    {selectedPlayer.address}
-                  </p>
+                  {selectedPlayer.address && (
+                    <p className="font-normal text-[#8A92A6] text-[0.75rem]">
+                      {selectedPlayer.address}
+                    </p>
+                  )}
                   <p className="text-primary font-normal text-[0.75rem]">
                     {selectedPlayer.phone}
                   </p>
@@ -196,83 +195,15 @@ const BookingConfirmationPage = ({
                 <X />
               </button>
             </div>
-          ) : (
-            <>
-              <Input
-                type="text"
-                placeholder="Search for existing player"
-                className="border rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 h-[3.25rem]"
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setTimeout(() => setIsFocused(false), 200)} // handle delay in blur
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+          )}
 
-              {isFocused && (
-                <div className="mt-2 bg-white border rounded-md shadow-lg max-h-60 overflow-y-auto">
-                  {filteredPlayers.length > 0 ? (
-                    filteredPlayers.map((player) => (
-                      <div
-                        key={player._id}
-                        className="flex items-center p-2 hover:bg-green-50 cursor-pointer hover:border-l-4 hover:border-green-500"
-                        onClick={() => handleSelectPlayer(player)}
-                      >
-                        <img
-                          src={`${MINIOURL}${player.image}`}
-                          alt={player.name}
-                          className="w-8 h-8 rounded-full mr-2"
-                        />
-                        <span>{player.name}</span>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="p-2 text-gray-500">No players found</div>
-                  )}
-                </div>
-              )}
-
-              {/* Form for New Player */}
-              <Form {...form}>
-                <form className="mt-4" onSubmit={form.handleSubmit(onSubmit)}>
-                  <h2 className="text-[1rem] font-medium text-[#28353D] mb-4">
-                    For New Player
-                  </h2>
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            placeholder="Full Name"
-                            {...field}
-                            className="border rounded-md w-full p-2 mb-2"
-                          />
-                        </FormControl>
-
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            placeholder="Email Address"
-                            {...field}
-                            className="border rounded-md w-full p-2 mb-2"
-                          />
-                        </FormControl>
-
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
+          <Form {...form}>
+            <form
+              className="mt-4 w-full space-y-3"
+              onSubmit={form.handleSubmit(onSubmit)}
+            >
+              {!selectedPlayer && (
+                <>
                   <FormField
                     control={form.control}
                     name="phone"
@@ -281,9 +212,17 @@ const BookingConfirmationPage = ({
                         <FormControl>
                           <Input
                             type="number"
-                            placeholder="Contact"
-                            {...field}
-                            className="border rounded-md w-full p-2 mb-2"
+                            placeholder="Phone Number"
+                            className="border rounded-md w-full p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 h-[3.25rem]"
+                            onFocus={() => setIsFocused(true)}
+                            onBlur={() =>
+                              setTimeout(() => setIsFocused(false), 200)
+                            }
+                            value={searchTerm}
+                            onChange={(e) => {
+                              setSearchTerm(e.target.value);
+                              form.setValue("phone", e.target.value);
+                            }}
                           />
                         </FormControl>
 
@@ -291,17 +230,42 @@ const BookingConfirmationPage = ({
                       </FormItem>
                     )}
                   />
-
+                  {isFocused && (
+                    <div className="mt-2 bg-white border rounded-md shadow-lg max-h-60 overflow-y-auto">
+                      {filteredPlayers.length > 0 ? (
+                        filteredPlayers.map((player) => (
+                          <div
+                            key={player._id}
+                            className="flex items-center p-2 hover:bg-green-50 cursor-pointer hover:border-l-4 hover:border-green-500"
+                            onClick={() => handleSelectPlayer(player)}
+                          >
+                            <img
+                              src={`${MINIOURL}${player.image}`}
+                              alt={player.name}
+                              className="w-8 h-8 rounded-full mr-2"
+                            />
+                            <span>{player.name}</span>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="p-2 text-gray-500">
+                          No players found
+                        </div>
+                      )}
+                    </div>
+                  )}
                   <FormField
                     control={form.control}
-                    name="address"
+                    name="name"
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Input
-                            placeholder="Address"
+                          <TextField
+                            id="outlined-basic"
+                            label="Full Name"
+                            variant="outlined"
                             {...field}
-                            className="border rounded-md w-full p-2 mb-2"
+                            className="w-full"
                           />
                         </FormControl>
 
@@ -309,150 +273,80 @@ const BookingConfirmationPage = ({
                       </FormItem>
                     )}
                   />
+                </>
+              )}
+              <div className="flex flex-col lg:flex-row gap-2 w-full">
+                <FormField
+                  control={form.control}
+                  name="bookingStatus"
+                  render={({ field }) => (
+                    <FormItem className="lg:w-1/2">
+                      <FormControl>
+                        <Select {...field} displayEmpty className="w-full">
+                          <MenuItem value="" disabled>
+                            Booking Status
+                          </MenuItem>
+                          {bookingStatusTypes.map((status, index) => (
+                            <MenuItem key={index} value={status}>
+                              {status}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        {/* <select
+                          {...field}
+                          className="border border-gray-300 p-3 w-full rounded-md bg-white text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 appearance-none"
+                        >
+                          {bookingStatusTypes.map((item, index) => (
+                            <option key={index} value={item}>
+                              {item}
+                            </option>
+                          ))}
+                        </select> */}
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="remarks"
+                  render={({ field }) => (
+                    <FormItem className="lg:w-1/2">
+                      <FormControl>
+                        <TextField
+                          id="outlined-basic"
+                          label="Remarks"
+                          variant="outlined"
+                          {...field}
+                          className="w-full"
+                        />
+                      </FormControl>
 
-                  <div className="flex flex-col lg:flex-row gap-2 w-full">
-                    {/* Booking Status */}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-                    <FormField
-                      control={form.control}
-                      name="bookingStatus"
-                      render={({ field }) => (
-                        <FormItem className="lg:w-1/2">
-                          <FormLabel>Booking Status</FormLabel>
-
-                          <FormControl>
-                            <select
-                              {...field}
-                              className="border border-gray-300 p-3 w-full rounded-md bg-white text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 appearance-none"
-                            >
-                              {bookingStatusTypes.map((item, index) => (
-                                <option key={index} value={item}>
-                                  {item}
-                                </option>
-                              ))}
-                            </select>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="remarks"
-                      render={({ field }) => (
-                        <FormItem className="lg:w-1/2">
-                          <FormLabel>Remarks</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="Remarks"
-                              {...field}
-                              className="border rounded-md w-full p-2 mb-2"
-                            />
-                          </FormControl>
-
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  {/* <div className="flex space-x-4"></div> */}
-
-                  <div className="flex justify-end mb-4 mt-3 gap-2 ">
-                    <span>Slot&apos;s Total:</span>
-                    <span>Rs. 2000</span>
-                  </div>
-                  <div className="flex justify-end font-bold mb-4 gap-2">
-                    <span>Total:</span>
-                    <span className="text-green-500">Rs. 2000</span>
-                  </div>
-                  <div className="flex justify-end">
-                    <button
-                      disabled={Loading}
-                      type="submit"
-                      className="bg-primary text-white px-4 py-2 rounded-md"
-                    >
-                      Submit
-                    </button>
-                  </div>
-                </form>
-              </Form>
-            </>
-          )}
-
-          {/* Additional Details Section */}
-          {selectedPlayer && (
-            <Form {...form}>
-              <form
-                className="mt-4 w-full"
-                onSubmit={form.handleSubmit(onSubmit)}
-              >
-                <div className="flex flex-col lg:flex-row gap-2 w-full">
-                  <FormField
-                    control={form.control}
-                    name="bookingStatus"
-                    render={({ field }) => (
-                      <FormItem className="lg:w-1/2">
-                        <FormLabel>Booking Status</FormLabel>
-
-                        <FormControl>
-                          <select
-                            {...field}
-                            className="border border-gray-300 p-3 w-full rounded-md bg-white text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 appearance-none"
-                          >
-                            {bookingStatusTypes.map((item, index) => (
-                              <option key={index} value={item}>
-                                {item}
-                              </option>
-                            ))}
-                          </select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="remarks"
-                    render={({ field }) => (
-                      <FormItem className="lg:w-1/2">
-                        <FormLabel>Remarks</FormLabel>
-
-                        <FormControl>
-                          <Input
-                            placeholder="Remarks"
-                            {...field}
-                            className="border rounded-md w-full p-2 mb-2"
-                          />
-                        </FormControl>
-
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="flex justify-end mb-4 mt-3 gap-2 ">
-                  <span>Slot&apos;s Total:</span>
-                  <span>Rs. 2000</span>
-                </div>
-                <div className="flex justify-end font-bold mb-4 gap-2">
-                  <span>Total:</span>
-                  <span className="text-green-500">Rs. 2000</span>
-                </div>
-                <div className="flex justify-end">
-                  <button
-                    disabled={Loading}
-                    type="submit"
-                    className="bg-primary text-white px-4 py-2 rounded-md"
-                  >
-                    Submit
-                  </button>
-                </div>
-              </form>
-            </Form>
-          )}
+              <div className="flex justify-end mb-4 mt-3 gap-2 ">
+                <span>Slot&apos;s Total:</span>
+                <span>Rs. 2000</span>
+              </div>
+              <div className="flex justify-end font-bold mb-4 gap-2">
+                <span>Total:</span>
+                <span className="text-green-500">Rs. 2000</span>
+              </div>
+              <div className="flex justify-end">
+                <button
+                  disabled={Loading}
+                  type="submit"
+                  className="bg-primary text-white px-4 py-2 rounded-md"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </Form>
           <button
             disabled={Loading}
             onClick={() => setcompleteBooking(false)}

@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Clock } from "lucide-react";
+import { toast } from "sonner";
 
 const formatTime = (time: Date) => {
   return new Date(time).toLocaleTimeString("en-US", {
@@ -42,17 +43,16 @@ const getSlotStatus = (
   const dayBookings = selectedCourt?.bookings[selectedDateString];
 
   if (!dayBookings) return "Available"; // If no booking data, treat as available
-  const isBooked = dayBookings?.Booked?.some((booking: any) =>
-    booking.selectedslots.includes(slot)
-  );
-  const isSold = dayBookings?.Sold?.some((booking: any) =>
+  const isReserved = dayBookings?.Reserved?.some((booking: any) =>
     booking.selectedslots.includes(slot)
   );
   const isPreBooked = dayBookings?.["Pre-Booked"]?.some((booking: any) =>
     booking.selectedslots.includes(slot)
   );
-
-  if (isSold) return "Sold";
+  const isBooked = dayBookings?.Booked?.some((booking: any) =>
+    booking.selectedslots.includes(slot)
+  );
+  if (isReserved) return "Reserved";
   if (isPreBooked) return "Pre-Booked";
   if (isBooked) return "Booked";
   return "Available";
@@ -82,6 +82,11 @@ export function TimeSlotSection({
 
   const handleContinueClick = () => {
     const selectedTimeSlots = selectedIndices.map((i) => timeSlots[i]);
+    console.log("selectedTimeSlots:",selectedTimeSlots)
+    if(selectedTimeSlots.length === 0){
+      toast.error("Please Select Slots")
+      return
+    }
     setSelectedTimeSlots(selectedTimeSlots);
     setcompleteBooking(true);
   };
@@ -106,17 +111,17 @@ export function TimeSlotSection({
               let slotBgColor = "bg-white"; // Default Available
               let isDisabled = false; // Track if the slot is disabled
 
-              if (slotStatus === "Sold") {
+              if (slotStatus === "Booked") {
                 slotBgColor = "bg-[#FF5630] text-white";
-                isDisabled = true; // Disable Sold slots
+                isDisabled = true;
               }
               if (slotStatus === "Pre-Booked") {
                 slotBgColor = "bg-[#3169FF] text-white";
                 isDisabled = true; // Disable Pre-Booked slots
               }
-              if (slotStatus === "Booked") {
+              if (slotStatus === "Reserved") {
                 slotBgColor = "bg-primary text-white";
-                isDisabled = true; // Disable Booked slots
+                isDisabled = true; 
               }
 
               return (
@@ -147,19 +152,18 @@ export function TimeSlotSection({
             Available
           </div>
           <div className="flex items-center gap-2">
+            <div className="bg-primary border h-5 w-5 rounded-md"></div>
+            Reserved
+          </div>
+          <div className="flex items-center gap-2">
             <div className="bg-blue-600 border h-5 w-5 rounded-md"></div>
             Pre-Booked
           </div>
           <div className="flex items-center gap-2">
             <div className="bg-[#FF5630] border h-5 w-5 rounded-md"></div>
-            Sold
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="bg-primary border h-5 w-5 rounded-md"></div>
             Booked
           </div>
         </div>
-
         <button
           className="bg-primary hover:bg-green-500 text-white px-5 py-2 rounded-md"
           onClick={handleContinueClick}

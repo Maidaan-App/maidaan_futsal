@@ -10,7 +10,7 @@ export const DOMAIN =
     : "http://localhost:3000/";
 
 export const statusTypes = ["pending", "enrolled", "blocked"];
-export const bookingStatusTypes = ["Pre-Booked", "Sold", "Booked"];
+export const bookingStatusTypes = ["Reserved","Pre-Booked", "Booked"];
 
 export const poppins = Poppins({
   subsets: ["latin"],
