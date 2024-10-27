@@ -4,7 +4,8 @@ export interface USER {
   name: string;
   image: string;
   password?: string;
-  email: string;
+  phone: string;
+  email?: string;
   userType: string;
   status: boolean;
   createdDate: Date;
@@ -18,7 +19,7 @@ export interface USER {
 export interface PLAYER {
   _id: string;
   linkedUserId: string;
-  email: string;
+  email?: string;
   name: string;
   image: string;
   phone: string;
