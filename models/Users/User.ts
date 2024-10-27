@@ -10,11 +10,12 @@ const Userchema = new Schema(
     name: String,
     image: String,
     password: String,
-    email: {
+    phone: {
       type: String,
-      required: [true, "Email is required"],
+      required: [true, "Phone is required"],
       unique: true,
     },
+    email: String,
     userType: {
       type: String,
       enum: userTypes,

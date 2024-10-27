@@ -7,14 +7,14 @@ const playerSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User"
     },
-    email: {
+    phone: {
       type: String,
-      required: [true, "Email is required"],
+      required: [true, "Phone is required"],
       unique: true,
     },
     name: String,
     image: String,
-    phone: String,
+    email: String,
     address: String,
     status: {
       type: String,

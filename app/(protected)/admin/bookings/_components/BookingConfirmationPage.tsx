@@ -70,33 +70,32 @@ const BookingConfirmationPage = ({
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log("values:", values);
-    // try {
-    //   setLoading(true);
-    //   const formData = {
-    //     ...values,
-    //     playerId: selectedPlayer?._id,
-    //     linkedCourtId: selectedCourt._id,
-    //     selectedDate,
-    //     selectedslots: selectedTimeSlots,
-    //   };
-    //   const response = await AdminAddUpdateBooking({
-    //     ...formData,
-    //   }).unwrap();
-    //   if (response) {
-    //     toast.success(response.message);
-    //     setLoading(false);
-    //     router.push(paths.admin.bookings);
-    //   } else {
-    //     toast.error(`Something Went Wrong`);
-    //     setLoading(false);
-    //   }
-    // } catch (error: any) {
-    //   toast.error(error.data.message);
-    //   setLoading(false);
-    // } finally {
-    //   setLoading(false);
-    // }
+    try {
+      setLoading(true);
+      const formData = {
+        ...values,
+        playerId: selectedPlayer?._id,
+        linkedCourtId: selectedCourt._id,
+        selectedDate,
+        selectedslots: selectedTimeSlots,
+      };
+      const response = await AdminAddUpdateBooking({
+        ...formData,
+      }).unwrap();
+      if (response) {
+        toast.success(response.message);
+        setLoading(false);
+        router.push(paths.admin.bookings);
+      } else {
+        toast.error(`Something Went Wrong`);
+        setLoading(false);
+      }
+    } catch (error: any) {
+      toast.error(error.data.message);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const [searchTerm, setSearchTerm] = useState("");

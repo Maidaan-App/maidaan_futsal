@@ -16,7 +16,7 @@ import TextField from "@mui/material/TextField";
 import { toast } from "sonner";
 import { uploadToMinIO } from "@/lib/helper";
 import { useRouter } from "next/navigation";
-import { MINIOURL } from "@/lib/constants";
+import { courtShifts, MINIOURL } from "@/lib/constants";
 import SCNSingleImagePicker from "@/components/image-picker/SCNSingleImagePicker";
 import { poppins } from "@/lib/constants";
 import { paths } from "@/lib/paths";
@@ -38,6 +38,34 @@ const formSchema = z
     closingTime: z
       .instanceof(Date)
       .refine((data) => data !== null, { message: "Closing time is required" }),
+    morningShift: z
+      .object({
+        startTime: z.instanceof(Date).optional(),
+        endTime: z.instanceof(Date).optional(),
+        price: z.string().optional(),
+      })
+      .optional(),
+    dayShift: z
+      .object({
+        startTime: z.instanceof(Date).optional(),
+        endTime: z.instanceof(Date).optional(),
+        price: z.string().optional(),
+      })
+      .optional(),
+    eveningShift: z
+      .object({
+        startTime: z.instanceof(Date).optional(),
+        endTime: z.instanceof(Date).optional(),
+        price: z.string().optional(),
+      })
+      .optional(),
+    holidayShift: z
+      .object({
+        startTime: z.instanceof(Date).optional(),
+        endTime: z.instanceof(Date).optional(),
+        price: z.string().optional(),
+      })
+      .optional(),
   })
   .refine((data) => data.openingTime < data.closingTime, {
     message: "Opening time must be earlier than closing time",
@@ -66,6 +94,44 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
         closingTime: ExistingDetail?.closingTime
           ? new Date(ExistingDetail.closingTime)
           : undefined,
+        morningShift: {
+          startTime: ExistingDetail?.openingTime
+            ? new Date(ExistingDetail.openingTime)
+            : undefined,
+          endTime: ExistingDetail?.morningShift?.endTime
+          ? new Date(ExistingDetail?.morningShift?.endTime)
+          : undefined,
+          price: ExistingDetail?.morningShift?.price ?? "0",
+        },
+        dayShift: {
+          startTime: ExistingDetail?.dayShift?.startTime
+          ? new Date(ExistingDetail?.dayShift?.startTime)
+          : undefined,
+          endTime: ExistingDetail?.dayShift?.endTime
+          ? new Date(ExistingDetail?.dayShift?.endTime)
+          : undefined,
+          price: ExistingDetail?.dayShift?.price ?? "0",
+        },
+        eveningShift: {
+          startTime: ExistingDetail?.eveningShift?.startTime
+          ? new Date(ExistingDetail?.eveningShift?.startTime)
+          : undefined,
+          endTime: ExistingDetail?.closingTime
+            ? new Date(ExistingDetail.closingTime)
+            : undefined,
+          price: ExistingDetail?.eveningShift?.price ?? "0",
+
+        },
+        holidayShift: {
+          startTime: ExistingDetail?.holidayShift?.startTime
+          ? new Date(ExistingDetail?.holidayShift?.startTime)
+          : undefined,
+          endTime: ExistingDetail?.holidayShift?.endTime
+          ? new Date(ExistingDetail?.holidayShift?.endTime)
+          : undefined,
+          price: ExistingDetail?.holidayShift?.price ?? "0",
+
+        },
       });
     }
   }, [ExistingDetail]);
@@ -185,6 +251,253 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                     </FormItem>
                   )}
                 />
+              </div>
+
+              {/* Shifts */}
+              <div className="flex flex-col gap-3 my-4">
+                <h3>Morning Shift</h3>
+                <div className="flex gap-4">
+                  <FormField
+                    control={form.control}
+                    name={`morningShift.startTime`}
+                    render={({ field }) => (
+                      <FormItem className="lg:w-1/3">
+                        <FormLabel>Start Time</FormLabel>
+                        <FormControl>
+                          <TimePicker
+                            disabled
+                            value={field.value ? dayjs(field.value) : null}
+                            onChange={(value) =>
+                              field.onChange(value?.toDate())
+                            }
+                            ampm
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name={`morningShift.endTime`}
+                    render={({ field }) => (
+                      <FormItem className="lg:w-1/3">
+                        <FormLabel>End Time</FormLabel>
+                        <FormControl>
+                          <TimePicker
+                            value={field.value ? dayjs(field.value) : null}
+                            onChange={(value) =>
+                              field.onChange(value?.toDate())
+                            }
+                            ampm
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name={`morningShift.price`}
+                    render={({ field }) => (
+                      <FormItem className="lg:w-1/3">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <TextField
+                            variant="outlined"
+                            type="number"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-3 my-4">
+                <h3>Day Shift</h3>
+                <div className="flex gap-4">
+                  <FormField
+                    control={form.control}
+                    name={`dayShift.startTime`}
+                    render={({ field }) => (
+                      <FormItem className="lg:w-1/3">
+                        <FormLabel>Start Time</FormLabel>
+                        <FormControl>
+                          <TimePicker
+                            value={field.value ? dayjs(field.value) : null}
+                            onChange={(value) =>
+                              field.onChange(value?.toDate())
+                            }
+                            ampm
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name={`dayShift.endTime`}
+                    render={({ field }) => (
+                      <FormItem className="lg:w-1/3">
+                        <FormLabel>End Time</FormLabel>
+                        <FormControl>
+                          <TimePicker
+                            value={field.value ? dayjs(field.value) : null}
+                            onChange={(value) =>
+                              field.onChange(value?.toDate())
+                            }
+                            ampm
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name={`dayShift.price`}
+                    render={({ field }) => (
+                      <FormItem className="lg:w-1/3">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <TextField
+                            variant="outlined"
+                            type="number"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-3 my-4">
+                <h3>Evening Shift</h3>
+                <div className="flex gap-4">
+                  <FormField
+                    control={form.control}
+                    name={`eveningShift.startTime`}
+                    render={({ field }) => (
+                      <FormItem className="lg:w-1/3">
+                        <FormLabel>Start Time</FormLabel>
+                        <FormControl>
+                          <TimePicker
+                            value={field.value ? dayjs(field.value) : null}
+                            onChange={(value) =>
+                              field.onChange(value?.toDate())
+                            }
+                            ampm
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name={`eveningShift.endTime`}
+                    render={({ field }) => (
+                      <FormItem className="lg:w-1/3">
+                        <FormLabel>End Time</FormLabel>
+                        <FormControl>
+                          <TimePicker
+                            disabled
+                            value={field.value ? dayjs(field.value) : null}
+                            onChange={(value) =>
+                              field.onChange(value?.toDate())
+                            }
+                            ampm
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name={`eveningShift.price`}
+                    render={({ field }) => (
+                      <FormItem className="lg:w-1/3">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <TextField
+                            variant="outlined"
+                            type="number"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-3 my-4">
+                <h3>Holiday (Saturday)</h3>
+                <div className="flex gap-4">
+                  <FormField
+                    control={form.control}
+                    name={`holidayShift.startTime`}
+                    render={({ field }) => (
+                      <FormItem className="lg:w-1/3">
+                        <FormLabel>Start Time</FormLabel>
+                        <FormControl>
+                          <TimePicker
+                            value={field.value ? dayjs(field.value) : null}
+                            onChange={(value) =>
+                              field.onChange(value?.toDate())
+                            }
+                            ampm
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name={`holidayShift.endTime`}
+                    render={({ field }) => (
+                      <FormItem className="lg:w-1/3">
+                        <FormLabel>End Time</FormLabel>
+                        <FormControl>
+                          <TimePicker
+                            value={field.value ? dayjs(field.value) : null}
+                            onChange={(value) =>
+                              field.onChange(value?.toDate())
+                            }
+                            ampm
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name={`holidayShift.price`}
+                    render={({ field }) => (
+                      <FormItem className="lg:w-1/3">
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <TextField
+                            variant="outlined"
+                            type="number"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
 
               <div className="flex justify-end my-2">
