@@ -4,13 +4,23 @@ import React from "react";
 import { PLAYER } from "@/lib/types";
 import { useGetAllAdminPlayersQuery } from "@/store/api/Admin/adminPlayers";
 import ReusableTable, { Column } from "@/components/ReusableTable";
+import { convertToHumanReadable } from "@/lib/helper";
 
 const columns: Column<PLAYER>[] = [
   { header: "Name", accessor: "name" },
   { header: "Email", accessor: "email" },
   { header: "Phone", accessor: "phone" },
   { header: "Address", accessor: "address" },
-  { header: "Created Date", accessor: "createdDate" },
+  {
+    header: "Created Date",
+    accessor: "createdDate",
+    render: (item: any) => (
+      <span>
+        {convertToHumanReadable(item.createdDate)}
+      </span>
+    ),
+  },
+
   {
     header: "Status",
     accessor: "status",
@@ -24,7 +34,7 @@ const columns: Column<PLAYER>[] = [
             : item.status === "Banned"
             ? "bg-[#D8211D] bg-opacity-10 text-[#D8211D]"
             : "bg-gray-100 text-gray-800"
-        } px-5 py-3 rounded-lg text-xs font-semibold`}
+        } px-5 py-3 rounded-lg text-xs font-semibold capitalize`}
       >
         {item.status}
       </span>
@@ -32,7 +42,7 @@ const columns: Column<PLAYER>[] = [
   },
 ];
 
-const filterTabs = ["All", "Active", "Pending", "Banned", "Rejected"];
+const filterTabs = ["All", "enrolled", "pending", "blocked"];
 
 const sortOptions = [
   { label: "Newest", value: "newest" },
