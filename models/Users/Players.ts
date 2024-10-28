@@ -7,6 +7,7 @@ const playerSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User"
     },
+    email: String,
     phone: {
       type: String,
       required: [true, "Phone is required"],
@@ -14,7 +15,6 @@ const playerSchema = new Schema(
     },
     name: String,
     image: String,
-    email: String,
     address: String,
     status: {
       type: String,

@@ -40,22 +40,25 @@ export const POST = async (request: NextRequest) => {
           { status: 201 }
         );
       } else {
-        const existingEmail = await User.findOne({ email: Data.email });
-        if (existingEmail) {
+        const existingNumber = await User.findOne({ phone: Data.phone });
+        if (existingNumber) {
           return NextResponse.json(
-            { message: "User with that Email already Exists" },
+            { message: "User with that Phone Number already Exists" },
             { status: 400 }
           );
         }
-        const userData = {
+
+        const newUser = new User({
+          ...Data,
           linkedFutsalId: user.id,
-          name: Data.name,
-          image: Data.image,
-          email: Data.email,
           userType: "player",
-        };
-        const newUser = new User({ ...userData });
-        const newPlayer = new Players({ ...Data, linkedUserId: newUser._id });
+          status: true,
+        });
+        const newPlayer = new Players({
+          ...Data,
+          linkedUserId: newUser._id,
+          status: "enrolled",
+        });
         await newUser.save();
         await newPlayer.save();
         return NextResponse.json(

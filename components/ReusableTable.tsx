@@ -63,8 +63,8 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
     )
     .sort((a, b) =>
       sortOrder === "newest"
-        ? new Date(b.date).getTime() - new Date(a.date).getTime()
-        : new Date(a.date).getTime() - new Date(b.date).getTime()
+        ? new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()
+        : new Date(a.createdDate).getTime() - new Date(b.createdDate).getTime()
     );
 
   const toggleSelectItem = (_id: string) => {
@@ -104,7 +104,7 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
           {filterTabs.map((tab) => (
             <button
               key={tab}
-              className={`${
+              className={`capitalize ${
                 selectedTab === tab ? "border-b-2 border-green-500" : ""
               } flex items-center space-x-1 px-3 py-1  ${
                 selectedTab === tab ? " text-green-800" : ""
@@ -114,11 +114,11 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
               <span>{tab}</span>
               <span
                 className={`text-xs px-2 py-1 rounded-full ${
-                  tab === "Active"
+                  tab === "Enrolled"
                     ? "bg-green-100 text-green-800"
                     : tab === "Pending"
                     ? "bg-blue-100 text-blue-800"
-                    : tab === "Banned"
+                    : tab === "Blocked"
                     ? "bg-red-100 text-red-800"
                     : "bg-gray-100 text-gray-800"
                 }`}

@@ -70,6 +70,42 @@ const formSchema = z
   .refine((data) => data.openingTime < data.closingTime, {
     message: "Opening time must be earlier than closing time",
     path: ["closingTime"],
+  })
+  .refine((data) => {
+    if (data.morningShift?.endTime && data.dayShift?.startTime) {
+      return data.morningShift.endTime < data.dayShift.startTime;
+    }
+    return true;
+  }, {
+    message: "Morning shift end time must be earlier than day shift start time",
+    path: ["dayShift", "startTime"],
+  })
+  .refine((data) => {
+    if (data.dayShift?.startTime && data.dayShift?.endTime) {
+      return data.dayShift.startTime < data.dayShift.endTime;
+    }
+    return true;
+  }, {
+    message: "Day shift start time must be earlier than day shift end time",
+    path: ["dayShift", "endTime"],
+  })
+  .refine((data) => {
+    if (data.dayShift?.endTime && data.eveningShift?.startTime) {
+      return data.dayShift.endTime < data.eveningShift.startTime;
+    }
+    return true;
+  }, {
+    message: "Day shift end time must be earlier than evening shift start time",
+    path: ["eveningShift", "startTime"],
+  })
+  .refine((data) => {
+    if (data.holidayShift?.startTime && data.holidayShift?.endTime) {
+      return data.holidayShift.startTime < data.holidayShift.endTime;
+    }
+    return true;
+  }, {
+    message: "Holiday shift start time must be earlier than holiday shift end time",
+    path: ["holidayShift", "endTime"],
   });
 
 const CourtAddEditForm = ({ type, ExistingDetail }: any) => {

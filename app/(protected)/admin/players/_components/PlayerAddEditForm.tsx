@@ -28,14 +28,11 @@ const formSchema = z.object({
   name: z.string().min(2, {
     message: "Please Enter Full Name",
   }),
-  address: z.string().min(2, {
-    message: " Address is required",
-  }),
-
+  address: z.string().optional(),
   phone: z.string().min(2, {
     message: "Phone Number is required",
   }),
-  email: z.string().email(),
+  email: z.string().optional(),
 });
 
 const PlayerAddEditForm = ({ type, ExistingDetail }: any) => {
@@ -76,12 +73,12 @@ const PlayerAddEditForm = ({ type, ExistingDetail }: any) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setLoading(true);
-      if (!values.image) {
-        toast.error("Please select Image");
-        return;
-      }
+      // if (!values.image) {
+      //   toast.error("Please select Image");
+      //   return;
+      // }
       let ImageUrl = null;
-      if (values.image != `${MINIOURL}${ExistingDetail?.image}`) {
+      if (values.image && values.image != `${MINIOURL}${ExistingDetail?.image}`) {
         ImageUrl = await uploadToMinIO(values.image, "players");
         if (ImageUrl === "") {
           toast.error("Image Upload Failed Please try again");
