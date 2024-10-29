@@ -7,6 +7,7 @@ import Courts from "./Courts";
 import Facilities from "./Facilities";
 import { NewsAndEvents } from "./NewsAndEvents";
 import Footer from "./Footer";
+import { useGetAllPublicCourtsQuery } from "@/store/api/Public/publicCourts";
 
 const sampleProducts = [
   { title: "Product 1", link: "/product1", thumbnail: "/images/futsal.jpg" },
@@ -33,6 +34,9 @@ const pageVariants = {
 };
 
 export default function ImagesSliderDemo() {
+  const { data: CourtsData, isLoading: CourtsDataLoading } =
+    useGetAllPublicCourtsQuery("");
+  console.log("CourtsData:", CourtsData);
   return (
     <motion.div
       className="bg-[#182b2a] overflow-x-hidden"
@@ -46,7 +50,7 @@ export default function ImagesSliderDemo() {
 
       <StaggeredSection>
         <Courts />
-        <Bookings />
+        {CourtsData && <Bookings CourtsData={CourtsData} />}
         <Facilities />
         <NewsAndEvents />
       </StaggeredSection>
