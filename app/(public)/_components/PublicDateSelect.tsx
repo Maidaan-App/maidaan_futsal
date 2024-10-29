@@ -7,6 +7,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaChevronDown } from "react-icons/fa";
 import { poppins } from "@/lib/constants";
+import { Carousel } from "@/components/ui/carousel";
 
 export function PublicDateSelect({ selectedDate, setSelectedDate }: any) {
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -78,15 +79,15 @@ export function PublicDateSelect({ selectedDate, setSelectedDate }: any) {
         )}
       </div>
 
-      {/* Display 7 date items in a grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4 my-5 px-3">
+      {/* Display dates in a grid for larger screens */}
+      <div className="hidden lg:grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4 my-5 px-3">
         {dates.map((dateObj, index) => (
           <div key={index} className="p-1">
             <Card
               onClick={() => handleDateClick(dateObj)}
               className={`${
                 selectedDate?.toDateString() === dateObj.fullDate.toDateString()
-                  ? "bg-primary text-white "
+                  ? "bg-primary text-white"
                   : "bg-white"
               } cursor-pointer transition-colors duration-300 rounded-xl`}
             >
@@ -101,6 +102,34 @@ export function PublicDateSelect({ selectedDate, setSelectedDate }: any) {
             </Card>
           </div>
         ))}
+      </div>
+
+      {/* Display dates in a carousel for mobile screens */}
+      <div className="block lg:hidden">
+        <Carousel>
+          {dates.map((dateObj, index) => (
+            <div key={index} className="p-1">
+              <Card
+                onClick={() => handleDateClick(dateObj)}
+                className={`${
+                  selectedDate?.toDateString() ===
+                  dateObj.fullDate.toDateString()
+                    ? "bg-primary text-white"
+                    : "bg-white"
+                } cursor-pointer transition-colors duration-300 rounded-xl`}
+              >
+                <CardContent className="flex items-center justify-center py-6 flex-col gap-5">
+                  <span className="text-[1rem] font-normal">
+                    {dateObj.dayName}
+                  </span>
+                  <span className="text-[1.625rem] font-semibold">
+                    {dateObj.day}
+                  </span>
+                </CardContent>
+              </Card>
+            </div>
+          ))}
+        </Carousel>
       </div>
     </div>
   );

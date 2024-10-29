@@ -21,7 +21,7 @@ const FlipLink: React.FC<FlipLinkProps> = ({ children }) => {
     <motion.div
       initial="initial"
       whileHover="hovered"
-      className="relative block overflow-hidden whitespace-nowrap text-xl font-bold"
+      className="relative block overflow-hidden whitespace-nowrap text-xs font-bold md:text-2xl" // Adjust the font size here
       style={{ lineHeight: 1 }}
     >
       <div>
@@ -65,6 +65,7 @@ const FlipLink: React.FC<FlipLinkProps> = ({ children }) => {
     </motion.div>
   );
 };
+
 const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
   e.preventDefault(); // Prevent default link behavior
   const target = document.getElementById("contact"); // Get contact section by id
@@ -73,10 +74,20 @@ const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
   }
 };
 
+const handleScrollBookings = (
+  e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+) => {
+  e.preventDefault(); // Prevent default link behavior
+  const target = document.getElementById("book-now"); // Get bookings section by id
+  if (target) {
+    target.scrollIntoView({ behavior: "smooth" }); // Smooth scroll to the section
+  }
+};
+
 const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
   return (
     <div
-      className={`text-[#f1f1f1] transition-all duration-300 h-20 px-20 flex justify-center ${
+      className={`text-[#f1f1f1] transition-all duration-300 h-20 md:px-20 px-7 flex justify-center ${
         isScrolled
           ? "bg-[#182b2a] bg-opacity-80 backdrop-blur-md shadow-lg" // Apply glassy effect when scrolled
           : "bg-[#182b2a]"
@@ -86,29 +97,33 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
         className={`flex w-full justify-between items-center list-none h-full cursor-pointer ${montserrat.className}`}
       >
         <li>
-          <Link href="/book-now" passHref>
+          {" "}
+          {/* Hide on mobile */}
+          <Link href="#book-now" passHref onClick={handleScrollBookings}>
             <FlipLink>BOOK-NOW</FlipLink>
           </Link>
         </li>
-        <li>
+        <li className="hidden md:block">
           <Link href="/gallery" passHref>
             <FlipLink>GALLERY</FlipLink>
           </Link>
         </li>
         <li>
-          <Link href={"#"} passHref>
-            <span className="flex w-20 h-10  items-center">
-              <img src="logo.png" alt="Logo" />
+          <Link href="/" passHref>
+            <span className="flex w-20 h-10 items-center">
+              <img src="logo.png" alt="Logo" className="w-14 md:w-auto" />
             </span>{" "}
             {/* No effect on LOGO */}
           </Link>
         </li>
-        <li>
+        <li className="hidden md:block">
           <Link href="/news-events" passHref>
             <FlipLink>NEWS - EVENTS</FlipLink>
           </Link>
         </li>
         <li>
+          {" "}
+          {/* Hide on mobile */}
           <Link href="#contact" passHref onClick={handleScroll}>
             <FlipLink>CONTACT</FlipLink>
           </Link>
