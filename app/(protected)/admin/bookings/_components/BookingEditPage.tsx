@@ -20,6 +20,7 @@ import { PLAYER } from "@/lib/types";
 import { useGetAllAdminPlayersQuery } from "@/store/api/Admin/adminPlayers";
 import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { paths } from "@/lib/paths";
+import Loader from "@/components/Loader";
 
 const formSchema = z.object({
   name: z.string().min(1, "Full Name is required"),
@@ -118,8 +119,8 @@ const BookingEditPage = () => {
   return (
     <>
       {Loading ? (
-        <div>
-          <div className="loader"></div>
+        <div className="flex h-[80vh] items-center justify-center">
+          <Loader />
         </div>
       ) : (
         <div className={`p-5 ${poppins.className}`}>

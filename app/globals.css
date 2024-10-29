@@ -106,11 +106,10 @@
   font-style: normal;
 }
 
-
 loader {
   width: 88px;
   height: 12px;
-  --_g: no-repeat radial-gradient(farthest-side, #0A41CC 94%, #0000);
+  --_g: no-repeat radial-gradient(farthest-side, #0a41cc 94%, #0000);
   background: var(--_g) 25% 0, var(--_g) 75% 0;
   background-size: 12px 12px;
   position: relative;

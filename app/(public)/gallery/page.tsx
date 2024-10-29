@@ -4,7 +4,7 @@ import React from "react";
 
 export default function LayoutGridDemo() {
   return (
-    <div className="h-screen bg-[#182b2a] overflow-auto  w-full">
+    <div className="h-[95vh] bg-[#182b2a] overflow-auto  w-full">
       <LayoutGrid cards={cards} />
     </div>
   );

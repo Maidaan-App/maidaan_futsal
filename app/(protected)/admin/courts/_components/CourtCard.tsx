@@ -54,7 +54,7 @@ const CourtCard: React.FC<CourtCardProps> = ({ courtData }) => {
       <img
         src={`${MINIOURL}${courtData.image}`}
         alt={courtData.name}
-        className="h-[182px] w-full object-cover"
+        className="h-[182px] w-full object-cover rounded-md"
       />
       <div className=" flex justify-between">
         <div>
@@ -75,9 +75,9 @@ const CourtCard: React.FC<CourtCardProps> = ({ courtData }) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="shadow-md">
               <Link href={`${paths.admin.addBookings}?id=${courtData._id}`}>
-              <DropdownMenuItem className="cursor-pointer">
-                <Eye className="w-4 h-4 mr-2" /> View
-              </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">
+                  <Eye className="w-4 h-4 mr-2" /> View
+                </DropdownMenuItem>
               </Link>
               <Link href={`${paths.admin.editCourts}?id=${courtData._id}`}>
                 <DropdownMenuItem className="cursor-pointer">

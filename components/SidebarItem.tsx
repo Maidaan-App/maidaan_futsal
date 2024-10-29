@@ -71,8 +71,8 @@ export default function SidebarItem({
               py-2 font-medium transition-colors
               ${
                 active && !subMenu
-                  ? "bg-[#e7ecfa] text-primary"
-                  : "text-[#637381] hover:bg-indigo-50"
+                  ? "bg-[#e6f6f1] text-primary"
+                  : "text-[#637381] hover:bg-[#e6f6f1]"
               }
               ${!expanded && "flex"}
             `}

@@ -3,6 +3,7 @@ import { useGetAdminPlayerByIdQuery } from "@/store/api/Admin/adminPlayers";
 import { useSearchParams } from "next/navigation";
 import React from "react";
 import PlayerAddEditForm from "./PlayerAddEditForm";
+import Loader from "@/components/Loader";
 
 const PlayerBeforeAddEditForm = () => {
   const searchParams = useSearchParams();
@@ -13,8 +14,8 @@ const PlayerBeforeAddEditForm = () => {
   return (
     <>
       {Loading ? (
-        <div className="h-[100vh] w-full flex justify-center items-center">
-          <p className="loader"></p>
+        <div className="flex h-[80vh] items-center justify-center">
+          <Loader />
         </div>
       ) : (
         <>
