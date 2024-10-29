@@ -86,7 +86,7 @@ export function PublicDateSelect({ selectedDate, setSelectedDate }: any) {
               onClick={() => handleDateClick(dateObj)}
               className={`${
                 selectedDate?.toDateString() === dateObj.fullDate.toDateString()
-                  ? "bg-primary text-white"
+                  ? "bg-primary text-white "
                   : "bg-white"
               } cursor-pointer transition-colors duration-300 rounded-xl`}
             >
