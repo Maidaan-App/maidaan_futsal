@@ -1,10 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { PLAYER } from "@/lib/types";
 import { useGetAllAdminPlayersQuery } from "@/store/api/Admin/adminPlayers";
 import ReusableTable, { Column } from "@/components/ReusableTable";
 import { convertToHumanReadable } from "@/lib/helper";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import Loader from "@/components/Loader";
 
 const columns: Column<PLAYER>[] = [
   { header: "Name", accessor: "name" },
@@ -15,9 +17,7 @@ const columns: Column<PLAYER>[] = [
     header: "Created Date",
     accessor: "createdDate",
     render: (item: any) => (
-      <span>
-        {convertToHumanReadable(item.createdDate)}
-      </span>
+      <span>{convertToHumanReadable(item.createdDate)}</span>
     ),
   },
 
@@ -54,15 +54,16 @@ const PlayerTable = () => {
     useGetAllAdminPlayersQuery("");
   return (
     <div className="md:p-5">
-      <h1 className="text-[#232D42] font-medium text-[1.5rem] my-3 px-3 lg:px-0">
-        Players
-      </h1>
       {PlayersDataLoading ? (
-        <div>
-          <div className="loader"></div>
+        <div className="flex h-[80vh] items-center justify-center">
+          <Loader />
         </div>
       ) : (
         <>
+          <h1 className="text-[#232D42] font-medium text-[1.5rem] my-3 px-3 lg:px-0">
+            Players
+          </h1>
+
           {PlayersData && (
             <ReusableTable
               data={PlayersData}

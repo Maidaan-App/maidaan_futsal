@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import AdminSidebar from "@/components/AdminSidebar";
 import PublicSidebar from "@/components/PublicSidebar";
@@ -25,6 +26,12 @@ import { paths } from "@/lib/paths";
 import { Bell, MessageSquareMore, Search } from "lucide-react";
 import Logout from "@/components/auth/Logout";
 import { Separator } from "@/components/ui/separator";
+import {
+  CommandIcon,
+  Comment01Icon,
+  Notification02Icon,
+  Search01Icon,
+} from "hugeicons-react";
 
 const inter = Inter({ subsets: ["latin"] });
 const pop = Poppins({
@@ -50,24 +57,30 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
             <input
               type="text"
               className="bg-[#F4F4F5] outline-none border-none rounded-lg px-7 py-2"
-              placeholder="Search for products"
+              placeholder="Search.... "
             />
 
             <div className="absolute top-0 bottom-0 left-2 flex items-center">
-              <Search className="h-[1rem] w-[1rem]" />
+              {/* <Search className="h-[1rem] w-[1rem]" /> */}
+              <Search01Icon size={15} color={"#8A92A6"} />
             </div>
 
             <div className="absolute top-0 bottom-0 right-2 flex items-center">
-              <CommandShortcut>⌘P</CommandShortcut>
+              <CommandShortcut className="flex justify-between items-center bg-white p-1 rounded-lg">
+                <CommandIcon size={15} />P
+              </CommandShortcut>
             </div>
           </div>
 
           <div className="flex items-center gap-5">
             <div className="bg-[#F4F4F5] rounded-xl p-2 h-[2.8125rem] w-[2.8125rem] flex items-center justify-center  ">
-              <Bell className="text-[#8A92A6]" />
+              {/* <Bell className="text-[#8A92A6]" />
+               */}
+              <Notification02Icon size={24} color={"#8A92A6"} />
             </div>
             <div className="bg-[#F4F4F5] rounded-xl p-2 h-[2.8125rem] w-[2.8125rem] flex items-center justify-center">
-              <MessageSquareMore className="text-[#8A92A6] " />
+              {/* <MessageSquareMore className="text-[#8A92A6] " /> */}
+              <Comment01Icon size={24} color={"#8A92A6"} />
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

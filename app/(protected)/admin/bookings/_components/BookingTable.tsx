@@ -4,6 +4,7 @@ import React from "react";
 import { useGetAllAdminBookingsQuery } from "@/store/api/Admin/adminBookings";
 import { convertToHumanReadable } from "@/lib/helper";
 import BookingTableComponent, { Column } from "./BookingTableComponent";
+import Loader from "@/components/Loader";
 
 const columns: Column<any>[] = [
   { header: "Player Name", accessor: "name" },
@@ -12,9 +13,7 @@ const columns: Column<any>[] = [
     header: "Booked Date",
     accessor: "selectedDate",
     render: (item: any) => (
-      <span>
-        {convertToHumanReadable(item.selectedDate)}
-      </span>
+      <span>{convertToHumanReadable(item.selectedDate)}</span>
     ),
   },
   {
@@ -58,16 +57,16 @@ const sortOptions = [
 
 const BookingTable = () => {
   const { data: BookingsData, isLoading: BookingsDataLoading } =
-  useGetAllAdminBookingsQuery("");
-  console.log("BookingsData:",BookingsData)
+    useGetAllAdminBookingsQuery("");
+  console.log("BookingsData:", BookingsData);
   return (
     <div className="md:p-5">
       <h1 className="text-[#232D42] font-medium text-[1.5rem] my-3 px-3 lg:px-0">
         Bookings
       </h1>
       {BookingsDataLoading ? (
-        <div>
-          <div className="loader"></div>
+        <div className="flex h-[80vh] items-center justify-center">
+          <Loader />
         </div>
       ) : (
         <>
@@ -88,4 +87,3 @@ const BookingTable = () => {
 };
 
 export default BookingTable;
-
