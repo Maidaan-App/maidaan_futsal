@@ -8,6 +8,7 @@ import { configsApi } from "./api/Config/configs";
 import { adminProfileApi } from "./api/Admin/adminProfile";
 import { adminBillingspi } from "./api/Admin/adminBillings";
 import { adminBookingsApi } from "./api/Admin/adminBookings";
+import { publicCourtsApi } from "./api/Public/publicCourts";
 
 export const store = configureStore({
   reducer: {
@@ -25,6 +26,9 @@ export const store = configureStore({
 
     //configs
     [configsApi.reducerPath]: configsApi.reducer,
+
+    //public
+    [publicCourtsApi.reducerPath]: publicCourtsApi.reducer,
   },
   devTools: true,
   middleware: (getDefaultMiddleware) =>
@@ -40,9 +44,10 @@ export const store = configureStore({
       authsApi.middleware,
 
       //configs
-      configsApi.middleware
+      configsApi.middleware,
 
       //public
+      publicCourtsApi.middleware
     ),
 });
 setupListeners(store.dispatch);
