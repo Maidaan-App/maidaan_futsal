@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
+// /* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -9,7 +9,7 @@ const mainImage =
 
 const images = Array(8).fill(mainImage); // Using the same image for now
 
-export const Gallery = () => {
+const Page = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedImg, setSelectedImg] = useState("");
   const [loading, setLoading] = useState(true);
@@ -94,4 +94,4 @@ export const Gallery = () => {
   );
 };
 
-export default Gallery;
+export default Page;
