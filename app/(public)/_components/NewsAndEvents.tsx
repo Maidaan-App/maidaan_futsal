@@ -15,7 +15,7 @@ interface TextParallaxContentProps {
 export const NewsAndEvents: React.FC = () => {
   return (
     <div className={`${montserrat.className} py-20`}>
-      <h1 className="text-4xl font-bold mb-12 text-center  text-[#f1f1f1]">
+      <h1 className="text-4xl font-bold mb-12 text-center text-[#f1f1f1]">
         NEWS AND EVENTS
       </h1>
       <TextParallaxContent
@@ -32,6 +32,13 @@ export const NewsAndEvents: React.FC = () => {
       >
         <ExampleContent />
       </TextParallaxContent>
+
+      {/* View More Button */}
+      <div className="flex justify-center mt-12">
+        <button className="w-full md:w-fit rounded  px-8 py-3 text-xl text-white transition-colors hover:bg-neutral-700">
+          View All <FiArrowUpRight className="inline ml-2" />
+        </button>
+      </div>
     </div>
   );
 };
@@ -46,7 +53,7 @@ const TextParallaxContent: React.FC<TextParallaxContentProps> = ({
 }) => {
   return (
     <div style={{ paddingLeft: IMG_PADDING, paddingRight: IMG_PADDING }}>
-      <div className="relative  mx-20">
+      <div className="relative mx-20">
         <StickyImage imgUrl={imgUrl} />
         <OverlayCopy heading={heading} subheading={subheading} />
       </div>
