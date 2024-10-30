@@ -5,19 +5,49 @@ import { PLAYER } from "@/lib/types";
 import { useGetAllAdminPlayersQuery } from "@/store/api/Admin/adminPlayers";
 import ReusableTable, { Column } from "@/components/ReusableTable";
 import { convertToHumanReadable } from "@/lib/helper";
+import { MINIOURL } from "@/lib/constants";
 
 const columns: Column<PLAYER>[] = [
-  { header: "Name", accessor: "name" },
-  { header: "Email", accessor: "email" },
+  {
+    header: "Name",
+    accessor: "name",
+    render: (data) => (
+      <div className="flex items-center gap-2">
+        {data.image ? (
+          <img
+            src={`${MINIOURL}${data.image}`}
+            alt={data.name}
+            className="w-8 h-8 rounded-full"
+          />
+        ) : (
+          <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center">
+            {data.name.charAt(0).toUpperCase()}
+          </div>
+        )}
+        <span>{data.name}</span>
+      </div>
+    ),
+  },
+
+  {
+    header: "Email",
+    accessor: "email",
+    render: (data) =>
+      data.email ? data.email : <div className="flex ">-</div>,
+  },
   { header: "Phone", accessor: "phone" },
-  { header: "Address", accessor: "address" },
+
+  {
+    header: "Address",
+    accessor: "address",
+    render: (data) =>
+      data.address ? data.address : <div className="flex ">-</div>,
+  },
   {
     header: "Created Date",
     accessor: "createdDate",
     render: (item: any) => (
-      <span>
-        {convertToHumanReadable(item.createdDate)}
-      </span>
+      <span>{convertToHumanReadable(item.createdDate)}</span>
     ),
   },
 
@@ -27,11 +57,11 @@ const columns: Column<PLAYER>[] = [
     render: (item: any) => (
       <span
         className={`${
-          item.status === "Active"
+          item.status === "enrolled"
             ? "bg-[#009858] bg-opacity-10 text-[#009858]"
-            : item.status === "Pending"
+            : item.status === "pending"
             ? "bg-[#0A41CC] bg-opacity-[8%] text-[#0A41CC]"
-            : item.status === "Banned"
+            : item.status === "blocked"
             ? "bg-[#D8211D] bg-opacity-10 text-[#D8211D]"
             : "bg-gray-100 text-gray-800"
         } px-5 py-3 rounded-lg text-xs font-semibold capitalize`}
@@ -52,6 +82,8 @@ const sortOptions = [
 const PlayerTable = () => {
   const { data: PlayersData, isLoading: PlayersDataLoading } =
     useGetAllAdminPlayersQuery("");
+
+  console.log("PlayerData", PlayersData);
   return (
     <div className="md:p-5">
       <h1 className="text-[#232D42] font-medium text-[1.5rem] my-3 px-3 lg:px-0">
