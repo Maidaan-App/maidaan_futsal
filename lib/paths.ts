@@ -1,5 +1,6 @@
 const ROOTS = {
   admin: "/admin",
+  public: "/public",
   configuration: "/configuration",
 };
 
@@ -20,29 +21,27 @@ export const paths = {
     changepassword: `${ROOTS.admin}/profile/changepassword`,
     billings: `${ROOTS.admin}/profile/billings`,
 
-
     players: `${ROOTS.admin}/players`,
     addPlayers: `${ROOTS.admin}/players/add`,
     editPlayers: `${ROOTS.admin}/players/edit`,
     playersProfile: `${ROOTS.admin}/players/profile`,
 
-
     courts: `${ROOTS.admin}/courts`,
     addCourts: `${ROOTS.admin}/courts/add`,
     editCourts: `${ROOTS.admin}/courts/edit`,
 
-
     timeslots: `${ROOTS.admin}/courts/fsdf`,
     createbook: `${ROOTS.admin}/courts/confirmation`,
-
 
     bookings: `${ROOTS.admin}/bookings`,
     addBookings: `${ROOTS.admin}/bookings/add`,
     editBookings: `${ROOTS.admin}/bookings/edit`,
 
-
-
     playertable: `${ROOTS.admin}/playertable`,
     addplayertable: `${ROOTS.admin}/playertable/add`,
+  },
+
+  public: {
+    courts: `${ROOTS.public}/courts`,
   },
 };

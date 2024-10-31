@@ -9,20 +9,43 @@ import SocialLinksContent from "./SocialLinksContent";
 import { useGetAdminMyPlayerByIdQuery } from "@/store/api/Admin/adminProfile";
 import { useGetAdminMyBillingByIdQuery } from "@/store/api/Admin/adminBillings";
 
+// Import icons from HugeIcons (assuming these icons exist)
+import {
+  UserIcon,
+  SecurityIcon,
+  Invoice01Icon,
+  Notification03Icon,
+  Share02Icon,
+} from "hugeicons-react";
+
 const Tabs = ({ current_user }: any) => {
   const categories = [
-    { category: "General" },
-    { category: "Security" },
-    { category: "Billing" },
-    { category: "Notifications" },
-    { category: "Social Links" },
+    {
+      category: "General",
+      icon: <UserIcon size={24} color={"#00a870"} />,
+    },
+    {
+      category: "Security",
+      icon: <SecurityIcon size={24} color={"#00a870"} />,
+    },
+    {
+      category: "Billing",
+      icon: <Invoice01Icon size={24} color={"#00a870"} />,
+    },
+    {
+      category: "Notifications",
+      icon: <Notification03Icon size={24} color={"#00a870"} />,
+    },
+    {
+      category: "Social Links",
+      icon: <Share02Icon size={24} color={"#00a870"} />,
+    },
   ];
 
   const [activeTab, setActiveTab] = useState(categories[0].category);
 
   const { data: ProfileDetail, isLoading: profileLoading } =
     useGetAdminMyPlayerByIdQuery("");
-
   const { data: BillingDetail, isLoading: billingLoading } =
     useGetAdminMyBillingByIdQuery("");
 
@@ -58,11 +81,16 @@ const Tabs = ({ current_user }: any) => {
           <div
             key={index}
             onClick={() => setActiveTab(category.category)}
-            className={`flex-shrink-0 flex flex-col font-medium text-base items-center cursor-pointer ${
+            className={`flex-shrink-0 flex flex-col items-center gap-2 font-medium text-base cursor-pointer ${
               activeTab === category.category ? "text-primary" : "text-gray-600"
             }`}
           >
-            <span>{category.category}</span>
+            <div className="flex flex-row gap-2">
+              {" "}
+              {category.icon}
+              <span>{category.category}</span>
+            </div>
+
             {activeTab === category.category && (
               <div className="w-full h-[2px] bg-primary mt-2"></div>
             )}

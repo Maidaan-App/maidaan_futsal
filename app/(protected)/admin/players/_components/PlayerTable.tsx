@@ -1,11 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { PLAYER } from "@/lib/types";
 import { useGetAllAdminPlayersQuery } from "@/store/api/Admin/adminPlayers";
 import ReusableTable, { Column } from "@/components/ReusableTable";
 import { convertToHumanReadable } from "@/lib/helper";
 import { MINIOURL } from "@/lib/constants";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import Loader from "@/components/Loader";
 
 const columns: Column<PLAYER>[] = [
   {
@@ -86,15 +88,16 @@ const PlayerTable = () => {
   console.log("PlayerData", PlayersData);
   return (
     <div className="md:p-5">
-      <h1 className="text-[#232D42] font-medium text-[1.5rem] my-3 px-3 lg:px-0">
-        Players
-      </h1>
       {PlayersDataLoading ? (
-        <div>
-          <div className="loader"></div>
+        <div className="flex h-[80vh] items-center justify-center">
+          <Loader />
         </div>
       ) : (
         <>
+          <h1 className="text-[#232D42] font-medium text-[1.5rem] my-3 px-3 lg:px-0">
+            Players
+          </h1>
+
           {PlayersData && (
             <ReusableTable
               data={PlayersData}

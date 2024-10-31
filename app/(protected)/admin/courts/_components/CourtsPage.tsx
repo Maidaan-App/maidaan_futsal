@@ -7,6 +7,7 @@ import Link from "next/link";
 import { paths } from "@/lib/paths";
 import CourtCard from "./CourtCard";
 import { useGetAllAdminCourtsQuery } from "@/store/api/Admin/adminCourts";
+import Loader from "@/components/Loader";
 
 const CourtsPage = () => {
   const { data: CourtsData, isLoading: CourtsDataLoading } =
@@ -15,8 +16,8 @@ const CourtsPage = () => {
   return (
     <>
       {CourtsDataLoading ? (
-        <div className="h-[100vh] w-full flex justify-center items-center">
-          <p className="loader"></p>
+        <div className="h-screen w-full flex justify-center items-center">
+          <Loader />
         </div>
       ) : (
         <div className={`container my-5 ${poppins.className}`}>
@@ -35,7 +36,7 @@ const CourtsPage = () => {
           <div className="flex gap-4">
             {CourtsData &&
               CourtsData.length > 0 &&
-              CourtsData.map((element, index) => (
+              CourtsData.map((element: any, index) => (
                 <CourtCard key={index} courtData={element} />
               ))}
           </div>
