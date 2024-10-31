@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -8,12 +8,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { poppins } from "@/lib/constants";
+import { MINIOURL, poppins } from "@/lib/constants";
 import { Button } from "./ui/button";
-import { User } from "lucide-react";
+import { EllipsisVertical, User } from "lucide-react";
 import Link from "next/link";
 import { paths } from "@/lib/paths";
 import { usePathname } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export type Column<T> = {
   header: string;
@@ -42,10 +48,10 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [sortOrder, setSortOrder] = useState<string>(sortOptions[0].value);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const pathname = usePathname();
-
-  // Check if the current route matches "/admin/playertable"
   const isPlayertableRoute = pathname === paths.admin.players;
 
   const getStatusCount = (status: string) => {
@@ -68,19 +74,19 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
     );
 
   const toggleSelectItem = (_id: string) => {
-    if (selectedItems.includes(_id)) {
-      setSelectedItems(selectedItems.filter((itemId) => itemId !== _id));
-    } else {
-      setSelectedItems([...selectedItems, _id]);
-    }
+    setSelectedItems((prev) =>
+      prev.includes(_id)
+        ? prev.filter((itemId) => itemId !== _id)
+        : [...prev, _id]
+    );
   };
 
   const selectAllItems = () => {
-    if (selectedItems.length === filteredData.length) {
-      setSelectedItems([]);
-    } else {
-      setSelectedItems(filteredData.map((item) => item._id));
-    }
+    setSelectedItems(
+      selectedItems.length === paginatedData.length
+        ? []
+        : paginatedData.map((item) => item._id)
+    );
   };
 
   const deleteItems = () => {
@@ -97,14 +103,29 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
       alert(`Item with ID ${_id} deleted`);
     }
   };
+
+  // Pagination Logic
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const paginatedData = filteredData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handlePageChange = (page: number) => {
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
   return (
-    <div className={`bg-white  rounded-lg shadow-lg ${poppins.className} p-5`}>
-      <div className="flex overflow-x-auto justify-between items-center  md:space-y-0">
-        <div className="flex ">
+    <div className={`bg-white rounded-lg shadow-lg ${poppins.className} p-5`}>
+      {/* Filter Tabs and Controls */}
+      <div className="flex overflow-x-auto justify-between items-center md:space-y-0">
+        <div className="flex">
           {filterTabs.map((tab) => (
             <button
               key={tab}
-              className={`capitalize ${
+              className={`${
                 selectedTab === tab ? "border-b-2 border-green-500" : ""
               } flex items-center space-x-1 px-3 py-1  ${
                 selectedTab === tab ? " text-green-800" : ""
@@ -114,11 +135,11 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
               <span>{tab}</span>
               <span
                 className={`text-xs px-2 py-1 rounded-full ${
-                  tab === "Enrolled"
+                  tab === "enrolled"
                     ? "bg-green-100 text-green-800"
-                    : tab === "Pending"
+                    : tab === "pending"
                     ? "bg-blue-100 text-blue-800"
-                    : tab === "Blocked"
+                    : tab === "blocked"
                     ? "bg-red-100 text-red-800"
                     : "bg-gray-100 text-gray-800"
                 }`}
@@ -130,7 +151,8 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-4 my-5">
+      {/* Sorting, Search, and Add New Button */}
+      <div className="flex flex-col lg:flex-row lg:justify-between gap-4 my-5 w-full">
         <Select
           value={sortOrder}
           onValueChange={(value) => setSortOrder(value)}
@@ -150,7 +172,7 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
         <input
           type="text"
           placeholder="Search..."
-          className="px-4 py-2 border rounded-lg w-fit "
+          className="px-4 py-2 border rounded-lg w-full"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -168,6 +190,7 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
         )}
       </div>
 
+      {/* Table Data */}
       <div className="overflow-x-auto">
         <table className="w-full min-w-max">
           <thead>
@@ -177,8 +200,8 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
                   type="checkbox"
                   onChange={selectAllItems}
                   checked={
-                    selectedItems.length === filteredData.length &&
-                    filteredData.length > 0
+                    selectedItems.length === paginatedData.length &&
+                    paginatedData.length > 0
                   }
                 />
               </th>
@@ -190,11 +213,11 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
               <th className="px-4 py-2">Actions</th>
             </tr>
           </thead>
-          <tbody key={selectedTab} className="transition-opacity duration-500">
-            {filteredData.map((item) => (
+          <tbody>
+            {paginatedData.map((item) => (
               <tr
                 key={item._id}
-                className="border-b hover:bg-gray-50 text-[1rem] font-normal text-[#28353D] cursor-pointer h-16 opacity-0 animate-fadeIn"
+                className="border-b hover:bg-gray-50 text-[1rem] font-normal text-[#28353D] cursor-pointer h-16"
               >
                 <td className="px-4 py-2">
                   <input
@@ -210,38 +233,50 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
                       : item[column.accessor]}
                   </td>
                 ))}
-                <td className="px-4 py-2">
-                  <Link
-                    href={`${paths.admin.editPlayers}?id=${item._id}`}
-                    className="text-[#f1f1f1] mr-2 bg-primary px-5 py-2 rounded-full"
-                  >
-                    Edit
-                  </Link>
-                  {/* <button
-                    className="bg-red-500 text-[#f1f1f1]  px-5 py-2 rounded-full"
-                    onClick={() => handleIndividualDelete(item._id)}
-                  >
-                    Delete
-                  </button> */}
-                </td>
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="p-5">
+                    <EllipsisVertical />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem>
+                      <Link
+                        href={`${paths.admin.editPlayers}?id=${item._id}`}
+                        className="text-primary mr-2 px-5 py-2 rounded-full"
+                      >
+                        Edit
+                      </Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      {/* Pagination Controls */}
       <div className="mt-4 flex justify-between items-center">
         <p className="text-sm text-gray-600">
-          Showing 1 to {filteredData.length} of {filteredData.length} results
+          Showing {currentPage * itemsPerPage - itemsPerPage + 1} to{" "}
+          {Math.min(currentPage * itemsPerPage, filteredData.length)} of{" "}
+          {filteredData.length} results
         </p>
-        <div className="flex space-x-2">
-          {selectedItems.length > 0 && (
-            <button
-              className="bg-red-500 text-[#f1f1f1] px-4 py-2 rounded-lg"
-              onClick={deleteItems}
-            >
-              Delete Selected
-            </button>
-          )}
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            disabled={currentPage === 1}
+            onClick={() => handlePageChange(currentPage - 1)}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            disabled={currentPage === totalPages}
+            onClick={() => handlePageChange(currentPage + 1)}
+          >
+            Next
+          </Button>
         </div>
       </div>
     </div>
