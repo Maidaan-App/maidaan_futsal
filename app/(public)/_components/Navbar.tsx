@@ -117,7 +117,7 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
           </Link>
         </li>
         <li className="hidden md:block">
-          <Link href="/news-events" passHref>
+          <Link href="/news-and-events" passHref>
             <FlipLink>NEWS - EVENTS</FlipLink>
           </Link>
         </li>
