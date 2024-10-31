@@ -32,42 +32,48 @@ const Footer = () => {
       {/* Address Information Overlay */}
       <div
         id="contact"
-        className="absolute top-32 left-10 bg-[#1d3535] w-[35%] flex flex-col gap-4 text-[#f1f1f1] p-6 rounded-3xl shadow-xl z-10"
+        className="absolute md:top-32 bottom-5 left-5 md:left-10 bg-[#1d3535] w-[90%] md:w-[35%] h-fit flex flex-col gap-2 text-[#f1f1f1] p-4 md:p-6 rounded-3xl shadow-xl z-10"
       >
-        <h2 className="text-xl font-bold text-neutral-300">Contact Us</h2>
+        <h2 className="text-sm md:text-xl font-bold text-neutral-300">
+          Contact Us
+        </h2>
         <div className="flex flex-col">
-          <p className="text-2xl font-semibold">Clinic Beethovenstrasse AG</p>
-          <p className="text-lg">Beethovenstrasse 9</p>
-          <p className="text-lg">CH-8002 Zürich</p>
+          <p className="text-sm md:text-2xl font-semibold">
+            Clinic Beethovenstrasse AG
+          </p>
+          <p className="text-xs md:text-lg">Beethovenstrasse 9</p>
+          <p className="text-xs md:text-lg">CH-8002 Zürich</p>
         </div>
         <div className="flex flex-col">
-          <p className="text-lg">Phone: +41 44 545 14 44</p>
-          <p className="text-lg">Email: info@colette-camenisch.com</p>
+          <p className="text-xs md:text-lg">Phone: +41 44 545 14 44</p>
+          <p className="text-xs md:text-lg">
+            Email: info@colette-camenisch.com
+          </p>
         </div>
 
         {/* Social Media Links */}
-        <div className="flex gap-4 mt-4">
+        <div className="flex flex-wrap gap-4 mt-2 ">
           <Link href="https://facebook.com" target="_blank">
             <FaFacebookF
-              size={24}
+              size={20}
               className="text-[#f1f1f1] hover:text-blue-500 transition-colors duration-300"
             />
           </Link>
           <Link href="https://twitter.com" target="_blank">
             <FaTwitter
-              size={24}
+              size={20}
               className="text-[#f1f1f1] hover:text-blue-400 transition-colors duration-300"
             />
           </Link>
           <Link href="https://linkedin.com" target="_blank">
             <FaLinkedinIn
-              size={24}
+              size={20}
               className="text-[#f1f1f1] hover:text-blue-700 transition-colors duration-300"
             />
           </Link>
           <Link href="https://instagram.com" target="_blank">
             <FaInstagram
-              size={24}
+              size={20}
               className="text-[#f1f1f1] hover:text-pink-500 transition-colors duration-300"
             />
           </Link>
@@ -75,7 +81,7 @@ const Footer = () => {
 
         <Link
           href="#"
-          className="mt-3 px-4 py-2 bg-[#0f1e1f] w-fit text-[#f1f1f1] rounded-full hover:bg-[#0f3f40] transition duration-300 ease-in-out"
+          className="mt-2 px-3 py-1 bg-[#0f1e1f] w-fit text-[#f1f1f1] rounded-full hover:bg-[#0f3f40] transition duration-300 ease-in-out"
         >
           Show Route
         </Link>

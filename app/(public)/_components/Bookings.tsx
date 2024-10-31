@@ -29,7 +29,7 @@ const Bookings = ({ CourtsData }: any) => {
   };
 
   return (
-    <div className="px-20 bg-[#f0f0f1] py-20">
+    <div className="md:px-20 px-10 bg-[#f0f0f1] py-20" id="book-now">
       <div>
         {/* Today&apos;s Slots */}
         <p className="text-center text-[#172b2a] font-bold text-xl flex justify-center items-center gap-3 md:text-4xl">
