@@ -19,6 +19,7 @@ import { MINIOURL } from "@/lib/constants";
 import { useAdminAddUpdateProfileMutation } from "@/store/api/Admin/adminProfile";
 import { toast } from "sonner";
 import { uploadToMinIO } from "@/lib/helper";
+import { TextareaAutosize } from "@mui/material";
 
 const formSchema = z.object({
   image: z.any({
@@ -27,8 +28,17 @@ const formSchema = z.object({
   name: z.string().min(2, {
     message: "Please Enter Full Name",
   }),
+  about: z.string().min(2, {
+    message: "About is required",
+  }),
   address: z.string().min(2, {
     message: " Address is required",
+  }),
+  mapLink: z.string().min(2, {
+    message: "Futsal Location is required",
+  }),
+  embeddMapLink: z.string().min(2, {
+    message: "Embedded Map Link is required",
   }),
   phone: z.string().min(2, {
     message: "Phone Number is required",
@@ -48,6 +58,9 @@ const AdminProfileEditForm = ({ type, ExistingDetail, current_user }: any) => {
         ? `${MINIOURL}${ExistingDetail?.image}`
         : null,
       address: ExistingDetail?.address || "",
+      mapLink: ExistingDetail?.mapLink || "",
+      embeddMapLink: ExistingDetail?.embeddMapLink || "",
+      about: ExistingDetail?.about || "",
       phone: ExistingDetail?.phone || "",
       email: current_user?.email || "",
     },
@@ -60,7 +73,10 @@ const AdminProfileEditForm = ({ type, ExistingDetail, current_user }: any) => {
         image: ExistingDetail?.image
           ? `${MINIOURL}${ExistingDetail?.image}`
           : null,
+        about: ExistingDetail?.about || "",
         address: ExistingDetail?.address || "",
+        mapLink: ExistingDetail?.mapLink || "",
+        embeddMapLink: ExistingDetail?.embeddMapLink || "",
         phone: ExistingDetail?.phone || "",
       });
     }
@@ -124,7 +140,7 @@ const AdminProfileEditForm = ({ type, ExistingDetail, current_user }: any) => {
                     <FormControl>
                       <TextField
                         id="outlined-basic"
-                        label="Full Name"
+                        label="Futsal Name"
                         variant="outlined"
                         {...field}
                         className="w-full"
@@ -194,6 +210,64 @@ const AdminProfileEditForm = ({ type, ExistingDetail, current_user }: any) => {
                 )}
               />
             </div>
+
+            <FormField
+              control={form.control}
+              name="about"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormControl>
+                    <TextField
+                      id="outlined-basic"
+                      label="About"
+                      variant="outlined"
+                      {...field}
+                      className="w-full"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="mapLink"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormControl>
+                    <TextField
+                      id="outlined-basic"
+                      label="Futsal Location (Map Link)"
+                      variant="outlined"
+                      type="url"
+                      {...field}
+                      className="w-full"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="embeddMapLink"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormControl>
+                    <TextField
+                      id="outlined-basic"
+                      label="Embedded Map Link"
+                      variant="outlined"
+                      type="url"
+                      {...field}
+                      className="w-full"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <div className="flex justify-end my-2">
               <Button

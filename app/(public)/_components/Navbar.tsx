@@ -1,11 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
-import { montserrat } from "@/lib/constants";
+import { MINIOURL, montserrat } from "@/lib/constants";
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link"; // Import Link from next/link
+import { FUTSALPROFILE } from "@/lib/types";
 
 type NavbarProps = {
   isScrolled: boolean; // Accept the isScrolled prop
+  FutsalProfile: FUTSALPROFILE | undefined;
 };
 
 const DURATION = 0.25; // Animation duration
@@ -84,7 +86,7 @@ const handleScrollBookings = (
   }
 };
 
-const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
+const Navbar: React.FC<NavbarProps> = ({ isScrolled, FutsalProfile }) => {
   return (
     <div
       className={`text-[#f1f1f1] transition-all duration-300 h-20 md:px-20 px-7 flex justify-center ${
@@ -108,14 +110,19 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
             <FlipLink>GALLERY</FlipLink>
           </Link>
         </li>
-        <li>
-          <Link href="/" passHref>
-            <span className="flex w-20 h-10 items-center">
-              <img src="logo.png" alt="Logo" className="w-14 md:w-auto" />
-            </span>{" "}
-            {/* No effect on LOGO */}
-          </Link>
-        </li>
+        {FutsalProfile && (
+          <li>
+            <Link href="/" passHref>
+              <span className="flex w-20 h-10 items-center">
+                <img 
+                // src="logo.png"
+                src={`${MINIOURL}${FutsalProfile.image}`}
+                 alt="Logo" className="w-14 md:w-auto" />
+              </span>{" "}
+              {/* No effect on LOGO */}
+            </Link>
+          </li>
+        )}
         <li className="hidden md:block">
           <Link href="/news-events" passHref>
             <FlipLink>NEWS - EVENTS</FlipLink>

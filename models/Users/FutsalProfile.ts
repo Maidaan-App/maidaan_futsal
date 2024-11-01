@@ -13,10 +13,18 @@ const futsalProfileSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    subdomain: {
+      type: String,
+      required:[true, "Sub-Domain is required"],
+      unique: true,
+    },
     name: String,
+    about: String,
     email: String,
     phone: String,
     address: String,
+    mapLink: String,
+    embeddMapLink: String,
     image: String,
     socialLinks: socialLinksSchema,
     createdDate: {
