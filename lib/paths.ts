@@ -39,9 +39,15 @@ export const paths = {
 
     playertable: `${ROOTS.admin}/playertable`,
     addplayertable: `${ROOTS.admin}/playertable/add`,
+
+    gallery: `${ROOTS.admin}/gallery`,
+    addgallery: `${ROOTS.admin}/gallery/add`,
+
   },
 
   public: {
     courts: `${ROOTS.public}/courts`,
+    profile: `${ROOTS.public}/profile`,
+    gallery: `${ROOTS.public}/gallery`,
   },
 };

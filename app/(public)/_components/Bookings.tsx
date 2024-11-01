@@ -1,21 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import {
-  useGetAdminCourtByIdQuery,
-  useGetAllAdminCourtsQuery,
-} from "@/store/api/Admin/adminCourts";
 import { COURT } from "@/lib/types";
 import { PublicBookingSlots } from "./PublicBookingSlots";
 import { PublicDateSelect } from "./PublicDateSelect";
-import { FaChevronDown } from "react-icons/fa";
 
-const Bookings = ({ CourtsData }: any) => {
-  const [completeBooking, setcompleteBooking] = useState(false);
+interface props {
+  CourtsData : COURT[];
+}
+
+const Bookings = ({ CourtsData }: props) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedTimeSlots, setSelectedTimeSlots] = useState();
   const [selectedCourt, setSelectedCourt] = useState<COURT>();
-  const searchParams = useSearchParams();
   const today = new Date(); // Define 'today' here
 
   useEffect(() => {
@@ -31,7 +26,6 @@ const Bookings = ({ CourtsData }: any) => {
   return (
     <div className="md:px-20 px-10 bg-[#f0f0f1] py-20" id="book-now">
       <div>
-        {/* Today&apos;s Slots */}
         <p className="text-center text-[#172b2a] font-bold text-xl flex justify-center items-center gap-3 md:text-4xl">
           <span>
             {selectedDate?.toDateString() === today.toDateString()
@@ -66,10 +60,8 @@ const Bookings = ({ CourtsData }: any) => {
             setSelectedDate={setSelectedDate}
           />
           <PublicBookingSlots
-            setcompleteBooking={setcompleteBooking}
             selectedCourt={selectedCourt}
             selectedDate={selectedDate}
-            setSelectedTimeSlots={setSelectedTimeSlots}
           />
         </div>
       )}

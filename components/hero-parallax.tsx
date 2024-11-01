@@ -10,24 +10,23 @@ import {
 } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { montserrat } from "@/lib/constants";
+import { MINIOURL, montserrat } from "@/lib/constants";
+import { FUTSALPROFILE, GALLERY } from "@/lib/types";
 
-// Define the type for the product
-interface Product {
-  title: string;
-  link: string;
-  thumbnail: string;
-}
 
 // Define the props type for the HeroParallax component
 interface HeroParallaxProps {
-  products: Product[];
+  FutsalProfile: FUTSALPROFILE;
+  GalleyData: GALLERY[]
 }
 
-export const HeroParallax: React.FC<HeroParallaxProps> = ({ products }) => {
-  const firstRow = products.slice(0, 5);
-  const secondRow = products.slice(5, 10);
-  const thirdRow = products.slice(10, 15);
+export const HeroParallax: React.FC<HeroParallaxProps> = ({
+  FutsalProfile,
+  GalleyData
+}) => {
+  const firstRow = GalleyData.slice(0, 5);
+  const secondRow = GalleyData.slice(5, 10);
+  const thirdRow = GalleyData.slice(10, 15);
   const ref = React.useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -66,7 +65,7 @@ export const HeroParallax: React.FC<HeroParallaxProps> = ({ products }) => {
       ref={ref}
       className="h-[300vh]  mb-20 antialiased relative flex flex-col [perspective:1000px] [transform-style:preserve-3d]"
     >
-      <Header />
+      <Header FutsalProfile={FutsalProfile} />
       <motion.div
         style={{ rotateX, rotateZ, translateY, opacity }}
         className="relative"
@@ -74,27 +73,27 @@ export const HeroParallax: React.FC<HeroParallaxProps> = ({ products }) => {
         <motion.div className="flex flex-row-reverse mb-20 space-x-reverse  space-x-20">
           {firstRow.map((product) => (
             <ProductCard
-              product={product}
+              galleryImage={product}
               translate={translateX}
-              key={product.title}
+              key={product._id}
             />
           ))}
         </motion.div>
         <motion.div className="flex mb-20 space-x-20">
           {secondRow.map((product) => (
             <ProductCard
-              product={product}
+            galleryImage={product}
               translate={translateXReverse}
-              key={product.title}
+              key={product._id}
             />
           ))}
         </motion.div>
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-20">
           {thirdRow.map((product) => (
             <ProductCard
-              product={product}
+            galleryImage={product}
               translate={translateX}
-              key={product.title}
+              key={product._id}
             />
           ))}
         </motion.div>
@@ -103,8 +102,13 @@ export const HeroParallax: React.FC<HeroParallaxProps> = ({ products }) => {
   );
 };
 
-const Header: React.FC = () => {
-  const titleWords = "MAIDAAN FUTSAL CENTER".split(" ");
+interface headerProps {
+  FutsalProfile: FUTSALPROFILE;
+}
+
+const Header = ({ FutsalProfile }: headerProps) => {
+  // const titleWords = "MAIDAAN FUTSAL CENTER".split(" ");
+  const titleWords = FutsalProfile.name.split(" ");
   return (
     <div
       className={`max-w-7xl mx-auto py-20 md:py-40 px-4 mt-32 ${montserrat.className}`}
@@ -140,10 +144,7 @@ const Header: React.FC = () => {
           ease: "easeOut",
         }}
       >
-        X-cEl Futsal is a premier futsal facility offering top-notch courts for
-        players of all levels. We promote teamwork and fitness through leagues,
-        tournaments, and training sessions. Join us to enhance your skills and
-        enjoy the excitement of futsal!
+        {FutsalProfile.about}
       </motion.p>
     </div>
   );
@@ -151,12 +152,12 @@ const Header: React.FC = () => {
 
 // Props type for ProductCard component
 interface ProductCardProps {
-  product: Product;
+  galleryImage: GALLERY;
   translate: MotionValue<number>;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
-  product,
+  galleryImage,
   translate,
 }) => {
   return (
@@ -165,11 +166,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       className="h-96 w-[30rem] relative flex-shrink-0"
     >
       <Image
-        src={product.thumbnail}
+        // src={galleryImage.image}
+        src={`${MINIOURL}${galleryImage.image}`}
         height={600}
         width={600}
         className="object-cover object-left-top rounded-lg absolute h-full w-full inset-0"
-        alt={product.title}
+        alt={"Gallery"}
       />
       {/* Removed hover effect and opacity transition */}
     </motion.div>

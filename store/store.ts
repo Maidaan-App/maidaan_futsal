@@ -9,6 +9,8 @@ import { adminProfileApi } from "./api/Admin/adminProfile";
 import { adminBillingspi } from "./api/Admin/adminBillings";
 import { adminBookingsApi } from "./api/Admin/adminBookings";
 import { publicCourtsApi } from "./api/Public/publicCourts";
+import { publicFutsalApi } from "./api/Public/publicFutsal";
+import { adminGalleryApi } from "./api/Admin/adminGallery";
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +22,7 @@ export const store = configureStore({
     [adminProfileApi.reducerPath]: adminProfileApi.reducer,
     [adminBillingspi.reducerPath]: adminBillingspi.reducer,
     [adminBookingsApi.reducerPath]: adminBookingsApi.reducer,
+    [adminGalleryApi.reducerPath]: adminGalleryApi.reducer,
 
     //auths
     [authsApi.reducerPath]: authsApi.reducer,
@@ -29,6 +32,7 @@ export const store = configureStore({
 
     //public
     [publicCourtsApi.reducerPath]: publicCourtsApi.reducer,
+    [publicFutsalApi.reducerPath]: publicFutsalApi.reducer,
   },
   devTools: true,
   middleware: (getDefaultMiddleware) =>
@@ -39,6 +43,7 @@ export const store = configureStore({
       adminProfileApi.middleware,
       adminBillingspi.middleware,
       adminBookingsApi.middleware,
+      adminGalleryApi.middleware,
 
       //auths
       authsApi.middleware,
@@ -47,7 +52,8 @@ export const store = configureStore({
       configsApi.middleware,
 
       //public
-      publicCourtsApi.middleware
+      publicCourtsApi.middleware,
+      publicFutsalApi.middleware
     ),
 });
 setupListeners(store.dispatch);

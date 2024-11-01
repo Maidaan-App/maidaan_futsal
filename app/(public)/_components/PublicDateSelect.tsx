@@ -60,7 +60,7 @@ export function PublicDateSelect({ selectedDate, setSelectedDate }: any) {
               day: "numeric",
             })}
           </span>
-          <FaChevronDown style={{ marginLeft: "8px" }} />
+          {/* <FaChevronDown style={{ marginLeft: "8px" }} /> */}
         </p>
 
         {/* Datepicker shown conditionally */}

@@ -4,7 +4,6 @@ import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Clock } from "lucide-react";
 import { toast } from "sonner";
-import { DateSection } from "@/app/(protected)/admin/bookings/_components/DateSection";
 
 const formatTime = (time: Date) => {
   return new Date(time).toLocaleTimeString("en-US", {
@@ -59,12 +58,7 @@ const getSlotStatus = (
   return "Available";
 };
 
-export function PublicBookingSlots({
-  selectedCourt,
-  selectedDate,
-  setSelectedTimeSlots,
-  setcompleteBooking,
-}: any) {
+export function PublicBookingSlots({ selectedCourt, selectedDate }: any) {
   const [selectedIndices, setSelectedIndices] = React.useState<number[]>([]);
   const timeSlots = generateTimeSlots(
     selectedCourt.openingTime,
@@ -81,25 +75,10 @@ export function PublicBookingSlots({
     });
   };
 
-  const handleContinueClick = () => {
-    const selectedTimeSlots = selectedIndices.map((i) => timeSlots[i]);
-    console.log("selectedTimeSlots:", selectedTimeSlots);
-    if (selectedTimeSlots.length === 0) {
-      toast.error("Please Select Slots");
-      return;
-    }
-    setSelectedTimeSlots(selectedTimeSlots);
-    setcompleteBooking(true);
-  };
-
   return (
     <div>
       {selectedDate && selectedCourt && (
         <>
-          {/* <DateSection
-            selectedDate={selectedDate}
-            setSelectedDate={setSelectedDate}
-          /> */}
           <div className="flex gap-2 px-3">
             <Clock />
             <h1 className="text-[1.125rem] font-medium">Time slots</h1>

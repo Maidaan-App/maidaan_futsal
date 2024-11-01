@@ -89,8 +89,12 @@ export interface socialLinksSchema {
 export interface FUTSALPROFILE {
   _id: string;
   linkedUserId: string;
+  subdomain: string;
   name: string;
   email: string;
+  about: string;
+  mapLink: string;
+  embeddMapLink: string;
   phone: string;
   address: string;
   image: string;
@@ -106,4 +110,11 @@ export interface BILLINGS {
   billingPhone: string;
   billingAddress: string;
   createdDate: Date;
+}
+
+export interface GALLERY {
+  _id: string;
+  linkedUserId: string;
+  image: string;
+  postedDate: string;
 }

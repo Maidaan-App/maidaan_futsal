@@ -13,7 +13,7 @@ const Layout: React.FC<LayoutProps> = async ({ children }) => {
 
   return (
     <div className="flex flex-col  min-h-screen">
-      <Header user={user} />
+      <Header />
       <main className="flex-grow">{children}</main>
       <Footer />
     </div>

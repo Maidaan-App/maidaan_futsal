@@ -1,21 +1,22 @@
-import { currentUser } from "@/lib/auth";
 import connectMongo from "@/lib/connectMongo";
-import { bookingStatusTypes, BUCKET_NAME } from "@/lib/constants";
-import minioClient from "@/lib/minioClient";
+import { bookingStatusTypes } from "@/lib/constants";
 import Bookings from "@/models/Bookings/Bookings";
 import Courts from "@/models/Courts/Courts";
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { format } from "date-fns";
+import FutsalProfile from "@/models/Users/FutsalProfile";
 
 export const dynamic = "force-dynamic";
 
 export const GET = async () => {
   console.log("Running GET request:Public Get all Courts");
-  const user = await currentUser();
+  await connectMongo();
+
 
   try {
-    await connectMongo();
-    const courts = await Courts.find({}).sort({
+
+    const currentFutsal = await FutsalProfile.findOne({subdomain: "test"});
+    const courts = await Courts.find({linkedUserId: currentFutsal.linkedUserId}).sort({
       createdDate: -1,
     });
     // Loop through each court and fetch its bookings
