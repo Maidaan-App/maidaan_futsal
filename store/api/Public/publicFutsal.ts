@@ -1,5 +1,5 @@
 import { paths } from "@/lib/paths";
-import { FUTSALPROFILE, GALLERY } from "@/lib/types";
+import { AMENITIES, FUTSALPROFILE, GALLERY } from "@/lib/types";
 import { baseQuery } from "@/store/global";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
@@ -20,10 +20,17 @@ export const publicFutsalApi = createApi({
       query: () => `${paths.public.gallery}`,
       providesTags: ["Public Futsal"],
     }),
+
+    //Amenities
+    getPublicFutsalAmenities: builder.query<AMENITIES, string>({
+      query: () => `${paths.public.amenities}`,
+      providesTags: ["Public Futsal"],
+    }),
   }),
 });
 
 export const {
   useGetPublicFutsalProfileQuery,
   useGetPublicFutsalGalleryQuery,
+  useGetPublicFutsalAmenitiesQuery,
 } = publicFutsalApi;

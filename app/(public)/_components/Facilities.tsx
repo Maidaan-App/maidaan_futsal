@@ -7,18 +7,31 @@ import {
   FaFirstAid,
   FaShower,
   FaLock,
-} from "react-icons/fa"; // Import necessary icons
-import { motion } from "framer-motion"; // Import motion for animations
+} from "react-icons/fa";
+import { motion } from "framer-motion";
+import { AMENITIESDETAIL } from "@/lib/types";
 
-const Facilities = () => {
-  const features = [
-    { icon: FaParking, title: "Parking" },
-    { icon: FaHandHoldingWater, title: "Drinking Water" },
-    { icon: FaRestroom, title: "Rest Room" },
-    { icon: FaFirstAid, title: "First Aid" },
-    { icon: FaShower, title: "Shower" },
-    { icon: FaLock, title: "Locker Room" },
-  ];
+interface Props {
+  AmenitiesData: AMENITIESDETAIL[];
+}
+
+const Facilities = ({ AmenitiesData }: Props) => {
+  // Icon map to match titles with corresponding icons
+  const iconMap: Record<string, React.ComponentType> = {
+    "Parking": FaParking,
+    "Drinking Water": FaHandHoldingWater,
+    "Rest Room": FaRestroom,
+    "First Aid": FaFirstAid,
+    "Shower": FaShower,
+    "Locker Room": FaLock,
+  };
+
+  // Filter to get only available amenities and map titles to icons
+  const availableFeatures = AmenitiesData.filter((amenity) => amenity.isAvailable)
+    .map((amenity) => ({
+      icon: iconMap[amenity.title] || FaLock, // Use FaLock as default icon
+      title: amenity.title,
+    }));
 
   return (
     <div
@@ -26,20 +39,20 @@ const Facilities = () => {
     >
       <h1 className="text-4xl font-bold mb-12 text-center">AMENITIES</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center max-w-6xl w-full">
-        {features.map((feature, index) => (
+        {availableFeatures.map((feature, index) => (
           <motion.div
             key={index}
-            className={`flex flex-col items-center p-8 rounded-lg transition-transform duration-300`}
-            initial={{ opacity: 0, y: 50 }} // Initial state for entrance animation
-            whileInView={{ opacity: 1, y: 0 }} // Final state when in view
-            exit={{ opacity: 0, y: 50 }} // Exit animation
-            transition={{ duration: 0.5, delay: index * 0.1 }} // Add delay for each item
-            whileHover={{ scale: 1.05 }} // Scale effect on hover
+            className="flex flex-col items-center p-8 rounded-lg transition-transform duration-300"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            whileHover={{ scale: 1.05 }}
           >
             <motion.div
               className="text-[#f1f1f1] text-6xl mb-6"
-              whileHover={{ rotate: 15 }} // Rotate icon on hover
-              transition={{ type: "spring", stiffness: 300 }} // Spring animation
+              whileHover={{ rotate: 15 }}
+              transition={{ type: "spring", stiffness: 300 }}
             >
               <feature.icon />
             </motion.div>
