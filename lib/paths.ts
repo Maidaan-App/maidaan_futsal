@@ -48,13 +48,12 @@ export const paths = {
     editNewsEvents: `${ROOTS.admin}/news-events/edit`,
 
     amenities: `${ROOTS.admin}/amenities`,
-
-
   },
 
   public: {
     courts: `${ROOTS.public}/courts`,
     profile: `${ROOTS.public}/profile`,
     gallery: `${ROOTS.public}/gallery`,
+    amenities: `${ROOTS.public}/amenities`,
   },
 };

@@ -8,6 +8,7 @@ import Facilities from "./Facilities";
 import { NewsAndEvents } from "./NewsAndEvents";
 import { useGetAllPublicCourtsQuery } from "@/store/api/Public/publicCourts";
 import {
+  useGetPublicFutsalAmenitiesQuery,
   useGetPublicFutsalGalleryQuery,
   useGetPublicFutsalProfileQuery,
 } from "@/store/api/Public/publicFutsal";
@@ -29,6 +30,9 @@ export default function ImagesSliderDemo() {
   const { data: GalleyData, isLoading: GalleyDataLoading } =
     useGetPublicFutsalGalleryQuery("");
 
+  const { data: AmenitiesData, isLoading: AmenitiesDataLoading } =
+    useGetPublicFutsalAmenitiesQuery("");
+
   return (
     <motion.div
       className="bg-[#182b2a] overflow-x-hidden"
@@ -38,7 +42,10 @@ export default function ImagesSliderDemo() {
       variants={pageVariants}
       transition={{ duration: 0.8, ease: "easeInOut" }}
     >
-      {CourtsDataLoading || FutsalProfileLoading || GalleyDataLoading ? (
+      {CourtsDataLoading ||
+      FutsalProfileLoading ||
+      GalleyDataLoading ||
+      AmenitiesDataLoading ? (
         <div className="flex h-[100vh] items-center justify-center">
           <Loader />
         </div>
@@ -54,7 +61,12 @@ export default function ImagesSliderDemo() {
           <StaggeredSection>
             {CourtsData && <Courts CourtsData={CourtsData} />}
             {CourtsData && <Bookings CourtsData={CourtsData} />}
-            <Facilities />
+            {AmenitiesData &&
+              AmenitiesData.amenities &&
+              AmenitiesData.amenities.length > 0 && 
+              (
+                <Facilities AmenitiesData={AmenitiesData.amenities} />
+              )}
             <NewsAndEvents />
           </StaggeredSection>
         </>

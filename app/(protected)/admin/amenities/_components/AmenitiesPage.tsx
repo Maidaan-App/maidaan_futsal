@@ -77,7 +77,7 @@ const AmenitiesPage = () => {
     if (newFeatureTitle.trim() !== "") {
       setFeatures([
         ...features,
-        { icon: FaLock, title: newFeatureTitle, isAvailable: false },
+        { icon: FaLock, title: newFeatureTitle, isAvailable: true },
       ]);
       setNewFeatureTitle("");
     }

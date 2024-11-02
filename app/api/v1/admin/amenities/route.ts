@@ -14,7 +14,7 @@ export const POST = async (request: NextRequest) => {
     if (user?.role === "admin") {
       const existingDoc = await Amenities.findOne({
         _id: Data?._id,
-        linkedFutsalId: user.id,
+        linkedUserId: user.id,
       });
       if (existingDoc) {
         await existingDoc.updateOne(Data);
@@ -22,7 +22,7 @@ export const POST = async (request: NextRequest) => {
       } else {
         const newUser = new Amenities({
           amenities: Data.amenities,
-          linkedFutsalId: user.id,
+          linkedUserId: user.id,
         });
 
         await newUser.save();
@@ -47,7 +47,7 @@ export const GET = async () => {
     await connectMongo();
 
     if (user?.role === "admin") {
-      const doc = await Amenities.findOne({ linkedFutsalId: user.id });
+      const doc = await Amenities.findOne({ linkedUserId: user.id });
       return NextResponse.json(doc, { status: 200 });
     } else {
       return NextResponse.json({ message: "Forbidden" }, { status: 403 });
