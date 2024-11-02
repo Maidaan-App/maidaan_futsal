@@ -160,7 +160,7 @@ const SCNSingleImagePicker = ({
               </h1>
               <img
                 className="w-auto h-24"
-                src={"/images/upload-image.png"}
+                src={"/images/upload.png"}
                 alt=""
               />
               <p className="font-medium text-[1.1875rem]">

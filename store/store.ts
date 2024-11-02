@@ -11,6 +11,8 @@ import { adminBookingsApi } from "./api/Admin/adminBookings";
 import { publicCourtsApi } from "./api/Public/publicCourts";
 import { publicFutsalApi } from "./api/Public/publicFutsal";
 import { adminGalleryApi } from "./api/Admin/adminGallery";
+import { adminNewsEvents } from "./api/Admin/adminNewsEvents";
+import { adminAmenities } from "./api/Admin/adminAmenities";
 
 export const store = configureStore({
   reducer: {
@@ -23,6 +25,8 @@ export const store = configureStore({
     [adminBillingspi.reducerPath]: adminBillingspi.reducer,
     [adminBookingsApi.reducerPath]: adminBookingsApi.reducer,
     [adminGalleryApi.reducerPath]: adminGalleryApi.reducer,
+    [adminNewsEvents.reducerPath]: adminNewsEvents.reducer,
+    [adminAmenities.reducerPath]: adminAmenities.reducer,
 
     //auths
     [authsApi.reducerPath]: authsApi.reducer,
@@ -44,6 +48,8 @@ export const store = configureStore({
       adminBillingspi.middleware,
       adminBookingsApi.middleware,
       adminGalleryApi.middleware,
+      adminNewsEvents.middleware,
+      adminAmenities.middleware,
 
       //auths
       authsApi.middleware,
