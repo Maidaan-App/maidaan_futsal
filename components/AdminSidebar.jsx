@@ -64,13 +64,13 @@ export default function MakeSidebar() {
     {
       icon: <NewsIcon size={24} color={"#00a870"} variant={"stroke"} />,
       text: "News And Events",
-      // href: paths.admin.bookings,
+      href: paths.admin.newsevents,
     },
-    // {
-    //   icon: <Settings02Icon size={24} color={"#00a870"} variant={"stroke"} />,
-    //   text: "Site Configuration",
-    //   href: paths.admin.siteConfiguration,
-    // },
+    {
+      icon: <Settings02Icon size={24} color={"#00a870"} variant={"stroke"} />,
+      text: "Amenities",
+      href: paths.admin.amenities,
+    },
     {
       icon: (
         <CustomerSupportIcon size={24} color={"#00a870"} variant={"stroke"} />

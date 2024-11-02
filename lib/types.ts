@@ -118,3 +118,25 @@ export interface GALLERY {
   image: string;
   postedDate: string;
 }
+
+export interface NEWSEVENT {
+  _id: string;
+  linkedUserId: string;
+  slug: string;
+  title: string;
+  image: string;
+  description: string;
+  status: boolean;
+  createdDate: Date;
+}
+
+export interface AMENITIESDETAIL {
+  title: string;
+  isAvailable: boolean;
+}
+export interface AMENITIES {
+  _id: string;
+  linkedUserId: string;
+  amenities: AMENITIESDETAIL[];
+  createdDate: Date;
+}

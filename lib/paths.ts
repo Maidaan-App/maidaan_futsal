@@ -43,6 +43,13 @@ export const paths = {
     gallery: `${ROOTS.admin}/gallery`,
     addgallery: `${ROOTS.admin}/gallery/add`,
 
+    newsevents: `${ROOTS.admin}/news-events`,
+    addNewsEvents: `${ROOTS.admin}/news-events/add`,
+    editNewsEvents: `${ROOTS.admin}/news-events/edit`,
+
+    amenities: `${ROOTS.admin}/amenities`,
+
+
   },
 
   public: {
