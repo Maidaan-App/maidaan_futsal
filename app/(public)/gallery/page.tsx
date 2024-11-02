@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { montserrat } from "@/lib/constants";
 
 interface GalleryImage {
   src: string;
@@ -51,10 +52,10 @@ export default function GalleryPage() {
   };
 
   return (
-    <div className="bg-[#182b2a] min-h-screen py-10">
-      <h1 className="text-center text-4xl font-bold text-white mb-6">
+    <div className={`bg-[#182b2a] min-h-screen py-10 ${montserrat.className}`}>
+      <h2 className="text-center text-[#f1f1f1] font-bold text-xl md:text-4xl mb-6">
         Gallery
-      </h1>
+      </h2>
       <p className="text-center text-gray-400 mb-12 mx-6">
         Explore moments captured from our tournaments, friendly matches, and
         futsal events.

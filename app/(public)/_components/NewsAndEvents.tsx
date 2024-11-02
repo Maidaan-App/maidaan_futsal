@@ -20,14 +20,14 @@ export const NewsAndEvents: React.FC = () => {
       </h1>
       <TextParallaxContent
         imgUrl="/images/futsalEvent.jpg"
-        subheading="Upcoming Match"
+        subheading="November 1st, 2024"
         heading="Futsal Championship on October 25th"
       >
         <ExampleContent />
       </TextParallaxContent>
       <TextParallaxContent
         imgUrl="/images/futsalEvent2.jpg"
-        subheading="Team Selection"
+        subheading="November 1st, 2024"
         heading="Select Your Futsal Team for the Tournament"
       >
         <ExampleContent />
@@ -126,18 +126,31 @@ const OverlayCopy: React.FC<{ subheading: string; heading: string }> = ({
 };
 
 const ExampleContent: React.FC = () => (
-  <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 px-4 pb-24 pt-12 md:grid-cols-12">
-    <h2 className="col-span-1 text-2xl font-bold md:col-span-4 text-[#f1f1f1]">
-      Get ready for the exciting futsal events!
-    </h2>
-    <div className="col-span-1 md:col-span-8">
+  // <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 px-4 pb-24 pt-12 md:grid-cols-12">
+  //   <h2 className="col-span-1 text-2xl font-bold md:col-span-4 text-[#f1f1f1]">
+  //     Get ready for the exciting futsal events!
+  //   </h2>
+  //   <div className="col-span-1 md:col-span-8">
+  //     <p className="mb-4 text-lg text-neutral-100 md:text-xl">
+  //       Join us as we kick off the Futsal Championship on October 25th.
+  //       Don&apos;t miss out on the action and support your team!
+  //     </p>
+  //     <p className="mb-8 text-lg text-neutral-300 md:text-xl">
+  //       Team selection is currently underway. Gather your friends and form your
+  //       futsal team for the tournament!
+  //     </p>
+  //     <button className="w-full rounded bg-white px-8 py-3 text-xl text-black transition-colors hover:bg-neutral-700 md:w-fit">
+  //       Learn more <FiArrowUpRight className="inline" />
+  //     </button>
+  //   </div>
+  // </div>
+  <div className="mx-auto  max-w-5xl  gap-8 px-4 pb-24 pt-12 ">
+    <div className="flex flex-col items-center">
       <p className="mb-4 text-lg text-neutral-100 md:text-xl">
         Join us as we kick off the Futsal Championship on October 25th.
-        Don&apos;t miss out on the action and support your team!
-      </p>
-      <p className="mb-8 text-lg text-neutral-300 md:text-xl">
-        Team selection is currently underway. Gather your friends and form your
-        futsal team for the tournament!
+        Don&apos;t miss out on the action and support your team! Team selection
+        is currently underway. Gather your friends and form your futsal team for
+        the tournament!
       </p>
       <button className="w-full rounded bg-white px-8 py-3 text-xl text-black transition-colors hover:bg-neutral-700 md:w-fit">
         Learn more <FiArrowUpRight className="inline" />
