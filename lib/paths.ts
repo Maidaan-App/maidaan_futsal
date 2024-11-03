@@ -1,6 +1,7 @@
 const ROOTS = {
   admin: "/admin",
-  public: "/public",
+  publicApi: "/public",
+  public: "/",
   configuration: "/configuration",
 };
 
@@ -51,9 +52,16 @@ export const paths = {
   },
 
   public: {
-    courts: `${ROOTS.public}/courts`,
-    profile: `${ROOTS.public}/profile`,
-    gallery: `${ROOTS.public}/gallery`,
-    amenities: `${ROOTS.public}/amenities`,
+    landing: `${ROOTS.public}`,
+    gallery: `${ROOTS.public}gallery`,
+    newsEvents: `${ROOTS.public}news-and-events`,
+  },
+
+  publicApi: {
+    courts: `${ROOTS.publicApi}/courts`,
+    profile: `${ROOTS.publicApi}/profile`,
+    gallery: `${ROOTS.publicApi}/gallery`,
+    amenities: `${ROOTS.publicApi}/amenities`,
+    newsEvents: `${ROOTS.publicApi}/news-events`,
   },
 };
