@@ -38,75 +38,92 @@ const formSchema = z
     closingTime: z
       .instanceof(Date)
       .refine((data) => data !== null, { message: "Closing time is required" }),
-    morningShift: z
-      .object({
-        startTime: z.instanceof(Date).optional(),
-        endTime: z.instanceof(Date).optional(),
-        price: z.string().optional(),
-      })
-      .optional(),
-    dayShift: z
-      .object({
-        startTime: z.instanceof(Date).optional(),
-        endTime: z.instanceof(Date).optional(),
-        price: z.string().optional(),
-      })
-      .optional(),
-    eveningShift: z
-      .object({
-        startTime: z.instanceof(Date).optional(),
-        endTime: z.instanceof(Date).optional(),
-        price: z.string().optional(),
-      })
-      .optional(),
-    holidayShift: z
-      .object({
-        startTime: z.instanceof(Date).optional(),
-        endTime: z.instanceof(Date).optional(),
-        price: z.string().optional(),
-      })
-      .optional(),
+    morningShift: z.object({
+      startTime: z.instanceof(Date).refine((data) => data !== null, {
+        message: "Start time is required",
+      }),
+      endTime: z.instanceof(Date).refine((data) => data !== null, {
+        message: "End time is required",
+      }),
+      price: z.string().min(1, { message: "Price is required" }),
+    }),
+    dayShift: z.object({
+      startTime: z.instanceof(Date).refine((data) => data !== null, {
+        message: "Start time is required",
+      }),
+      endTime: z.instanceof(Date).refine((data) => data !== null, {
+        message: "End time is required",
+      }),
+      price: z.string().min(1, { message: "Price is required" }),
+    }),
+    eveningShift: z.object({
+      startTime: z.instanceof(Date).refine((data) => data !== null, {
+        message: "Start time is required",
+      }),
+      endTime: z.instanceof(Date).refine((data) => data !== null, {
+        message: "End time is required",
+      }),
+      price: z.string().min(1, { message: "Price is required" }),
+    }),
+    holidayShift: z.object({
+      startTime: z.instanceof(Date).refine((data) => data !== null, {
+        message: "Start time is required",
+      }),
+      endTime: z.instanceof(Date).refine((data) => data !== null, {
+        message: "End time is required",
+      }),
+      price: z.string().min(1, { message: "Price is required" }),
+    }),
   })
   .refine((data) => data.openingTime < data.closingTime, {
-    message: "Opening time must be earlier than closing time",
-    path: ["closingTime"],
+    message: "Opening time must be earlier than Closing time",
+    path: ["openingTime"],
   })
-  .refine((data) => {
-    if (data.morningShift?.endTime && data.dayShift?.startTime) {
-      return data.morningShift.endTime < data.dayShift.startTime;
+  .refine(
+    (data) => {
+      if (data.holidayShift?.startTime && data.holidayShift?.endTime) {
+        return data.holidayShift.startTime < data.holidayShift.endTime;
+      }
+      return true;
+    },
+    {
+      message:
+        "Holiday shift start time must be earlier than holiday shift end time",
+      path: ["holidayShift", "endTime"],
     }
-    return true;
-  }, {
-    message: "Morning shift end time must be earlier than day shift start time",
-    path: ["dayShift", "startTime"],
-  })
-  .refine((data) => {
-    if (data.dayShift?.startTime && data.dayShift?.endTime) {
-      return data.dayShift.startTime < data.dayShift.endTime;
+  )
+  .refine(
+    (data) =>
+      data.openingTime.getTime() === data.morningShift.startTime.getTime(),
+    {
+      message: "Morning Shift Start time must match with Opening time",
+      path: ["morningShift", "startTime"],
     }
-    return true;
-  }, {
-    message: "Day shift start time must be earlier than day shift end time",
-    path: ["dayShift", "endTime"],
-  })
-  .refine((data) => {
-    if (data.dayShift?.endTime && data.eveningShift?.startTime) {
-      return data.dayShift.endTime < data.eveningShift.startTime;
+  )
+  .refine(
+    (data) =>
+      data.morningShift.endTime.getTime() === data.dayShift.startTime.getTime(),
+    {
+      message: "Day Shift Start time must match with Morning Shift end time",
+      path: ["dayShift", "startTime"],
     }
-    return true;
-  }, {
-    message: "Day shift end time must be earlier than evening shift start time",
-    path: ["eveningShift", "startTime"],
-  })
-  .refine((data) => {
-    if (data.holidayShift?.startTime && data.holidayShift?.endTime) {
-      return data.holidayShift.startTime < data.holidayShift.endTime;
+  )
+  .refine(
+    (data) =>
+      data.dayShift.endTime.getTime() === data.eveningShift.startTime.getTime(),
+    {
+      message: "Evening Shift Start time must match with Day Shift end time",
+      path: ["eveningShift", "startTime"],
     }
-    return true;
-  }, {
-    message: "Holiday shift start time must be earlier than holiday shift end time",
-    path: ["holidayShift", "endTime"],
-  });
+  )
+  .refine(
+    (data) =>
+      data.closingTime.getTime() === data.eveningShift.endTime.getTime(),
+    {
+      message: "Evening Shift end time must match with Closing time",
+      path: ["eveningShift", "endTime"],
+    }
+  );
 
 const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
   const [Loading, setLoading] = useState(false);
@@ -131,42 +148,40 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
           ? new Date(ExistingDetail.closingTime)
           : undefined,
         morningShift: {
-          startTime: ExistingDetail?.openingTime
-            ? new Date(ExistingDetail.openingTime)
+          startTime: ExistingDetail?.morningShift?.startTime
+            ? new Date(ExistingDetail?.morningShift?.startTime)
             : undefined,
           endTime: ExistingDetail?.morningShift?.endTime
-          ? new Date(ExistingDetail?.morningShift?.endTime)
-          : undefined,
+            ? new Date(ExistingDetail?.morningShift?.endTime)
+            : undefined,
           price: ExistingDetail?.morningShift?.price ?? "0",
         },
         dayShift: {
           startTime: ExistingDetail?.dayShift?.startTime
-          ? new Date(ExistingDetail?.dayShift?.startTime)
-          : undefined,
+            ? new Date(ExistingDetail?.dayShift?.startTime)
+            : undefined,
           endTime: ExistingDetail?.dayShift?.endTime
-          ? new Date(ExistingDetail?.dayShift?.endTime)
-          : undefined,
+            ? new Date(ExistingDetail?.dayShift?.endTime)
+            : undefined,
           price: ExistingDetail?.dayShift?.price ?? "0",
         },
         eveningShift: {
           startTime: ExistingDetail?.eveningShift?.startTime
-          ? new Date(ExistingDetail?.eveningShift?.startTime)
-          : undefined,
-          endTime: ExistingDetail?.closingTime
-            ? new Date(ExistingDetail.closingTime)
+            ? new Date(ExistingDetail?.eveningShift?.startTime)
+            : undefined,
+          endTime: ExistingDetail?.eveningShift?.endTime
+            ? new Date(ExistingDetail?.eveningShift?.endTime)
             : undefined,
           price: ExistingDetail?.eveningShift?.price ?? "0",
-
         },
         holidayShift: {
           startTime: ExistingDetail?.holidayShift?.startTime
-          ? new Date(ExistingDetail?.holidayShift?.startTime)
-          : undefined,
+            ? new Date(ExistingDetail?.holidayShift?.startTime)
+            : undefined,
           endTime: ExistingDetail?.holidayShift?.endTime
-          ? new Date(ExistingDetail?.holidayShift?.endTime)
-          : undefined,
+            ? new Date(ExistingDetail?.holidayShift?.endTime)
+            : undefined,
           price: ExistingDetail?.holidayShift?.price ?? "0",
-
         },
       });
     }
@@ -301,7 +316,7 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                         <FormLabel>Start Time</FormLabel>
                         <FormControl>
                           <TimePicker
-                            disabled
+                            // disabled
                             value={field.value ? dayjs(field.value) : null}
                             onChange={(value) =>
                               field.onChange(value?.toDate())
@@ -443,7 +458,7 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                         <FormLabel>End Time</FormLabel>
                         <FormControl>
                           <TimePicker
-                            disabled
+                            // disabled
                             value={field.value ? dayjs(field.value) : null}
                             onChange={(value) =>
                               field.onChange(value?.toDate())
