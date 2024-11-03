@@ -12,11 +12,12 @@ export const GET = async () => {
   console.log("Running GET request:Public Get all Courts");
   await connectMongo();
 
-
   try {
-
-    const currentFutsal = await FutsalProfile.findOne({subdomain: "test"});
-    const courts = await Courts.find({linkedUserId: currentFutsal.linkedUserId}).sort({
+    const currentFutsal = await FutsalProfile.findOne({ subdomain: "test" });
+    const courts = await Courts.find({
+      linkedUserId: currentFutsal.linkedUserId,
+      status: true,
+    }).sort({
       createdDate: -1,
     });
     // Loop through each court and fetch its bookings

@@ -47,8 +47,8 @@ const CourtCard: React.FC<CourtCardProps> = ({ courtData }) => {
     );
   };
   return (
-    <Link
-      href={`${paths.admin.addBookings}?id=${courtData._id}`}
+    <div
+      // href={`${paths.admin.addBookings}?id=${courtData._id}`}
       className="bg-white rounded-lg overflow-hidden p-4 flex gap-4 flex-col "
     >
       <img
@@ -95,7 +95,7 @@ const CourtCard: React.FC<CourtCardProps> = ({ courtData }) => {
           </DropdownMenu>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 

@@ -54,7 +54,10 @@ export const GET = async () => {
   try {
     await connectMongo();
     if (user?.role === "admin") {
-      const courts = await Courts.find({ linkedUserId: user.id }).sort({
+      const courts = await Courts.find({
+        linkedUserId: user.id,
+        status: true,
+      }).sort({
         createdDate: -1,
       });
       // Loop through each court and fetch its bookings
@@ -66,23 +69,29 @@ export const GET = async () => {
           });
 
           // Group the bookings by date and booking status
-          const groupedBookingsByDay = allBookings.reduce((acc: any, booking) => {
-            // Get the local date for each booking (formatted as "YYYY-MM-DD")
-            const bookingDate = format(new Date(booking.selectedDate), 'yyyy-MM-dd');
+          const groupedBookingsByDay = allBookings.reduce(
+            (acc: any, booking) => {
+              // Get the local date for each booking (formatted as "YYYY-MM-DD")
+              const bookingDate = format(
+                new Date(booking.selectedDate),
+                "yyyy-MM-dd"
+              );
 
-            // Initialize the date group if not present
-            if (!acc[bookingDate]) {
-              acc[bookingDate] = {};
-              bookingStatusTypes.forEach((status) => {
-                acc[bookingDate][status] = []; // Initialize arrays for each booking status
-              });
-            }
+              // Initialize the date group if not present
+              if (!acc[bookingDate]) {
+                acc[bookingDate] = {};
+                bookingStatusTypes.forEach((status) => {
+                  acc[bookingDate][status] = []; // Initialize arrays for each booking status
+                });
+              }
 
-            // Push the booking to the appropriate status group for that date
-            acc[bookingDate][booking.status].push(booking);
+              // Push the booking to the appropriate status group for that date
+              acc[bookingDate][booking.status].push(booking);
 
-            return acc;
-          }, {});
+              return acc;
+            },
+            {}
+          );
 
           return {
             ...court.toObject(), // Convert court document to plain object
@@ -121,11 +130,11 @@ export const DELETE = async (request: NextRequest) => {
           { status: 404 }
         );
       }
-
-      await Courts.deleteOne({ _id });
-      if (exisitingDoc.image != null) {
-        await minioClient.removeObject(BUCKET_NAME, exisitingDoc.image);
-      }
+      await Courts.updateOne({ _id }, { $set: { status: false } });
+      // await Courts.deleteOne({ _id });
+      // if (exisitingDoc.image != null) {
+      //   await minioClient.removeObject(BUCKET_NAME, exisitingDoc.image);
+      // }
       return NextResponse.json({ message: "Court Deleted" }, { status: 201 });
     } else {
       return NextResponse.json({ message: "Forbidden" }, { status: 400 });

@@ -12,7 +12,6 @@ import Loader from "@/components/Loader";
 const CourtsPage = () => {
   const { data: CourtsData, isLoading: CourtsDataLoading } =
     useGetAllAdminCourtsQuery("");
-  console.log("CourtsData:", CourtsData);
   return (
     <>
       {CourtsDataLoading ? (
