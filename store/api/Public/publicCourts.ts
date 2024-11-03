@@ -11,7 +11,7 @@ export const publicCourtsApi = createApi({
   endpoints: (builder) => ({
     //Get All Courts
     getAllPublicCourts: builder.query<COURT[], string>({
-      query: () => `${paths.public.courts}`,
+      query: () => `${paths.publicApi.courts}`,
       providesTags: ["Public Courts"],
     }),
 

@@ -1,3 +1,5 @@
+@import "react-quill/dist/quill.snow.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -104,6 +106,20 @@
   src: url("/fonts/FoundersGrotesk-Light.otf") format("opentype");
   font-weight: 300;
   font-style: normal;
+}
+
+.ql-container {
+  box-sizing: border-box;
+  border: 1px solid red;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  height: 100%;
+  margin: 0px;
+  position: relative;
+}
+
+.ql-container {
+  border: 3px solid red;
 }
 
 loader {

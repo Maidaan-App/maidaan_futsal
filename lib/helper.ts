@@ -44,9 +44,9 @@ export async function generateRandomPassword() {
 }
 
 
-// export function convertToHumanReadable(params: any) {
-//     return moment(params).format("MMM Do YYYY");
-// }
+export function convertToHumanReadableNoTime(params: any) {
+    return moment(params).format("MMM Do YYYY");
+}
 
 export function convertToHumanReadable(params: any) {
   const formattedDate = moment(params).format('MMMM Do YYYY, h:mm:ss A');

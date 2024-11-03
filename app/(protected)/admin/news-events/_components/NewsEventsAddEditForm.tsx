@@ -21,6 +21,7 @@ import SCNSingleImagePicker from "@/components/image-picker/SCNSingleImagePicker
 import { poppins } from "@/lib/constants";
 import { paths } from "@/lib/paths";
 import { useAdminAddUpdateNewsEventsMutation } from "@/store/api/Admin/adminNewsEvents";
+import ReactQuillEditor from "@/components/ReactQuillEditor";
 
 const formSchema = z.object({
   image: z.any(),
@@ -144,13 +145,20 @@ const NewsEventsAddEditForm = ({ type, ExistingDetail }: any) => {
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormControl>
-                    <TextField
+                    {/* <TextField
                       id="outlined-basic"
                       label="Description"
                       variant="outlined"
                       {...field}
                       className="w-full"
-                    />
+                    /> */}
+                    <div className={`flex flex-col gap-3`}>
+                      <label className="font-normal text-[1rem] text-heading">
+                        Description
+                      </label>
+
+                      <ReactQuillEditor name="description" />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

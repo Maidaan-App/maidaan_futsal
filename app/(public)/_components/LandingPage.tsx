@@ -10,6 +10,7 @@ import { useGetAllPublicCourtsQuery } from "@/store/api/Public/publicCourts";
 import {
   useGetPublicFutsalAmenitiesQuery,
   useGetPublicFutsalGalleryQuery,
+  useGetPublicFutsalNewsEventsQuery,
   useGetPublicFutsalProfileQuery,
 } from "@/store/api/Public/publicFutsal";
 import Loader from "@/components/Loader";
@@ -33,6 +34,9 @@ export default function ImagesSliderDemo() {
   const { data: AmenitiesData, isLoading: AmenitiesDataLoading } =
     useGetPublicFutsalAmenitiesQuery("");
 
+  const { data: NewsEventsData, isLoading: NewsEventsDataLoading } =
+    useGetPublicFutsalNewsEventsQuery("");
+
   return (
     <motion.div
       className="bg-[#182b2a] overflow-x-hidden"
@@ -45,6 +49,7 @@ export default function ImagesSliderDemo() {
       {CourtsDataLoading ||
       FutsalProfileLoading ||
       GalleyDataLoading ||
+      NewsEventsDataLoading ||
       AmenitiesDataLoading ? (
         <div className="flex h-[100vh] items-center justify-center">
           <Loader />
@@ -63,11 +68,10 @@ export default function ImagesSliderDemo() {
             {CourtsData && <Bookings CourtsData={CourtsData} />}
             {AmenitiesData &&
               AmenitiesData.amenities &&
-              AmenitiesData.amenities.length > 0 && 
-              (
+              AmenitiesData.amenities.length > 0 && (
                 <Facilities AmenitiesData={AmenitiesData.amenities} />
               )}
-            <NewsAndEvents />
+            {NewsEventsData && NewsEventsData.length > 0 && <NewsAndEvents NewsEventsData={NewsEventsData} />}
           </StaggeredSection>
         </>
       )}

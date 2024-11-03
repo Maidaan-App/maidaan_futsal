@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link"; // Import Link from next/link
 import { FUTSALPROFILE } from "@/lib/types";
+import { paths } from "@/lib/paths";
 
 type NavbarProps = {
   isScrolled: boolean; // Accept the isScrolled prop
@@ -106,7 +107,7 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled, FutsalProfile }) => {
           </Link>
         </li>
         <li className="hidden md:block">
-          <Link href="/gallery" passHref>
+          <Link href={paths.public.gallery} passHref>
             <FlipLink>GALLERY</FlipLink>
           </Link>
         </li>
@@ -114,17 +115,18 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled, FutsalProfile }) => {
           <li>
             <Link href="/" passHref>
               <span className="flex w-20 h-10 items-center">
-                <img 
-                // src="logo.png"
-                src={`${MINIOURL}${FutsalProfile.image}`}
-                 alt="Logo" className="w-14 md:w-auto" />
+                <img
+                  src={`${MINIOURL}${FutsalProfile.image}`}
+                  alt="Logo"
+                  className="w-14 md:w-auto"
+                />
               </span>{" "}
               {/* No effect on LOGO */}
             </Link>
           </li>
         )}
         <li className="hidden md:block">
-          <Link href="/news-and-events" passHref>
+          <Link href={paths.public.newsEvents} passHref>
             <FlipLink>NEWS - EVENTS</FlipLink>
           </Link>
         </li>

@@ -1,7 +1,14 @@
 import React, { useRef, ReactNode } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { FiArrowUpRight } from "react-icons/fi";
-import { montserrat } from "@/lib/constants";
+import { MINIOURL, montserrat } from "@/lib/constants";
+import { NEWSEVENT } from "@/lib/types";
+import {
+  convertToHumanReadable,
+  convertToHumanReadableNoTime,
+} from "@/lib/helper";
+import Link from "next/link";
+import { paths } from "@/lib/paths";
 
 // Define the types for the TextParallaxContent component props
 interface TextParallaxContentProps {
@@ -11,33 +18,37 @@ interface TextParallaxContentProps {
   children?: ReactNode;
 }
 
+interface props {
+  NewsEventsData: NEWSEVENT[];
+}
+
 // Main component
-export const NewsAndEvents: React.FC = () => {
+export const NewsAndEvents = ({ NewsEventsData }: props) => {
   return (
     <div className={`${montserrat.className} py-20`}>
       <h1 className="md:text-4xl text-2xl font-bold mb-12 text-center text-[#f1f1f1]">
         NEWS AND EVENTS
       </h1>
       <TextParallaxContent
-        imgUrl="/images/futsalEvent.jpg"
-        subheading="November 1st, 2024"
-        heading="Futsal Championship on October 25th"
+        imgUrl={`${MINIOURL}${NewsEventsData[0].image}`}
+        subheading={convertToHumanReadableNoTime(NewsEventsData[0].createdDate)}
+        heading={NewsEventsData[0].title}
       >
-        <ExampleContent />
+        <ExampleContent NewsEventsData={NewsEventsData[0]} />
       </TextParallaxContent>
       <TextParallaxContent
-        imgUrl="/images/futsalEvent2.jpg"
-        subheading="November 1st, 2024"
-        heading="Select Your Futsal Team for the Tournament"
+        imgUrl={`${MINIOURL}${NewsEventsData[1].image}`}
+        subheading={convertToHumanReadableNoTime(NewsEventsData[1].createdDate)}
+        heading={NewsEventsData[1].title}
       >
-        <ExampleContent />
+        <ExampleContent NewsEventsData={NewsEventsData[1]} />
       </TextParallaxContent>
 
       {/* View More Button */}
       <div className="flex justify-center mt-12">
-        <button className="w-full md:w-fit rounded px-8 py-3 text-xl text-white transition-colors hover:bg-neutral-700">
+        <Link href={paths.public.newsEvents} className="w-full md:w-fit rounded px-8 py-3 text-xl text-white transition-colors hover:bg-neutral-700">
           View All <FiArrowUpRight className="inline ml-2" />
-        </button>
+        </Link>
       </div>
     </div>
   );
@@ -125,36 +136,25 @@ const OverlayCopy: React.FC<{ subheading: string; heading: string }> = ({
   );
 };
 
-const ExampleContent: React.FC = () => (
-  // <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 px-4 pb-24 pt-12 md:grid-cols-12">
-  //   <h2 className="col-span-1 text-2xl font-bold md:col-span-4 text-[#f1f1f1]">
-  //     Get ready for the exciting futsal events!
-  //   </h2>
-  //   <div className="col-span-1 md:col-span-8">
-  //     <p className="mb-4 text-lg text-neutral-100 md:text-xl">
-  //       Join us as we kick off the Futsal Championship on October 25th.
-  //       Don&apos;t miss out on the action and support your team!
-  //     </p>
-  //     <p className="mb-8 text-lg text-neutral-300 md:text-xl">
-  //       Team selection is currently underway. Gather your friends and form your
-  //       futsal team for the tournament!
-  //     </p>
-  //     <button className="w-full rounded bg-white px-8 py-3 text-xl text-black transition-colors hover:bg-neutral-700 md:w-fit">
-  //       Learn more <FiArrowUpRight className="inline" />
-  //     </button>
-  //   </div>
-  // </div>
+interface exampleProps {
+  NewsEventsData: NEWSEVENT;
+}
+
+const ExampleContent = ({ NewsEventsData }: exampleProps) => (
   <div className="mx-auto  max-w-5xl  gap-8 px-4 pb-24 pt-12 ">
     <div className="flex flex-col items-center">
-      <p className="mb-4 text-lg text-neutral-100 md:text-xl">
-        Join us as we kick off the Futsal Championship on October 25th.
-        Don&apos;t miss out on the action and support your team! Team selection
-        is currently underway. Gather your friends and form your futsal team for
-        the tournament!
-      </p>
-      <button className="w-full rounded bg-white px-8 py-3 text-xl text-black transition-colors hover:bg-neutral-700 md:w-fit">
+      {/* <div className="text-[#28353D] flex flex-col gap-4"> */}
+      <p
+        className="mb-4 text-lg text-neutral-100 md:text-xl line-clamp-4"
+        dangerouslySetInnerHTML={{ __html: NewsEventsData.description }}
+      ></p>
+      {/* </div> */}
+      <Link
+        href={`${paths.public.newsEvents}/${NewsEventsData.slug}`}
+        className="w-full rounded bg-white px-8 py-3 text-xl text-black transition-colors hover:bg-neutral-700 md:w-fit"
+      >
         Learn more <FiArrowUpRight className="inline" />
-      </button>
+      </Link>
     </div>
   </div>
 );
