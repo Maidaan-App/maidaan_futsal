@@ -32,6 +32,12 @@ export const publicFutsalApi = createApi({
       query: () => `${paths.publicApi.newsEvents}`,
       providesTags: ["Public Futsal"],
     }),
+
+    // Get News Event by slug
+    getAdminNewseventBySlug: builder.query<NEWSEVENT, string>({
+      query: (slug) => `${paths.publicApi.newsEvents}/byslug?slug=${slug}`,
+      providesTags: ["Public Futsal"],
+    }),
   }),
 });
 
@@ -39,5 +45,6 @@ export const {
   useGetPublicFutsalProfileQuery,
   useGetPublicFutsalGalleryQuery,
   useGetPublicFutsalAmenitiesQuery,
-  useGetPublicFutsalNewsEventsQuery
+  useGetPublicFutsalNewsEventsQuery,
+  useGetAdminNewseventBySlugQuery,
 } = publicFutsalApi;
