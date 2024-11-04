@@ -46,7 +46,10 @@ export const NewsAndEvents = ({ NewsEventsData }: props) => {
 
       {/* View More Button */}
       <div className="flex justify-center mt-12">
-        <Link href={paths.public.newsEvents} className="w-full md:w-fit rounded px-8 py-3 text-xl text-white transition-colors hover:bg-neutral-700">
+        <Link
+          href={paths.public.newsEvents}
+          className="w-full md:w-fit rounded px-8 py-3 text-xl text-white transition-colors hover:bg-neutral-700"
+        >
           View All <FiArrowUpRight className="inline ml-2" />
         </Link>
       </div>

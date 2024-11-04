@@ -29,7 +29,9 @@ const NewsEventsPage = () => {
     (currentPage + 1) * itemsPerPage
   );
   return (
-    <div className={`bg-[#182b2a] min-h-screen py-10 ${montserrat.className}`}>
+    <div
+      className={`bg-[#182b2a] min-h-screen md:px-20 px-10 py-10 ${montserrat.className}`}
+    >
       {NewsEventsDataLoading ? (
         <div className="flex h-[100vh] items-center justify-center">
           <Loader />
