@@ -7,7 +7,7 @@ import GalleryDetailPageComp from "./_components/GalleryDetailPageComp";
 const page = () => {
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between p-5 ">
         <h1 className="font-semibold text-2xl">Gallery</h1>
         <div className="flex justify-end">
           <Link href={`${paths.admin.addgallery}`} className="self-end">

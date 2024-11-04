@@ -42,16 +42,17 @@ const pop = Poppins({
 const layout = async ({ children }: { children: React.ReactNode }) => {
   const user = await currentUser();
   return (
-    <div className={`flex h-screen w-full ${pop.className}`}>
-      <div className="z-50 w-fit h-full flex  lg:hidden">
+    <div className={`flex w-full ${pop.className} h-screen fixed `}>
+      <div className="z-50 w-fit  flex  lg:hidden overflow-y-auto">
         <PublicSidebar />
       </div>
-      <div className="z-50 w-fit h-full hidden  lg:flex">
+
+      <div className="z-50 w-fit h-screen hidden  lg:flex">
         <AdminSidebar />
       </div>
 
       {/* Main Content */}
-      <main className="flex-grow bg-[#F4F4F5]  overflow-auto">
+      <main className="w-full bg-[#F4F4F5] overflow-auto">
         <div className="flex flex-col lg:flex-row justify-between items-center bg-white  p-5 sticky top-0 gap-3 z-50">
           <div className="relative">
             <input
@@ -61,7 +62,6 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
             />
 
             <div className="absolute top-0 bottom-0 left-2 flex items-center">
-              {/* <Search className="h-[1rem] w-[1rem]" /> */}
               <Search01Icon size={15} color={"#8A92A6"} />
             </div>
 
@@ -74,12 +74,9 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
 
           <div className="flex items-center gap-5">
             <div className="bg-[#F4F4F5] rounded-xl p-2 h-[2.8125rem] w-[2.8125rem] flex items-center justify-center  ">
-              {/* <Bell className="text-[#8A92A6]" />
-               */}
               <Notification02Icon size={24} color={"#8A92A6"} />
             </div>
             <div className="bg-[#F4F4F5] rounded-xl p-2 h-[2.8125rem] w-[2.8125rem] flex items-center justify-center">
-              {/* <MessageSquareMore className="text-[#8A92A6] " /> */}
               <Comment01Icon size={24} color={"#8A92A6"} />
             </div>
             <DropdownMenu>
