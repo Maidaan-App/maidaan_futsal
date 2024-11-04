@@ -2,21 +2,20 @@
 import { MINIOURL, montserrat } from "@/lib/constants";
 import React from "react";
 import { motion } from "framer-motion";
-import Link from "next/link"; // Import Link from next/link
 import { FUTSALPROFILE } from "@/lib/types";
 import { paths } from "@/lib/paths";
+import TransitionWrapper from "./TransitionWrapper";
 
 type NavbarProps = {
-  isScrolled: boolean; // Accept the isScrolled prop
+  isScrolled: boolean;
   FutsalProfile: FUTSALPROFILE | undefined;
 };
 
-const DURATION = 0.25; // Animation duration
-const STAGGER = 0.025; // Stagger delay for each letter
+const DURATION = 0.25;
+const STAGGER = 0.025;
 
-// Define props for the FlipLink component
 type FlipLinkProps = {
-  children: string; // Children should be a string to split into characters
+  children: string;
 };
 
 const FlipLink: React.FC<FlipLinkProps> = ({ children }) => {
@@ -24,7 +23,7 @@ const FlipLink: React.FC<FlipLinkProps> = ({ children }) => {
     <motion.div
       initial="initial"
       whileHover="hovered"
-      className="relative block overflow-hidden whitespace-nowrap text-xs font-bold md:text-2xl" // Adjust the font size here
+      className="relative block overflow-hidden whitespace-nowrap text-xs font-bold md:text-2xl"
       style={{ lineHeight: 1 }}
     >
       <div>
@@ -69,30 +68,25 @@ const FlipLink: React.FC<FlipLinkProps> = ({ children }) => {
   );
 };
 
-const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-  e.preventDefault(); // Prevent default link behavior
-  const target = document.getElementById("contact"); // Get contact section by id
-  if (target) {
-    target.scrollIntoView({ behavior: "smooth" }); // Smooth scroll to the section
-  }
-};
-
-const handleScrollBookings = (
-  e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-) => {
-  e.preventDefault(); // Prevent default link behavior
-  const target = document.getElementById("book-now"); // Get bookings section by id
-  if (target) {
-    target.scrollIntoView({ behavior: "smooth" }); // Smooth scroll to the section
-  }
-};
-
 const Navbar: React.FC<NavbarProps> = ({ isScrolled, FutsalProfile }) => {
+  const handleScrollToSection = (section: string) => {
+    // Check if on home page
+    if (window.location.pathname === "/") {
+      const target = document.getElementById(section);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      // Navigate to home page with the section in the URL
+      window.location.href = `/#${section}`;
+    }
+  };
+
   return (
     <div
       className={`text-[#f1f1f1] transition-all duration-300 h-20 md:px-20 px-7 flex justify-center ${
         isScrolled
-          ? "bg-[#182b2a] bg-opacity-80 backdrop-blur-md shadow-lg" // Apply glassy effect when scrolled
+          ? "bg-[#182b2a] bg-opacity-80 backdrop-blur-md shadow-lg"
           : "bg-[#182b2a]"
       }`}
     >
@@ -100,42 +94,59 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled, FutsalProfile }) => {
         className={`flex w-full justify-between items-center list-none h-full cursor-pointer ${montserrat.className}`}
       >
         <li>
-          {" "}
-          {/* Hide on mobile */}
-          <Link href="#book-now" passHref onClick={handleScrollBookings}>
+          <a
+            href="#book-now"
+            onClick={(e) => {
+              e.preventDefault();
+              handleScrollToSection("book-now");
+            }}
+          >
             <FlipLink>BOOK-NOW</FlipLink>
-          </Link>
+          </a>
         </li>
         <li className="hidden md:block">
-          <Link href={paths.public.gallery} passHref>
-            <FlipLink>GALLERY</FlipLink>
-          </Link>
+          <a
+            href={paths.public.gallery}
+            onClick={() => (window.location.href = paths.public.gallery)}
+          >
+            <TransitionWrapper key={paths.public.gallery}>
+              <FlipLink>GALLERY</FlipLink>
+            </TransitionWrapper>
+          </a>
         </li>
         {FutsalProfile && (
           <li>
-            <Link href="/" passHref>
+            <a href="/" onClick={() => (window.location.href = "/")}>
               <span className="flex w-20 h-10 items-center">
                 <img
                   src={`${MINIOURL}${FutsalProfile.image}`}
                   alt="Logo"
                   className="w-14 md:w-auto"
                 />
-              </span>{" "}
-              {/* No effect on LOGO */}
-            </Link>
+              </span>
+            </a>
           </li>
         )}
         <li className="hidden md:block">
-          <Link href={paths.public.newsEvents} passHref>
-            <FlipLink>NEWS - EVENTS</FlipLink>
-          </Link>
+          <a
+            href={paths.public.newsEvents}
+            onClick={() => (window.location.href = paths.public.newsEvents)}
+          >
+            <TransitionWrapper key={paths.public.newsEvents}>
+              <FlipLink>NEWS - EVENTS</FlipLink>
+            </TransitionWrapper>
+          </a>
         </li>
         <li>
-          {" "}
-          {/* Hide on mobile */}
-          <Link href="#contact" passHref onClick={handleScroll}>
+          <a
+            href="#contact"
+            onClick={(e) => {
+              e.preventDefault();
+              handleScrollToSection("contact");
+            }}
+          >
             <FlipLink>CONTACT</FlipLink>
-          </Link>
+          </a>
         </li>
       </ul>
     </div>

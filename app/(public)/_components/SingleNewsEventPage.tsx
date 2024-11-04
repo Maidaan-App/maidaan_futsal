@@ -15,7 +15,9 @@ const SingleNewsEventPage = () => {
     useGetAdminNewseventBySlugQuery(slug as string);
 
   return (
-    <div className={`bg-[#182b2a] min-h-screen py-10 ${montserrat.className}`}>
+    <div
+      className={`bg-[#182b2a] min-h-screen md:py-10 ${montserrat.className}`}
+    >
       {NewsEventLoading ? (
         <div className="flex h-[100vh] items-center justify-center">
           <Loader />
