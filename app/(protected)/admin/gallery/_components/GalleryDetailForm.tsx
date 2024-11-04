@@ -71,7 +71,7 @@ const GalleryDetailForm = ({ linkedGalleryId }: any) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-6 p-5 bg-white z-50 h-fit"
       >
-        <h1 className="font-semibold text-2xl">Add Image</h1>
+        <h1 className="font-semibold text-2xl">Add Images</h1>
         <div className="flex w-full gap-4">
           <div className="w-1/2">
             <SCNMultiImagePicker

@@ -2,20 +2,38 @@
 
 import React from "react";
 import { useGetAllAdminBookingsQuery } from "@/store/api/Admin/adminBookings";
-import { convertToHumanReadable } from "@/lib/helper";
+import { convertToHumanReadable, convertToHumanReadableNoTime } from "@/lib/helper";
 import BookingTableComponent, { Column } from "./BookingTableComponent";
 import Loader from "@/components/Loader";
-import ReusableTable from "@/components/ReusableTable";
-import TableComponent from "@/components/TableComponent";
+import { MINIOURL } from "@/lib/constants";
 
 const columns: Column<any>[] = [
-  { header: "Player Name", accessor: "name" },
+  {
+    header: "Player Name",
+    accessor: "name",
+    render: (data) => (
+      <div className="flex items-center gap-2">
+        {data.image ? (
+          <img
+            src={`${MINIOURL}${data.image}`}
+            alt={data.name}
+            className="w-8 h-8 rounded-full"
+          />
+        ) : (
+          <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center">
+            {data.name.charAt(0).toUpperCase()}
+          </div>
+        )}
+        <span>{data.name}</span>
+      </div>
+    ),
+  },
   { header: "Phone", accessor: "phone" },
   {
     header: "Booked Date",
     accessor: "selectedDate",
     render: (item: any) => (
-      <span>{convertToHumanReadable(item.selectedDate)}</span>
+      <span>{convertToHumanReadableNoTime(item.selectedDate)}</span>
     ),
   },
   {
@@ -36,12 +54,10 @@ const columns: Column<any>[] = [
       <span
         className={`${
           item.status === "Reserved"
-            ? "bg-[#0A41CC1A] bg-opacity-10 text-[#0A41CC]"
+            ? "bg-[#009858] bg-opacity-10 text-[#009858]"
             : item.status === "Pre-Booked"
-            ? "bg-[#FFAC30] bg-opacity-10 text-[#FFA500]"
+            ? "bg-[#0A41CC] bg-opacity-[8%] text-[#0A41CC]"
             : item.status === "Booked"
-            ? "bg-[#009858] bg-opacity-10 text-[#00A560]"
-            : item.status === "Cancelled"
             ? "bg-[#D8211D] bg-opacity-10 text-[#D8211D]"
             : ""
         } px-5 py-3 rounded-lg text-xs font-semibold`}
@@ -52,7 +68,7 @@ const columns: Column<any>[] = [
   },
 ];
 
-const filterTabs = ["All", "Booked", "Pre-booked", "Reserved", "Cancelled"];
+const filterTabs = ["All", "Reserved", "Pre-Booked", "Booked"];
 
 const sortOptions = [
   { label: "Newest", value: "newest" },
@@ -74,7 +90,7 @@ const BookingTable = () => {
       ) : (
         <>
           {BookingsData && (
-            <TableComponent
+            <BookingTableComponent
               data={BookingsData}
               columns={columns}
               filterTabs={filterTabs}

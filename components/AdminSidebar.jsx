@@ -16,10 +16,14 @@ import {
   Settings02Icon,
   CustomerSupportIcon,
 } from "hugeicons-react";
+import { useGetAdminMyPlayerByIdQuery } from "@/store/api/Admin/adminProfile";
+import { MINIOURL } from "@/lib/constants";
 
 export default function MakeSidebar() {
   const [expanded, setExpanded] = useState(true);
   const pathname = usePathname();
+  const { data: ProfileDetail, isLoading: profileLoading } =
+  useGetAdminMyPlayerByIdQuery("");
 
   const navBarItems = [
     {
@@ -89,13 +93,15 @@ export default function MakeSidebar() {
           } scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300`}
         >
           <div className="flex items-center justify-between p-4">
+            {ProfileDetail &&
             <img
-              src="logo.png"
+              src={`${MINIOURL}${ProfileDetail.image}`}
               className={`${
                 expanded ? "w-16 h-16 object-cover" : "w-0"
               } transition-all duration-300`}
               alt="logo"
             />
+}
             <button
               onClick={() => setExpanded(!expanded)}
               className="bg-primary text-[#f1f1f1] rounded-full p-1.5 hover:text-primary hover:bg-white transition-all duration-300"
