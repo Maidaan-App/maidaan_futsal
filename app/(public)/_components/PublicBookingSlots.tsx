@@ -3,7 +3,6 @@
 import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Clock } from "lucide-react";
-import { toast } from "sonner";
 
 const formatTime = (time: Date) => {
   return new Date(time).toLocaleTimeString("en-US", {
@@ -65,16 +64,6 @@ export function PublicBookingSlots({ selectedCourt, selectedDate }: any) {
     selectedCourt.closingTime
   );
 
-  const handleCardClick = (index: number) => {
-    setSelectedIndices((prevSelectedIndices) => {
-      const isSelected = prevSelectedIndices.includes(index);
-      const newSelectedIndices = isSelected
-        ? prevSelectedIndices.filter((i) => i !== index)
-        : [...prevSelectedIndices, index];
-      return newSelectedIndices;
-    });
-  };
-
   return (
     <div>
       {selectedDate && selectedCourt && (
@@ -111,7 +100,6 @@ export function PublicBookingSlots({ selectedCourt, selectedDate }: any) {
               return (
                 <div key={index} className="p-1">
                   <Card
-                    onClick={() => !isDisabled && handleCardClick(index)} // Only call if not disabled
                     className={`cursor-pointer transition-colors duration-300 ${slotBgColor} ${
                       selectedIndices.includes(index)
                         ? "border-2 border-primary"
@@ -148,12 +136,6 @@ export function PublicBookingSlots({ selectedCourt, selectedDate }: any) {
             Booked
           </div>
         </div>
-        {/* <button
-          className="bg-primary hover:bg-green-500 text-white px-5 py-2 rounded-md"
-          onClick={handleContinueClick}
-        >
-          Continue
-        </button> */}
       </div>
     </div>
   );
