@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { useGetAllAdminBookingsQuery } from "@/store/api/Admin/adminBookings";
 import { convertToHumanReadable } from "@/lib/helper";
 import Loader from "@/components/Loader";
 import NewsEventsTableComponent, { Column } from "./NewsEventsTableComponent";
@@ -44,7 +43,6 @@ const sortOptions = [
 const NewsEventsTable = () => {
   const { data: NewsEventsData, isLoading: NewsEventsDataLoading } =
     useGetAllAdminNewsEventsQuery("");
-  console.log("NewsEventsData:", NewsEventsData);
   return (
     <div className="md:p-5">
       <h1 className="text-[#232D42] font-medium text-[1.5rem] my-3 px-3 lg:px-0">

@@ -15,7 +15,7 @@ const page = () => {
               variant={"default"}
               className="flex gap-3 items-center w-full md:w-auto"
             >
-              Add New Image
+              Add New Images
             </Button>
           </Link>
         </div>

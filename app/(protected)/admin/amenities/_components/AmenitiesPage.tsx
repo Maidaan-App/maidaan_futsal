@@ -1,5 +1,6 @@
 "use client";
 import Loader from "@/components/Loader";
+import { Button } from "@/components/ui/button";
 import { montserrat } from "@/lib/constants";
 import {
   useAdminAddUpdateAmenitiesMutation,
@@ -22,8 +23,6 @@ const AmenitiesPage = () => {
 
   const { data: ExistingAmenities, isLoading: ExistingAmenitiesLoading } =
     useGetAllAdminAmenitiesQuery("");
-
-  console.log("ExistingAmenities", ExistingAmenities);
 
   const defaultFeatures = [
     { icon: FaParking, title: "Parking", isAvailable: false },
@@ -80,6 +79,7 @@ const AmenitiesPage = () => {
         { icon: FaLock, title: newFeatureTitle, isAvailable: true },
       ]);
       setNewFeatureTitle("");
+      toast.success("Added Successfully !!!");
     }
   };
 
@@ -133,7 +133,7 @@ const AmenitiesPage = () => {
               />
               <button
                 onClick={handleAddFeature}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition duration-300 ease-in-out"
+                className="bg-primary hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition duration-300 ease-in-out"
               >
                 Add Feature
               </button>
@@ -143,6 +143,7 @@ const AmenitiesPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center max-w-6xl w-full">
             {features.map((feature, index) => (
               <div
+                onClick={() => handleCheckboxChange(index)}
                 key={index}
                 className={`flex flex-col items-center p-8 rounded-lg shadow-md transition-transform duration-300 hover:shadow-lg hover:scale-105 border ${
                   feature.isAvailable ? "border-green-400" : "border-gray-300"
@@ -160,7 +161,7 @@ const AmenitiesPage = () => {
                   <input
                     type="checkbox"
                     checked={feature.isAvailable}
-                    onChange={() => handleCheckboxChange(index)}
+                    // onChange={() => handleCheckboxChange(index)}
                     className="mr-2"
                   />
                   Available
@@ -170,15 +171,14 @@ const AmenitiesPage = () => {
           </div>
 
           <div className="flex justify-end w-full md:px-8">
-            <button
+            <Button
               onClick={handleSubmit}
+              type="submit"
               disabled={Loading}
-              className={`bg-green-500 hover:bg-green-600 text-white px-8 py-3 mt-12 rounded-lg transition duration-300 ease-in-out ${
-                Loading ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              className="bg-primary text-[#f1f1f1] px-8 py-3 mt-12 rounded-lg transition duration-300 ease-in-out hover:bg-blue-900"
             >
-              {Loading ? "Submitting..." : "Submit"}
-            </button>
+              Submit
+            </Button>
           </div>
         </div>
       )}
