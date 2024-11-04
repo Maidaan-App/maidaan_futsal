@@ -69,7 +69,7 @@ const GalleryDetailForm = ({ linkedGalleryId }: any) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full space-y-6 p-4 bg-white z-50"
+        className="space-y-6 p-5 bg-white z-50 h-fit"
       >
         <h1 className="font-semibold text-2xl">Add Image</h1>
         <div className="flex w-full gap-4">

@@ -5,6 +5,8 @@ import { useGetAllAdminBookingsQuery } from "@/store/api/Admin/adminBookings";
 import { convertToHumanReadable } from "@/lib/helper";
 import BookingTableComponent, { Column } from "./BookingTableComponent";
 import Loader from "@/components/Loader";
+import ReusableTable from "@/components/ReusableTable";
+import TableComponent from "@/components/TableComponent";
 
 const columns: Column<any>[] = [
   { header: "Player Name", accessor: "name" },
@@ -22,7 +24,7 @@ const columns: Column<any>[] = [
     render: (item: any) => (
       <span style={{ whiteSpace: "pre-wrap" }}>
         {item.selectedslots?.length > 0
-          ? item.selectedslots.join("\n") // Join slots with a newline
+          ? item.selectedslots.join("\n")
           : "No slots selected"}
       </span>
     ),
@@ -34,12 +36,14 @@ const columns: Column<any>[] = [
       <span
         className={`${
           item.status === "Reserved"
-            ? "bg-[#009858] bg-opacity-10 text-[#009858]"
+            ? "bg-[#0A41CC1A] bg-opacity-10 text-[#0A41CC]"
             : item.status === "Pre-Booked"
-            ? "bg-[#0A41CC] bg-opacity-[8%] text-[#0A41CC]"
+            ? "bg-[#FFAC30] bg-opacity-10 text-[#FFA500]"
             : item.status === "Booked"
+            ? "bg-[#009858] bg-opacity-10 text-[#00A560]"
+            : item.status === "Cancelled"
             ? "bg-[#D8211D] bg-opacity-10 text-[#D8211D]"
-            : "bg-gray-100 text-gray-800"
+            : ""
         } px-5 py-3 rounded-lg text-xs font-semibold`}
       >
         {item.status}
@@ -48,7 +52,7 @@ const columns: Column<any>[] = [
   },
 ];
 
-const filterTabs = ["All", "Active", "Pending", "Banned", "Rejected"];
+const filterTabs = ["All", "Booked", "Pre-booked", "Reserved", "Cancelled"];
 
 const sortOptions = [
   { label: "Newest", value: "newest" },
@@ -58,7 +62,6 @@ const sortOptions = [
 const BookingTable = () => {
   const { data: BookingsData, isLoading: BookingsDataLoading } =
     useGetAllAdminBookingsQuery("");
-  console.log("BookingsData:", BookingsData);
   return (
     <div className="md:p-5">
       <h1 className="text-[#232D42] font-medium text-[1.5rem] my-3 px-3 lg:px-0">
@@ -71,7 +74,7 @@ const BookingTable = () => {
       ) : (
         <>
           {BookingsData && (
-            <BookingTableComponent
+            <TableComponent
               data={BookingsData}
               columns={columns}
               filterTabs={filterTabs}

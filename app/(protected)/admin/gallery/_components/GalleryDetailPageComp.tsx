@@ -11,12 +11,12 @@ const GalleryDetailPageComp = () => {
   return (
     <>
       {DataLoading ? (
-        <div className="flex h-[80vh] items-center justify-center">
+        <div className="flex min-h-[80vh] items-center justify-center">
           <Loader />
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-5">
             {Data &&
               Data.length > 0 &&
               Data.map((galleryDetail: GALLERY, index: number) => (

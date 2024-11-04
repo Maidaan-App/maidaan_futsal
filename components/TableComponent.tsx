@@ -36,7 +36,7 @@ type ReusableTableProps<T> = {
   searchKeys: (keyof T)[];
 };
 
-const ReusableTable = <T extends { _id: string; [key: string]: any }>({
+const TableComponent = <T extends { _id: string; [key: string]: any }>({
   data,
   columns,
   filterTabs,
@@ -249,7 +249,7 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
                   <DropdownMenuContent>
                     <DropdownMenuItem>
                       <Link
-                        href={`${paths.admin.editPlayers}?id=${item._id}`}
+                        href={`${paths.admin.editBookings}?id=${item._id}`}
                         className="text-primary mr-2 px-5 py-2 rounded-full"
                       >
                         Edit
@@ -291,4 +291,4 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
   );
 };
 
-export default ReusableTable;
+export default TableComponent;
