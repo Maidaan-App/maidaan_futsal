@@ -4,6 +4,7 @@ import * as React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Clock } from "lucide-react";
 import { toast } from "sonner";
+import { MINIOURL } from "@/lib/constants";
 
 const formatTime = (time: Date) => {
   return new Date(time).toLocaleTimeString("en-US", {
@@ -13,7 +14,6 @@ const formatTime = (time: Date) => {
   });
 };
 
-// Function to generate time slots with a 1-hour gap between opening and closing time
 const generateTimeSlots = (openingTime: string, closingTime: string) => {
   const slots = [];
   let currentTime = new Date(openingTime);
@@ -32,7 +32,6 @@ const generateTimeSlots = (openingTime: string, closingTime: string) => {
   return slots;
 };
 
-// Function to check the status of a given slot
 const getSlotStatus = (
   slot: string,
   selectedDate: string,
@@ -42,50 +41,79 @@ const getSlotStatus = (
   const selectedDateString = dateObject.toISOString().split("T")[0];
   const dayBookings = selectedCourt?.bookings[selectedDateString];
 
-  if (!dayBookings) return "Available"; // If no booking data, treat as available
-  const isReserved = dayBookings?.Reserved?.some((booking: any) =>
-    booking.selectedslots.includes(slot)
-  );
-  const isPreBooked = dayBookings?.["Pre-Booked"]?.some((booking: any) =>
-    booking.selectedslots.includes(slot)
-  );
-  const isBooked = dayBookings?.Booked?.some((booking: any) =>
-    booking.selectedslots.includes(slot)
-  );
-  if (isReserved) return "Reserved";
-  if (isPreBooked) return "Pre-Booked";
-  if (isBooked) return "Booked";
-  return "Available";
+  if (!dayBookings) return { status: "Available", details: null };
+
+  const checkBooking = (status: string) =>
+    dayBookings[status]?.find((booking: any) =>
+      booking.selectedslots.includes(slot)
+    );
+
+  const reserved = checkBooking("Reserved");
+  const preBooked = checkBooking("Pre-Booked");
+  const booked = checkBooking("Booked");
+
+  if (booked) return { status: "Booked", details: booked };
+  if (preBooked) return { status: "Pre-Booked", details: preBooked };
+  if (reserved) return { status: "Reserved", details: reserved };
+
+  return { status: "Available", details: null };
 };
+
+const HoverPopover = ({ details }: { details: any }) => (
+    <div className="absolute left-0 top-0 z-10 mt-10 bg-white p-4 rounded-md flex justify-between shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px]">
+      <div className="flex items-center">
+        <img
+          src={`${MINIOURL}${details.player.image}`}
+          alt={details.player.name}
+          className="w-[5.875rem] h-[5.875rem] rounded-full mr-4 "
+        />
+        <div>
+          <h3 className="text-[1.125rem] font-medium mb-3">
+            {details.player.name}
+          </h3>
+          {details.player.address && (
+            <p className="font-normal text-[#8A92A6] text-[0.75rem]">
+              {details.player.address}
+            </p>
+          )}
+          <p className="text-primary font-normal text-[0.75rem]">
+            {details.player.phone}
+          </p>
+        </div>
+      </div>
+    </div>
+);
 
 export function TimeSlotSection({
   selectedCourt,
   selectedDate,
   setSelectedTimeSlots,
   setcompleteBooking,
+  selectedIndices,
+  setSelectedIndices,
 }: any) {
-  const [selectedIndices, setSelectedIndices] = React.useState<number[]>([]);
+  const [hoveredSlot, setHoveredSlot] = React.useState<number | null>(null);
+
   const timeSlots = generateTimeSlots(
     selectedCourt.openingTime,
     selectedCourt.closingTime
   );
 
   const handleCardClick = (index: number) => {
-    setSelectedIndices((prevSelectedIndices) => {
+    setSelectedIndices((prevSelectedIndices: any) => {
       const isSelected = prevSelectedIndices.includes(index);
       const newSelectedIndices = isSelected
-        ? prevSelectedIndices.filter((i) => i !== index)
+        ? prevSelectedIndices.filter((i: any) => i !== index)
         : [...prevSelectedIndices, index];
       return newSelectedIndices;
     });
   };
 
   const handleContinueClick = () => {
-    const selectedTimeSlots = selectedIndices.map((i) => timeSlots[i]);
-    console.log("selectedTimeSlots:",selectedTimeSlots)
-    if(selectedTimeSlots.length === 0){
-      toast.error("Please Select Slots")
-      return
+    const selectedTimeSlots = selectedIndices.map((i: any) => timeSlots[i]);
+    if (selectedTimeSlots.length === 0) {
+      toast.error("Please Select Slots");
+      return;
     }
     setSelectedTimeSlots(selectedTimeSlots);
     setcompleteBooking(true);
@@ -102,42 +130,48 @@ export function TimeSlotSection({
 
           <div className="px-3 my-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {timeSlots.map((slot, index) => {
-              const slotStatus = getSlotStatus(
+              const { status: slotStatus, details } = getSlotStatus(
                 slot,
                 selectedDate,
                 selectedCourt
               );
-
-              let slotBgColor = "bg-white"; // Default Available
-              let isDisabled = false; // Track if the slot is disabled
+              console.log("details:", details);
+              let slotBgColor = "bg-white";
+              let isDisabled = false;
 
               if (slotStatus === "Booked") {
                 slotBgColor = "bg-[#FF5630] text-white";
                 isDisabled = true;
-              }
-              if (slotStatus === "Pre-Booked") {
+              } else if (slotStatus === "Pre-Booked") {
                 slotBgColor = "bg-[#3169FF] text-white";
-                isDisabled = true; // Disable Pre-Booked slots
-              }
-              if (slotStatus === "Reserved") {
+                isDisabled = true;
+              } else if (slotStatus === "Reserved") {
                 slotBgColor = "bg-primary text-white";
-                isDisabled = true; 
+                isDisabled = true;
               }
 
               return (
-                <div key={index} className="p-1">
+                <div
+                  key={index}
+                  className="p-1 relative"
+                  onMouseEnter={() => isDisabled && setHoveredSlot(index)}
+                  onMouseLeave={() => setHoveredSlot(null)}
+                >
                   <Card
-                    onClick={() => !isDisabled && handleCardClick(index)} // Only call if not disabled
+                    onClick={() => !isDisabled && handleCardClick(index)}
                     className={`cursor-pointer transition-colors duration-300 ${slotBgColor} ${
                       selectedIndices.includes(index)
                         ? "border-2 border-primary"
                         : ""
-                    } ${isDisabled ? "cursor-not-allowed" : ""}`} // Add styles for disabled
+                    } ${isDisabled ? "cursor-not-allowed" : ""}`}
                   >
                     <CardContent className="flex items-center justify-center px-5 py-5 flex-col">
                       <span className="text-lg font-medium">{slot}</span>
                     </CardContent>
                   </Card>
+                  {isDisabled && hoveredSlot === index && details && (
+                    <HoverPopover details={details} />
+                  )}
                 </div>
               );
             })}

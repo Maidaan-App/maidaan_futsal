@@ -67,8 +67,10 @@ export interface BOOKING {
   linkedCourtId: string;
   selectedDate: Date;
   selectedslots: string[];
-  itemPurchased: itemPurchasedSchema[];
   remarks: string;
+  itemPurchased: itemPurchasedSchema[];
+  slotsTotal: string;
+  netTotal: string;
   status: string;
   createdDate: Date;
 }

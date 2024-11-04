@@ -42,6 +42,8 @@ export const POST = async (request: NextRequest) => {
             selectedslots: Data.selectedslots,
             status: Data.bookingStatus,
             remarks: Data.remarks,
+            slotsTotal: Data.slotsTotal,
+            netTotal: Data.netTotal,
           });
           await newDoc.save();
           return NextResponse.json(
@@ -79,6 +81,8 @@ export const POST = async (request: NextRequest) => {
             selectedslots: Data.selectedslots,
             status: Data.bookingStatus,
             remarks: Data.remarks,
+            slotsTotal: Data.slotsTotal,
+            netTotal: Data.netTotal,
           });
           await newUser.save();
           await newPlayer.save();

@@ -9,11 +9,13 @@ import {
 } from "@/store/api/Admin/adminCourts";
 import { COURT } from "@/lib/types";
 import BookingConfirmationPage from "../_components/BookingConfirmationPage";
+import Loader from "@/components/Loader";
 
 const AddBooking = () => {
   const [completeBooking, setcompleteBooking] = useState(false);
   const [selectedDate, setSelectedDate] = useState();
-  const [selectedTimeSlots, setSelectedTimeSlots] = useState();
+  const [selectedTimeSlots, setSelectedTimeSlots] = useState([]);
+  const [selectedIndices, setSelectedIndices] = React.useState<number[]>([]);
   const [selectedCourt, setSelectedCourt] = useState<COURT>();
   const searchParams = useSearchParams();
   const id = searchParams.get("id") as string;
@@ -23,6 +25,8 @@ const AddBooking = () => {
 
   const { data: CourtsData, isLoading: CourtsDataLoading } =
     useGetAllAdminCourtsQuery("");
+
+  console.log("CourtsData:", CourtsData);
 
   useEffect(() => {
     if (ExistingDetail?.name) {
@@ -36,51 +40,65 @@ const AddBooking = () => {
 
   const handleCourtClick = (court: COURT) => {
     setSelectedCourt(court);
+    setSelectedTimeSlots([]);
+    setSelectedIndices([]);
   };
 
   return (
-    <div>
-      {completeBooking ? (
-        <BookingConfirmationPage
-          setcompleteBooking={setcompleteBooking}
-          selectedDate={selectedDate}
-          selectedTimeSlots={selectedTimeSlots}
-          selectedCourt={selectedCourt}
-        />
+    <>
+      {CourtsDataLoading ? (
+        <div className="flex h-[80vh] items-center justify-center">
+          <Loader />
+        </div>
       ) : (
-        <>
-          <div className="flex space-x-4 mb-6">
-            {CourtsData?.map((court: COURT) => (
-              <button
-                key={court._id}
-                onClick={() => handleCourtClick(court)}
-                className={`px-4 py-2  ${
-                  selectedCourt?._id === court._id
-                    ? "border-b-2 border-primary text-[#00A76F]"
-                    : "border-gray-300 text-[#00A76F]"
-                }transition`}
-              >
-                {court.name}
-              </button>
-            ))}
-          </div>
-          {selectedCourt && (
+        <div>
+          {completeBooking ? (
+            <BookingConfirmationPage
+              setcompleteBooking={setcompleteBooking}
+              selectedDate={selectedDate}
+              selectedTimeSlots={selectedTimeSlots}
+              selectedCourt={selectedCourt}
+            />
+          ) : (
             <>
-              <DateSection
-                selectedDate={selectedDate}
-                setSelectedDate={setSelectedDate}
-              />
-              <TimeSlotSection
-                setcompleteBooking={setcompleteBooking}
-                selectedCourt={selectedCourt}
-                selectedDate={selectedDate}
-                setSelectedTimeSlots={setSelectedTimeSlots}
-              />
+              <div className="flex space-x-4 mb-6">
+                {CourtsData?.map((court: COURT) => (
+                  <button
+                    key={court._id}
+                    onClick={() => handleCourtClick(court)}
+                    className={`px-4 py-2  ${
+                      selectedCourt?._id === court._id
+                        ? "border-b-2 border-primary text-[#00A76F]"
+                        : "border-gray-300 text-[#00A76F]"
+                    }transition`}
+                  >
+                    {court.name}
+                  </button>
+                ))}
+              </div>
+              {selectedCourt && (
+                <>
+                  <DateSection
+                    selectedDate={selectedDate}
+                    setSelectedDate={setSelectedDate}
+                    setSelectedTimeSlots={setSelectedTimeSlots}
+                    setSelectedIndices={setSelectedIndices}
+                  />
+                  <TimeSlotSection
+                    setcompleteBooking={setcompleteBooking}
+                    selectedCourt={selectedCourt}
+                    selectedDate={selectedDate}
+                    setSelectedTimeSlots={setSelectedTimeSlots}
+                    selectedIndices={selectedIndices}
+                    setSelectedIndices={setSelectedIndices}
+                  />
+                </>
+              )}
             </>
           )}
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

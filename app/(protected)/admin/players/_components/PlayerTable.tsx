@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { PLAYER } from "@/lib/types";
 import { useGetAllAdminPlayersQuery } from "@/store/api/Admin/adminPlayers";
 import ReusableTable, { Column } from "@/components/ReusableTable";
 import { convertToHumanReadable } from "@/lib/helper";
 import { MINIOURL } from "@/lib/constants";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import Loader from "@/components/Loader";
 
 const columns: Column<PLAYER>[] = [
@@ -85,7 +84,6 @@ const PlayerTable = () => {
   const { data: PlayersData, isLoading: PlayersDataLoading } =
     useGetAllAdminPlayersQuery("");
 
-  console.log("PlayerData", PlayersData);
   return (
     <div className="md:p-5">
       {PlayersDataLoading ? (

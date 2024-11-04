@@ -57,7 +57,7 @@ export const POST = async (request: NextRequest) => {
         const newPlayer = new Players({
           ...Data,
           linkedUserId: newUser._id,
-          status: "enrolled",
+          // status: "enrolled",
         });
         await newUser.save();
         await newPlayer.save();

@@ -15,7 +15,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FaChevronDown } from "react-icons/fa";
 import { poppins } from "@/lib/constants";
 
-export function DateSection({ selectedDate, setSelectedDate }: any) {
+export function DateSection({ selectedDate, setSelectedDate,setSelectedTimeSlots,setSelectedIndices }: any) {
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const today = new Date();
   const [isOpen, setIsOpen] = useState(false);
@@ -39,6 +39,8 @@ export function DateSection({ selectedDate, setSelectedDate }: any) {
 
   const handleDateClick = (dateObj: { fullDate: Date }) => {
     setSelectedDate(dateObj.fullDate); // Set the full Date object in the state
+    setSelectedTimeSlots([])
+    setSelectedIndices([])
   };
 
   const toggleCalendar = () => {

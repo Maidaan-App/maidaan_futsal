@@ -6,6 +6,7 @@ import Bookings from "@/models/Bookings/Bookings";
 import Courts from "@/models/Courts/Courts";
 import { NextResponse, NextRequest } from "next/server";
 import { format } from "date-fns";
+import Players from "@/models/Users/Players";
 
 export const POST = async (request: NextRequest) => {
   console.log("Running POST request: Admin Add/Update Court");
@@ -47,8 +48,74 @@ export const POST = async (request: NextRequest) => {
   }
 };
 
+// export const GET = async () => {
+//   console.log("Running GET request:Admin Get all Courts");
+//   const user = await currentUser();
+
+//   try {
+//     await connectMongo();
+//     if (user?.role === "admin") {
+//       const courts = await Courts.find({
+//         linkedUserId: user.id,
+//         status: true,
+//       }).sort({
+//         createdDate: -1,
+//       });
+//       // Loop through each court and fetch its bookings
+//       const courtsWithGroupedBookings = await Promise.all(
+//         courts.map(async (court) => {
+//           // Fetch all bookings for the current court
+//           const allBookings = await Bookings.find({
+//             linkedCourtId: court._id,
+//           });
+
+//           // Group the bookings by date and booking status
+//           const groupedBookingsByDay = allBookings.reduce(
+//             (acc: any, booking) => {
+//               // Get the local date for each booking (formatted as "YYYY-MM-DD")
+//               const bookingDate = format(
+//                 new Date(booking.selectedDate),
+//                 "yyyy-MM-dd"
+//               );
+
+//               // Initialize the date group if not present
+//               if (!acc[bookingDate]) {
+//                 acc[bookingDate] = {};
+//                 bookingStatusTypes.forEach((status) => {
+//                   acc[bookingDate][status] = []; // Initialize arrays for each booking status
+//                 });
+//               }
+
+//               // Push the booking to the appropriate status group for that date
+//               acc[bookingDate][booking.status].push(booking);
+
+//               return acc;
+//             },
+//             {}
+//           );
+
+//           return {
+//             ...court.toObject(), // Convert court document to plain object
+//             bookings: groupedBookingsByDay, // Attach the grouped bookings by day and status to the court
+//           };
+//         })
+//       );
+
+//       return NextResponse.json(courtsWithGroupedBookings, { status: 201 });
+//     } else {
+//       return NextResponse.json({ message: "Forbidden" }, { status: 400 });
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     return NextResponse.json(
+//       { error: "Invalid request body" },
+//       { status: 400 }
+//     );
+//   }
+// };
+
 export const GET = async () => {
-  console.log("Running GET request:Admin Get all Courts");
+  console.log("Running GET request: Admin Get all Courts");
   const user = await currentUser();
 
   try {
@@ -60,7 +127,7 @@ export const GET = async () => {
       }).sort({
         createdDate: -1,
       });
-      // Loop through each court and fetch its bookings
+
       const courtsWithGroupedBookings = await Promise.all(
         courts.map(async (court) => {
           // Fetch all bookings for the current court
@@ -68,9 +135,11 @@ export const GET = async () => {
             linkedCourtId: court._id,
           });
 
-          // Group the bookings by date and booking status
-          const groupedBookingsByDay = allBookings.reduce(
-            (acc: any, booking) => {
+          // Group the bookings by date and booking status, including player details
+          const groupedBookingsByDay = await allBookings.reduce(
+            async (accPromise, booking) => {
+              const acc = await accPromise; // Resolve accumulator
+
               // Get the local date for each booking (formatted as "YYYY-MM-DD")
               const bookingDate = format(
                 new Date(booking.selectedDate),
@@ -85,12 +154,23 @@ export const GET = async () => {
                 });
               }
 
-              // Push the booking to the appropriate status group for that date
-              acc[bookingDate][booking.status].push(booking);
+              // Fetch player details using linkedUserId from each booking
+              const player = await Players.findOne({
+                linkedUserId: booking.linkedUserId,
+              });
+
+              // Include the player information in the booking object
+              const bookingWithPlayer = {
+                ...booking.toObject(),
+                player: player ? player.toObject() : null, // Convert player to a plain object
+              };
+
+              // Push the booking with player details to the appropriate status group for that date
+              acc[bookingDate][booking.status].push(bookingWithPlayer);
 
               return acc;
             },
-            {}
+            Promise.resolve({})
           );
 
           return {

@@ -30,6 +30,94 @@ const formSchema = z.object({
   remarks: z.string().optional(),
 });
 
+const calculateTotalPrice = (
+  selectedCourt: any,
+  selectedTimeSlots: string[],
+  selectedDate: Date
+) => {
+  // Check if the selected date is a Saturday (holiday)
+  const isHoliday = selectedDate.getDay() === 6;
+
+  // Helper function to parse time strings of either "HH:MM AM/PM" or ISO format
+  const parseTime = (time: string) => {
+    // Check if the time is in "HH:MM AM/PM" format
+    const timeMatch = time.match(/(\d+):(\d+) (AM|PM)/);
+    if (timeMatch) {
+      const [, hours, minutes, period] = timeMatch;
+      const hours24 = period === "PM" && parseInt(hours) < 12
+        ? parseInt(hours) + 12
+        : period === "AM" && parseInt(hours) === 12
+        ? 0
+        : parseInt(hours);
+      return { hours: hours24, minutes: parseInt(minutes) };
+    }
+    
+    // Check if the time is in ISO format
+    const date = new Date(time);
+    if (!isNaN(date.getTime())) {
+      return { hours: date.getHours(), minutes: date.getMinutes() };
+    }
+
+    throw new Error(`Invalid time format: ${time}`);
+  };
+
+  // Helper function to check if time falls within a shift
+  const isWithinShift = (
+    startTime: { hours: number; minutes: number },
+    endTime: { hours: number; minutes: number },
+    shiftStart: { hours: number; minutes: number },
+    shiftEnd: { hours: number; minutes: number }
+  ) => {
+    const startInMinutes = startTime.hours * 60 + startTime.minutes;
+    const endInMinutes = endTime.hours * 60 + endTime.minutes;
+    const shiftStartInMinutes = shiftStart.hours * 60 + shiftStart.minutes;
+    const shiftEndInMinutes = shiftEnd.hours * 60 + shiftEnd.minutes;
+
+    return startInMinutes >= shiftStartInMinutes && endInMinutes <= shiftEndInMinutes;
+  };
+
+  // Get the shift data from the court
+  const { morningShift, dayShift, eveningShift, holidayShift } = selectedCourt;
+
+  // Calculate the total price by checking each selected time slot
+  let totalPrice = 0;
+
+  selectedTimeSlots.forEach((slot) => {
+    const [start, end] = slot.split(" - ");
+    const startTime = parseTime(start);
+    const endTime = parseTime(end);
+
+    // Check if it’s a holiday and if slot falls in holiday shift
+    if (isHoliday) {
+      const holidayStart = parseTime(holidayShift.startTime);
+      const holidayEnd = parseTime(holidayShift.endTime);
+      if (isWithinShift(startTime, endTime, holidayStart, holidayEnd)) {
+        totalPrice += parseInt(holidayShift.price);
+        return;
+      }
+    }
+
+    // Not a holiday or out of holiday shift, check other shifts
+    const shifts = [
+      { shift: morningShift, name: "morningShift" },
+      { shift: dayShift, name: "dayShift" },
+      { shift: eveningShift, name: "eveningShift" },
+    ];
+
+    for (const { shift } of shifts) {
+      const shiftStart = parseTime(shift.startTime);
+      const shiftEnd = parseTime(shift.endTime);
+      if (isWithinShift(startTime, endTime, shiftStart, shiftEnd)) {
+        totalPrice += parseInt(shift.price);
+        break;
+      }
+    }
+  });
+
+  return totalPrice;
+};
+
+
 const BookingConfirmationPage = ({
   setcompleteBooking,
   selectedDate,
@@ -38,6 +126,7 @@ const BookingConfirmationPage = ({
 }: any) => {
   const [selectedPlayer, setSelectedPlayer] = useState<PLAYER | null>(null); // Selected player state
   const [playerLists, setPlayerLists] = useState<PLAYER[]>([]);
+  const [totalPrice, setTotalPrice] = useState(0);
   const [Loading, setLoading] = useState(false);
   const { data: PlayersData, isLoading: PlayersDataLoading } =
     useGetAllAdminPlayersQuery("");
@@ -59,6 +148,15 @@ const BookingConfirmationPage = ({
     }
   }, [selectedPlayer]);
 
+  useEffect(() => {
+    const price = calculateTotalPrice(
+      selectedCourt,
+      selectedTimeSlots,
+      selectedDate
+    );
+    setTotalPrice(price);
+  }, [selectedCourt, selectedTimeSlots, selectedDate]);
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -78,6 +176,8 @@ const BookingConfirmationPage = ({
         linkedCourtId: selectedCourt._id,
         selectedDate,
         selectedslots: selectedTimeSlots,
+        slotsTotal: totalPrice,
+        netTotal: totalPrice,
       };
       const response = await AdminAddUpdateBooking({
         ...formData,
@@ -115,6 +215,7 @@ const BookingConfirmationPage = ({
     form.setValue("name", "");
     setSelectedPlayer(null);
   };
+
   return (
     <div className={`p-5 ${poppins.className}`}>
       <h1 className="text-[1.5rem] mb-4 font-medium">
@@ -291,16 +392,6 @@ const BookingConfirmationPage = ({
                             </MenuItem>
                           ))}
                         </Select>
-                        {/* <select
-                          {...field}
-                          className="border border-gray-300 p-3 w-full rounded-md bg-white text-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 appearance-none"
-                        >
-                          {bookingStatusTypes.map((item, index) => (
-                            <option key={index} value={item}>
-                              {item}
-                            </option>
-                          ))}
-                        </select> */}
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -329,11 +420,11 @@ const BookingConfirmationPage = ({
 
               <div className="flex justify-end mb-4 mt-3 gap-2 ">
                 <span>Slot&apos;s Total:</span>
-                <span>Rs. 2000</span>
+                <span>Rs. {totalPrice}</span>
               </div>
               <div className="flex justify-end font-bold mb-4 gap-2">
                 <span>Total:</span>
-                <span className="text-green-500">Rs. 2000</span>
+                <span className="text-green-500">Rs. {totalPrice}</span>
               </div>
               <div className="flex justify-end">
                 <button
