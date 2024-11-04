@@ -63,29 +63,29 @@ export function TimeSlotSection({
   selectedDate,
   setSelectedTimeSlots,
   setcompleteBooking,
+  selectedIndices,
+  setSelectedIndices,
 }: any) {
-  const [selectedIndices, setSelectedIndices] = React.useState<number[]>([]);
   const timeSlots = generateTimeSlots(
     selectedCourt.openingTime,
     selectedCourt.closingTime
   );
 
   const handleCardClick = (index: number) => {
-    setSelectedIndices((prevSelectedIndices) => {
+    setSelectedIndices((prevSelectedIndices:any) => {
       const isSelected = prevSelectedIndices.includes(index);
       const newSelectedIndices = isSelected
-        ? prevSelectedIndices.filter((i) => i !== index)
+        ? prevSelectedIndices.filter((i:any) => i !== index)
         : [...prevSelectedIndices, index];
       return newSelectedIndices;
     });
   };
 
   const handleContinueClick = () => {
-    const selectedTimeSlots = selectedIndices.map((i) => timeSlots[i]);
-    console.log("selectedTimeSlots:",selectedTimeSlots)
-    if(selectedTimeSlots.length === 0){
-      toast.error("Please Select Slots")
-      return
+    const selectedTimeSlots = selectedIndices.map((i:any) => timeSlots[i]);
+    if (selectedTimeSlots.length === 0) {
+      toast.error("Please Select Slots");
+      return;
     }
     setSelectedTimeSlots(selectedTimeSlots);
     setcompleteBooking(true);
@@ -121,7 +121,7 @@ export function TimeSlotSection({
               }
               if (slotStatus === "Reserved") {
                 slotBgColor = "bg-primary text-white";
-                isDisabled = true; 
+                isDisabled = true;
               }
 
               return (

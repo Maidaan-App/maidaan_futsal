@@ -13,7 +13,8 @@ import BookingConfirmationPage from "../_components/BookingConfirmationPage";
 const AddBooking = () => {
   const [completeBooking, setcompleteBooking] = useState(false);
   const [selectedDate, setSelectedDate] = useState();
-  const [selectedTimeSlots, setSelectedTimeSlots] = useState();
+  const [selectedTimeSlots, setSelectedTimeSlots] = useState([]);
+  const [selectedIndices, setSelectedIndices] = React.useState<number[]>([]);
   const [selectedCourt, setSelectedCourt] = useState<COURT>();
   const searchParams = useSearchParams();
   const id = searchParams.get("id") as string;
@@ -36,6 +37,8 @@ const AddBooking = () => {
 
   const handleCourtClick = (court: COURT) => {
     setSelectedCourt(court);
+    setSelectedTimeSlots([])
+    setSelectedIndices([])
   };
 
   return (
@@ -69,12 +72,16 @@ const AddBooking = () => {
               <DateSection
                 selectedDate={selectedDate}
                 setSelectedDate={setSelectedDate}
+                setSelectedTimeSlots={setSelectedTimeSlots}
+                setSelectedIndices={setSelectedIndices}
               />
               <TimeSlotSection
                 setcompleteBooking={setcompleteBooking}
                 selectedCourt={selectedCourt}
                 selectedDate={selectedDate}
                 setSelectedTimeSlots={setSelectedTimeSlots}
+                selectedIndices={selectedIndices}
+                setSelectedIndices={setSelectedIndices}
               />
             </>
           )}

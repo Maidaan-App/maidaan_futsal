@@ -25,6 +25,8 @@ const bookingSchema = new Schema(
     selectedslots: [String],
     remarks: String,
     itemPurchased: [itemPurchasedSchema],
+    slotsTotal: String,
+    netTotal: String,
     status: {
       type: String,
       enum: bookingStatusTypes,

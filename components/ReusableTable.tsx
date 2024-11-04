@@ -125,7 +125,7 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
           {filterTabs.map((tab) => (
             <button
               key={tab}
-              className={`${
+              className={`capitalize ${
                 selectedTab === tab ? "border-b-2 border-green-500" : ""
               } flex items-center space-x-1 px-3 py-1  ${
                 selectedTab === tab ? " text-green-800" : ""
