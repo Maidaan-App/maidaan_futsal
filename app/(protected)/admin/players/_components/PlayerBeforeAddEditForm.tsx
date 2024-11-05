@@ -10,7 +10,6 @@ const PlayerBeforeAddEditForm = () => {
   const id = searchParams.get("id") as string;
   const { data: ExistingDetail, isLoading: Loading } =
     useGetAdminPlayerByIdQuery(id);
-  console.log("ExistingDetail:", ExistingDetail);
   return (
     <>
       {Loading ? (

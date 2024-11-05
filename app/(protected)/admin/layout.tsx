@@ -46,7 +46,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           isCollapsed ? "md:ml-14" : "md:ml-64"
         } h-full`}
       >
-        <div className="flex flex-col lg:flex-row justify-between items-center bg-white  p-5 sticky top-0 gap-3 z-50">
+        <div className="flex flex-col lg:flex-row justify-between items-center bg-white  p-5 sticky top-0 gap-3 z-40">
           <div className="relative">
             <input
               type="text"

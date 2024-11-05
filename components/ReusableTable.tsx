@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 import { MINIOURL, poppins } from "@/lib/constants";
 import { Button } from "./ui/button";
-import { EllipsisVertical, User } from "lucide-react";
+import { Edit, EllipsisVertical, Eye, Trash, User } from "lucide-react";
 import Link from "next/link";
 import { paths } from "@/lib/paths";
 import { usePathname } from "next/navigation";
@@ -20,6 +20,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 export type Column<T> = {
   header: string;
@@ -242,7 +243,7 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
                   </td>
                 ))}
 
-                <DropdownMenu>
+                {/* <DropdownMenu>
                   <DropdownMenuTrigger className="p-5">
                     <EllipsisVertical />
                   </DropdownMenuTrigger>
@@ -255,6 +256,23 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
                         Edit
                       </Link>
                     </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu> */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="p-5">
+                    <BsThreeDotsVertical className="w-6 h-6" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="shadow-md">
+                    <Link href={`${paths.admin.players}/profile?id=${item._id}`}>
+                      <DropdownMenuItem className="cursor-pointer">
+                        <Eye className="w-4 h-4 mr-2" /> View
+                      </DropdownMenuItem>
+                    </Link>
+                    <Link href={`${paths.admin.editPlayers}?id=${item._id}`}>
+                      <DropdownMenuItem className="cursor-pointer">
+                        <Edit className="w-4 h-4 mr-2" /> Edit
+                      </DropdownMenuItem>
+                    </Link>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </tr>

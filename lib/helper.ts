@@ -49,7 +49,7 @@ export function convertToHumanReadableNoTime(params: any) {
 }
 
 export function convertToHumanReadable(params: any) {
-  const formattedDate = moment(params).format('MMMM Do YYYY, h:mm:ss A');
+  const formattedDate = moment(params).format('MMM Do YYYY, h:mm:ss A');
   return formattedDate;
 }
 

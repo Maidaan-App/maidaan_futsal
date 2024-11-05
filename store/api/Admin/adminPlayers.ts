@@ -15,6 +15,12 @@ export const adminPlayersApi = createApi({
       providesTags: ["Admin Players"],
     }),
 
+       //Get All My Players
+       getAllAdminMyPlayers: builder.query<PLAYER[], string>({
+        query: () => `${paths.admin.players}/myplayers`,
+        providesTags: ["Admin Players"],
+      }),
+
     // Player by Id
     getAdminPlayerById: builder.query<PLAYER, string>({
       query: (id) => `${paths.admin.players}/byid?id=${id}`,
@@ -61,4 +67,5 @@ export const {
   useDeleteMultiplePlayersAdminMutation,
   useGetAdminPlayerByIdQuery,
   useGetAllAdminPlayersQuery,
+  useGetAllAdminMyPlayersQuery
 } = adminPlayersApi;

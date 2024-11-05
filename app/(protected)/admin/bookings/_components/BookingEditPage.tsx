@@ -42,7 +42,6 @@ const BookingEditPage = () => {
     useGetAdminBookingByIdQuery(id);
   const { data: PlayersData, isLoading: PlayersDataLoading } =
     useGetAllAdminPlayersQuery("");
-  console.log("ExistingDetail:", ExistingDetail);
 
   useEffect(() => {
     if (PlayersData && PlayersData.length > 0) {
