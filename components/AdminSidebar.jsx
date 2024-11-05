@@ -81,7 +81,7 @@ export default function MakeSidebar() {
         <CustomerSupportIcon size={24} color={"#00a870"} variant={"stroke"} />
       ),
       text: "Support",
-      // href: paths.admin.players,
+      href: paths.admin.support,
     },
   ];
 
