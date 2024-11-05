@@ -13,6 +13,7 @@ import {
   FaFirstAid,
   FaShower,
   FaLock,
+  FaCheckCircle,
 } from "react-icons/fa";
 import { toast } from "sonner";
 
@@ -77,7 +78,7 @@ const AmenitiesPage = () => {
     if (newFeatureTitle.trim() !== "") {
       setFeatures([
         ...features,
-        { icon: FaLock, title: newFeatureTitle, isAvailable: true },
+        { icon: FaCheckCircle, title: newFeatureTitle, isAvailable: true },
       ]);
       setNewFeatureTitle("");
     }
@@ -86,7 +87,9 @@ const AmenitiesPage = () => {
   const handleSubmit = async () => {
     try {
       setLoading(true);
-      const availableFeatures = features.filter((feature) => feature.isAvailable);
+      const availableFeatures = features.filter(
+        (feature) => feature.isAvailable
+      );
       const response = await AdminAddUpdateAmenities({
         _id: ExistingAmenities?._id ?? undefined,
         amenities: availableFeatures,
