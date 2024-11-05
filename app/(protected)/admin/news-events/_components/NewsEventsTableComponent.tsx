@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { MINIOURL, poppins } from "@/lib/constants";
-import { EllipsisVertical, User } from "lucide-react";
+import { Edit, EllipsisVertical, Eye, Trash, User } from "lucide-react";
 import Link from "next/link";
 import { paths } from "@/lib/paths";
 import { usePathname } from "next/navigation";
@@ -18,10 +18,11 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuSeparator
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Calendar02Icon, NewsIcon } from "hugeicons-react";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 export type Column<T> = {
   header: string;
@@ -233,7 +234,7 @@ const NewsEventsTableComponent = <
                   </td>
                 ))}
 
-                <DropdownMenu>
+                {/* <DropdownMenu>
                   <DropdownMenuTrigger className="p-5">
                     <EllipsisVertical />
                   </DropdownMenuTrigger>
@@ -255,6 +256,23 @@ const NewsEventsTableComponent = <
                         Delete
                       </Link>
                     </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu> */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="p-5">
+                    <BsThreeDotsVertical className="w-6 h-6" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="shadow-md">
+                    <Link href={`${paths.admin.editNewsEvents}?id=${item._id}`}>
+                      <DropdownMenuItem className="cursor-pointer">
+                        <Edit className="w-4 h-4 mr-2" /> Edit
+                      </DropdownMenuItem>
+                    </Link>
+                    <div>
+                      <DropdownMenuItem className="cursor-pointer">
+                        <Trash className="w-4 h-4 mr-2" /> Delete
+                      </DropdownMenuItem>
+                    </div>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </tr>

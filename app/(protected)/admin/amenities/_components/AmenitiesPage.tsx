@@ -53,7 +53,7 @@ const AmenitiesPage = () => {
         ...ExistingAmenities.amenities
           .filter((amenity) => !existingTitles.includes(amenity.title))
           .map((newAmenity) => ({
-            icon: FaLock, // Default icon for new amenities
+            icon: FaCheckCircle, // Default icon for new amenities
             title: newAmenity.title,
             isAvailable: newAmenity.isAvailable,
           })),
