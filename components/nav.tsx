@@ -95,10 +95,10 @@ function NavLink({
       onClick={closeNav}
       className={cn(
         buttonVariants({
-          variant: checkActiveNav(href) ? 'secondary' : 'ghost',
-          size: 'sm',
+          variant: checkActiveNav(href) ? 'default' : 'ghost',
+          size: 'sm', 
         }),
-        'h-12 justify-start text-wrap rounded-none px-6',
+        `h-12 justify-start text-wrap rounded-none px-6  ${checkActiveNav(href) ? ' hover:text-primary' : ''}`,
         subLink && 'h-10 w-full border-l border-l-slate-500 px-2'
       )}
       aria-current={checkActiveNav(href) ? 'page' : undefined}

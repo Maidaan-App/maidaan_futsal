@@ -6,6 +6,7 @@ import Loader from "@/components/Loader";
 import NewsEventsTableComponent, { Column } from "./NewsEventsTableComponent";
 import { useGetAllAdminNewsEventsQuery } from "@/store/api/Admin/adminNewsEvents";
 import { MINIOURL } from "@/lib/constants";
+import moment from "moment";
 
 const columns: Column<any>[] = [
   {
@@ -24,12 +25,28 @@ const columns: Column<any>[] = [
       </div>
     ),
   },
+  // {
+  //   header: "Added Date",
+  //   accessor: "createdDate",
+  //   render: (item: any) => (
+  //     <span>{convertToHumanReadable(item.createdDate)}</span>
+  //   ),
+  // },
   {
     header: "Added Date",
     accessor: "createdDate",
-    render: (item: any) => (
-      <span>{convertToHumanReadable(item.createdDate)}</span>
-    ),
+    render: (item: any) => {
+      const date = moment(item.createdDate).format("MMM Do YYYY");
+      const time = moment(item.createdDate).format("h:mm:ss A");
+      
+      return (
+        <div>
+          <span>{date}</span>
+          <br />
+          <span className="text-[#919eab] text-sm">{time}</span>
+        </div>
+      );
+    },
   },
 ];
 
