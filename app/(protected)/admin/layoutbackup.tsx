@@ -1,11 +1,7 @@
-"use client";
-
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
-import { ReactNode } from "react";
-import SkipToMain from "@/components/skip-to-main";
-import Sidebar from "@/components/sidebar";
-import useIsCollapsed from "@/hooks/use-is-collapsed";
-
+import AdminSidebar from "@/components/AdminSidebar";
+import PublicSidebar from "@/components/PublicSidebar";
 import { Inter, Poppins } from "next/font/google";
 import {
   DropdownMenu,
@@ -14,10 +10,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
   CommandShortcut,
 } from "@/components/ui/command";
+import { currentUser } from "@/lib/auth";
+import { MINIOURL } from "@/lib/constants";
 import Link from "next/link";
 import { paths } from "@/lib/paths";
+import { Bell, MessageSquareMore, Search } from "lucide-react";
 import Logout from "@/components/auth/Logout";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -33,19 +39,20 @@ const pop = Poppins({
   weight: ["400", "500", "600", "700"],
 });
 
-export default function AdminLayout({ children }: { children: ReactNode }) {
-  const [isCollapsed, setIsCollapsed] = useIsCollapsed();
-
+const layout = async ({ children }: { children: React.ReactNode }) => {
+  const user = await currentUser();
   return (
-    <div className="relative h-full overflow-hidden bg-background">
-      <SkipToMain />
-      <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
-      <main
-        id="content"
-        className={`overflow-x-hidden pt-16 transition-[margin] md:overflow-y-hidden md:pt-0 ${
-          isCollapsed ? "md:ml-14" : "md:ml-64"
-        } h-full`}
-      >
+    <div className={`flex w-full ${pop.className} h-screen fixed `}>
+      <div className="z-50 w-fit  flex  lg:hidden overflow-y-auto">
+        <PublicSidebar />
+      </div>
+
+      <div className="z-50 w-fit h-screen hidden  lg:flex">
+        <AdminSidebar />
+      </div>
+
+      {/* Main Content */}
+      <main className="w-full bg-[#F4F4F5] overflow-auto">
         <div className="flex flex-col lg:flex-row justify-between items-center bg-white  p-5 sticky top-0 gap-3 z-50">
           <div className="relative">
             <input
@@ -99,4 +106,6 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       </main>
     </div>
   );
-}
+};
+
+export default layout;

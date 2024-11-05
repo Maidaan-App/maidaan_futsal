@@ -5,6 +5,14 @@ import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/sonner";
 import ReduxProvider from "@/store/ReduxProvider";
+import dynamic from "next/dynamic";
+
+const ThemeProvider = dynamic(
+  () => import("@/components/theme-provider").then((mod) => mod.ThemeProvider),
+  {
+    ssr: false,
+  }
+);
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,8 +32,10 @@ export default async function RootLayout({
     <SessionProvider session={session}>
       <html lang="en">
         <body className={inter.className}>
-          <Toaster />
-          <ReduxProvider>{children}</ReduxProvider>
+          <ThemeProvider defaultTheme="light" storageKey="maidaan">
+            <Toaster />
+            <ReduxProvider>{children}</ReduxProvider>
+          </ThemeProvider>
         </body>
       </html>
     </SessionProvider>
