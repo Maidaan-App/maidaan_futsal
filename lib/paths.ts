@@ -49,6 +49,7 @@ export const paths = {
     editNewsEvents: `${ROOTS.admin}/news-events/edit`,
 
     amenities: `${ROOTS.admin}/amenities`,
+    support: `${ROOTS.admin}/support`,
   },
 
   public: {
