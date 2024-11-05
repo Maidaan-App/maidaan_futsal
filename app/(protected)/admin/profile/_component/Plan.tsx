@@ -14,51 +14,62 @@ const Plan = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         {/* Basic Plan */}
         <div className="border border-[#E3E3E3] flex flex-col justify-between rounded-[12px] h-[200px] p-6">
-          <div className="mb-4">
+          <div className="">
             <img
-              src="https://s3-alpha-sig.figma.com/img/9d41/04ff/386496a7d3e0c1bede8d1218c43fb779?Expires=1725235200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=h~mWxwxgVs-5XPaNCtTxY5IkJLqMvWX4Mv1cVveamgfN6aJIVIT-2zEY3Zw-jiSXCrSImY-rM6nY5PLpjwS4RJXlHZVEO40tERuWgnujcfKsWIq9M6TvCcKIM5LmKbrl-vCIfalaBZJO-SNepLIT27C4l1PzPCAlXVl5aI5i6riYC~4Yeo8kDodxEsx2i95VrPhUdxEtuEkWOaTf~vsNRr1P6tT8ajLvdYE6JJDNpylkA8JkKxlMo16huLUvCxV0dB0S-NLqCKKuo5N-arj06pbnrWk67mNq~Al8LhxBBQNkCwYtC7aRgHrTgr-JDYmE3ojaOMoivn9fWAGgxCUKFw__"
+              src="/images/plan1.png"
               alt="Plan Icon"
-              className="w-[50px] h-[50px] rounded-md"
+              className="w-[80px] h-[80px] rounded-md"
             />
           </div>
-          <h3 className="text-[#28353D] font-medium text-lg mb-2">Basic</h3>
-          <p className="text-[#00A86B] font-medium text-base">Free</p>
+          <h3 className="text-[#28353D] font-medium text-lg mb-2">
+            Kick-Off Pass
+          </h3>
+          {/* <p className="text-[#00A86B] font-medium text-base">Free</p> */}
+          <p className="font-normal text-base text-[#28353D]">
+            Rs.{" "}
+            <span className="text-primary font-medium text-[32px]">1000</span>{" "}
+            <span className="text-[#8A92A6] text-base">for 1 month</span>
+          </p>
         </div>
 
         {/* Starter Plan - Current */}
-        <div className="border border-[#00A86B] flex flex-col justify-between rounded-[12px] h-[200px] p-6">
-          <div className="mb-4 flex justify-between items-center">
+        <div className="border border-[#00A86B] relative flex flex-col justify-between rounded-[12px] h-[200px] p-6">
+          <div className=" flex justify-between items-center">
             <img
-              src="https://s3-alpha-sig.figma.com/img/9d41/04ff/386496a7d3e0c1bede8d1218c43fb779?Expires=1725235200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=h~mWxwxgVs-5XPaNCtTxY5IkJLqMvWX4Mv1cVveamgfN6aJIVIT-2zEY3Zw-jiSXCrSImY-rM6nY5PLpjwS4RJXlHZVEO40tERuWgnujcfKsWIq9M6TvCcKIM5LmKbrl-vCIfalaBZJO-SNepLIT27C4l1PzPCAlXVl5aI5i6riYC~4Yeo8kDodxEsx2i95VrPhUdxEtuEkWOaTf~vsNRr1P6tT8ajLvdYE6JJDNpylkA8JkKxlMo16huLUvCxV0dB0S-NLqCKKuo5N-arj06pbnrWk67mNq~Al8LhxBBQNkCwYtC7aRgHrTgr-JDYmE3ojaOMoivn9fWAGgxCUKFw__"
+              src="/images/plan2.png"
               alt="Plan Icon"
-              className="w-[50px] h-[50px] rounded-md"
+              className="w-[80px] h-[80px] rounded-md"
             />
-            <span className="text-[#00A86B] bg-[#E9F7EF] text-sm px-3 py-1 rounded-lg">
+            <span className="text-[#00A86B] absolute right-4 top-4 bg-[#E9F7EF] text-sm px-3 py-1 rounded-lg">
               Current
             </span>
           </div>
-          <h3 className="text-[#28353D] font-medium text-lg mb-2">Starter</h3>
+          <h3 className="text-[#28353D] font-medium text-lg mb-2">
+            Hat-Trick Pass
+          </h3>
           <p className="font-normal text-base text-[#28353D]">
             Rs.{" "}
-            <span className="text-primary font-medium text-[32px]">1500</span>{" "}
-            <span className="text-[#8A92A6] text-base">/months</span>
+            <span className="text-primary font-medium text-[32px]">2500</span>{" "}
+            <span className="text-[#8A92A6] text-base">for 3 months</span>
           </p>
         </div>
 
         {/* Premium Plan */}
         <div className="border border-[#E3E3E3] flex flex-col justify-between rounded-[12px] h-[200px] p-6">
-          <div className="mb-4 flex justify-between items-center">
+          <div className=" flex justify-between items-center">
             <img
-              src="https://s3-alpha-sig.figma.com/img/9d41/04ff/386496a7d3e0c1bede8d1218c43fb779?Expires=1725235200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=h~mWxwxgVs-5XPaNCtTxY5IkJLqMvWX4Mv1cVveamgfN6aJIVIT-2zEY3Zw-jiSXCrSImY-rM6nY5PLpjwS4RJXlHZVEO40tERuWgnujcfKsWIq9M6TvCcKIM5LmKbrl-vCIfalaBZJO-SNepLIT27C4l1PzPCAlXVl5aI5i6riYC~4Yeo8kDodxEsx2i95VrPhUdxEtuEkWOaTf~vsNRr1P6tT8ajLvdYE6JJDNpylkA8JkKxlMo16huLUvCxV0dB0S-NLqCKKuo5N-arj06pbnrWk67mNq~Al8LhxBBQNkCwYtC7aRgHrTgr-JDYmE3ojaOMoivn9fWAGgxCUKFw__"
+              src="/images/plan3.png"
               alt="Plan Icon"
-              className="w-[50px] h-[50px] rounded-md"
+              className="w-[80px] h-[80px] rounded-md"
             />
           </div>
-          <h3 className="text-[#28353D] font-medium text-lg mb-2">Premium</h3>
+          <h3 className="text-[#28353D] font-medium text-lg mb-2">
+            Season Pass
+          </h3>
           <p className="font-normal text-base text-[#28353D]">
             Rs.{" "}
-            <span className="text-primary font-medium text-[32px]">1500</span>{" "}
-            <span className="text-[#8A92A6] text-base">/months</span>
+            <span className="text-primary font-medium text-[32px]">10,000</span>{" "}
+            <span className="text-[#8A92A6] text-base">for 12 months</span>
           </p>
         </div>
       </div>
