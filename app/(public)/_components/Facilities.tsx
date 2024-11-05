@@ -7,6 +7,7 @@ import {
   FaFirstAid,
   FaShower,
   FaLock,
+  FaCheckCircle,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { AMENITIESDETAIL } from "@/lib/types";
@@ -18,20 +19,21 @@ interface Props {
 const Facilities = ({ AmenitiesData }: Props) => {
   // Icon map to match titles with corresponding icons
   const iconMap: Record<string, React.ComponentType> = {
-    "Parking": FaParking,
+    Parking: FaParking,
     "Drinking Water": FaHandHoldingWater,
     "Rest Room": FaRestroom,
     "First Aid": FaFirstAid,
-    "Shower": FaShower,
+    Shower: FaShower,
     "Locker Room": FaLock,
   };
 
   // Filter to get only available amenities and map titles to icons
-  const availableFeatures = AmenitiesData.filter((amenity) => amenity.isAvailable)
-    .map((amenity) => ({
-      icon: iconMap[amenity.title] || FaLock, // Use FaLock as default icon
-      title: amenity.title,
-    }));
+  const availableFeatures = AmenitiesData.filter(
+    (amenity) => amenity.isAvailable
+  ).map((amenity) => ({
+    icon: iconMap[amenity.title] || FaCheckCircle, // Use FaLock as default icon
+    title: amenity.title,
+  }));
 
   return (
     <div
