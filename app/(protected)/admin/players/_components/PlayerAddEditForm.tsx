@@ -179,6 +179,7 @@ const PlayerAddEditForm = ({ type, ExistingDetail }: any) => {
                         variant="outlined"
                         {...field}
                         className="w-full"
+                        disabled={type === "Edit"}
                       />
                     </FormControl>
 

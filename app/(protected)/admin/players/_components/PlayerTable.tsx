@@ -2,11 +2,12 @@
 
 import React from "react";
 import { PLAYER } from "@/lib/types";
-import { useGetAllAdminPlayersQuery } from "@/store/api/Admin/adminPlayers";
+import { useGetAllAdminMyPlayersQuery } from "@/store/api/Admin/adminPlayers";
 import ReusableTable, { Column } from "@/components/ReusableTable";
-import { convertToHumanReadable } from "@/lib/helper";
+import { convertToHumanReadable, convertToHumanReadableNoTime } from "@/lib/helper";
 import { MINIOURL } from "@/lib/constants";
 import Loader from "@/components/Loader";
+import moment from "moment";
 
 const columns: Column<PLAYER>[] = [
   {
@@ -18,24 +19,27 @@ const columns: Column<PLAYER>[] = [
           <img
             src={`${MINIOURL}${data.image}`}
             alt={data.name}
-            className="w-8 h-8 rounded-full"
+            className="w-10 h-10 rounded-full"
           />
         ) : (
-          <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center">
+          <div className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center">
             {data.name.charAt(0).toUpperCase()}
           </div>
         )}
-        <span>{data.name}</span>
+        <span className="flex flex-col">
+          <p>{data.name}</p>
+          <p className="text-[#919eab] text-sm">{data?.email}</p>
+        </span>
       </div>
     ),
   },
 
-  {
-    header: "Email",
-    accessor: "email",
-    render: (data) =>
-      data.email ? data.email : <div className="flex ">-</div>,
-  },
+  // {
+  //   header: "Email",
+  //   accessor: "email",
+  //   render: (data) =>
+  //     data.email ? data.email : <div className="flex ">-</div>,
+  // },
   { header: "Phone", accessor: "phone" },
 
   {
@@ -44,13 +48,30 @@ const columns: Column<PLAYER>[] = [
     render: (data) =>
       data.address ? data.address : <div className="flex ">-</div>,
   },
+  // {
+  //   header: "Created Date",
+  //   accessor: "createdDate",
+  //   render: (item: any) => (
+  //     <span>{convertToHumanReadable(item.createdDate)}</span>
+  //   ),
+  // },
   {
     header: "Created Date",
     accessor: "createdDate",
-    render: (item: any) => (
-      <span>{convertToHumanReadable(item.createdDate)}</span>
-    ),
+    render: (item: any) => {
+      const date = moment(item.createdDate).format("MMM Do YYYY");
+      const time = moment(item.createdDate).format("h:mm:ss A");
+      
+      return (
+        <div>
+          <span>{date}</span>
+          <br />
+          <span className="text-[#919eab] text-sm">{time}</span>
+        </div>
+      );
+    },
   },
+  
 
   {
     header: "Status",
@@ -82,7 +103,7 @@ const sortOptions = [
 
 const PlayerTable = () => {
   const { data: PlayersData, isLoading: PlayersDataLoading } =
-    useGetAllAdminPlayersQuery("");
+    useGetAllAdminMyPlayersQuery("");
 
   return (
     <div className="md:p-5">
