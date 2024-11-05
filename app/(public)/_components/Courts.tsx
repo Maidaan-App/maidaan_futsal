@@ -19,23 +19,26 @@ const Courts = ({ CourtsData }: props) => {
         Our Courts
       </h2>
 
-      {/* Banner Images */}
-      <div className="flex flex-col md:flex-row gap-5 w-full justify-between">
+      {/* Courts Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full">
         {CourtsData &&
           CourtsData.length > 0 &&
           CourtsData.map((court, index) => (
             <div
               key={index}
-              className="relative w-full md:w-1/2 flex justify-start"
+              className={`relative w-full flex justify-start ${
+                CourtsData.length % 2 !== 0 && index === CourtsData.length - 1
+                  ? "md:col-span-2 md:justify-center" // Center-align the last item if odd
+                  : ""
+              }`}
             >
               <motion.div
-                className="relative w-full h-auto md:w-[650px] md:h-[324px] 2xl:w-[800px] 2xl:h-[500px] rounded-xl overflow-hidden"
+                className="relative w-full md:w-[650px] md:h-[324px] rounded-xl overflow-hidden"
                 initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }} // Alternate starting positions
                 animate={{ opacity: 1, x: 0 }} // Slide in to the center
                 transition={{ duration: 0.8 }} // Adjust duration as needed
               >
                 <img
-                  // src="/images/court.png" // Path to the image in the public directory
                   src={`${MINIOURL}${court.image}`}
                   alt={court.name}
                   className="w-full h-full object-cover object-top"
@@ -49,45 +52,6 @@ const Courts = ({ CourtsData }: props) => {
               </motion.div>
             </div>
           ))}
-        {/* Left Image */}
-        {/* <div className="relative w-full md:w-1/2 flex justify-start">
-          <motion.div
-            className="relative w-full h-auto md:w-[650px] md:h-[324px] 2xl:w-[800px] 2xl:h-[500px] rounded-xl overflow-hidden"
-            initial={{ opacity: 0, x: -100 }} // Start from the left
-            animate={{ opacity: 1, x: 0 }} // Slide in to the center
-            transition={{ duration: 8 }}
-          >
-            <img
-              src="/images/court.png" // Path to the image in the public directory
-              alt="Court1"
-              className="w-full h-full object-cover object-top"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-80"></div>
-            <div className="absolute bottom-5 left-5 text-white text-xl font-semibold">
-              Court Name 1
-            </div>
-          </motion.div>
-        </div> */}
-
-        {/* Right Image */}
-        {/* <div className="relative w-full md:w-1/2 flex justify-end">
-          <motion.div
-            className="relative w-full h-auto md:w-[650px] md:h-[324px] 2xl:w-[800px] 2xl:h-[500px] rounded-xl overflow-hidden"
-            initial={{ opacity: 0, x: 100 }} // Start from the right
-            animate={{ opacity: 1, x: 0 }} // Slide in to the center
-            transition={{ duration: 8 }}
-          >
-            <img
-              src="/images/Court1.jpg" // Path to the image in the public directory
-              alt="Court2"
-              className="w-full h-full object-cover object-top"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-80"></div>
-            <div className="absolute bottom-5 left-5 text-white text-xl font-semibold">
-              Court Name 2
-            </div>
-          </motion.div>
-        </div> */}
       </div>
     </div>
   );
