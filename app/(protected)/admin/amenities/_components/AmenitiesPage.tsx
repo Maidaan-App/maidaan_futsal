@@ -14,6 +14,7 @@ import {
   FaFirstAid,
   FaShower,
   FaLock,
+  FaCheckCircle,
 } from "react-icons/fa";
 import { toast } from "sonner";
 
@@ -76,7 +77,7 @@ const AmenitiesPage = () => {
     if (newFeatureTitle.trim() !== "") {
       setFeatures([
         ...features,
-        { icon: FaLock, title: newFeatureTitle, isAvailable: true },
+        { icon: FaCheckCircle, title: newFeatureTitle, isAvailable: true },
       ]);
       setNewFeatureTitle("");
       toast.success("Added Successfully !!!");

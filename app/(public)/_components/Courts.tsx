@@ -20,21 +20,24 @@ const Courts = ({ CourtsData }: props) => {
       </h2>
 
       {/* Banner Images */}
-      <div className="flex flex-col md:flex-row gap-10 w-full justify-between">
+      <div className="flex flex-col md:flex-row gap-5 w-full justify-between">
         {CourtsData &&
           CourtsData.length > 0 &&
           CourtsData.map((court, index) => (
-            <div key={index} className="relative w-full md:w-1/2 flex justify-start">
+            <div
+              key={index}
+              className="relative w-full md:w-1/2 flex justify-start"
+            >
               <motion.div
                 className="relative w-full h-auto md:w-[650px] md:h-[324px] 2xl:w-[800px] 2xl:h-[500px] rounded-xl overflow-hidden"
-                initial={{ opacity: 0, x: -100 }} // Start from the left
+                initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }} // Alternate starting positions
                 animate={{ opacity: 1, x: 0 }} // Slide in to the center
-                transition={{ duration: 8 }}
+                transition={{ duration: 0.8 }} // Adjust duration as needed
               >
                 <img
                   // src="/images/court.png" // Path to the image in the public directory
                   src={`${MINIOURL}${court.image}`}
-                  alt="Court1"
+                  alt={court.name}
                   className="w-full h-full object-cover object-top"
                 />
                 {/* Gradient Overlay */}
