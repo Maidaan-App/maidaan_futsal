@@ -61,7 +61,6 @@ export const {
       token.status = existingUser.status;
       token.image = existingUser.image;
       token.sub = existingUser.id.toString();
-
       return token;
     },
   },

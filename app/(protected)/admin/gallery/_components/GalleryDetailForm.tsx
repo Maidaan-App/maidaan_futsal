@@ -12,12 +12,16 @@ import { paths } from "@/lib/paths";
 import { uploadToMinIO } from "@/lib/helper";
 import SCNMultiImagePicker from "@/components/image-picker/multi-image-picker";
 import { useAdminAddUpdateGalleryMutation } from "@/store/api/Admin/adminGallery";
+import { Layout } from "@/components/custom/layout";
+import { Search } from "@/components/search";
+import ThemeSwitch from "@/components/theme-switch";
+import { UserNav } from "@/components/user-nav";
 
 const FormSchema = z.object({
   images: z.array(z.any()).min(1, "Please select at least one image."),
 });
 
-const GalleryDetailForm = ({ linkedGalleryId }: any) => {
+const GalleryDetailForm = ({ current_user }: any) => {
   const [Loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -66,27 +70,37 @@ const GalleryDetailForm = ({ linkedGalleryId }: any) => {
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-6 p-5 bg-white z-50 h-fit"
-      >
-        <h1 className="font-semibold text-2xl">Add Images</h1>
-        <div className="flex w-full gap-4">
-          <div className="w-1/2">
-            <SCNMultiImagePicker
-              name="Select Images"
-              // limit={5}
-              schemaName={`images`}
-            />
-          </div>
+    <Layout>
+      {/* ===== Top Heading ===== */}
+      <Layout.Header sticky>
+        <Search />
+        <div className="ml-auto flex items-center space-x-4">
+          <ThemeSwitch />
+          <UserNav current_user={current_user} />
         </div>
+      </Layout.Header>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-6 p-5 bg-white z-50 h-fit"
+        >
+          <h1 className="font-semibold text-2xl">Add Images</h1>
+          <div className="flex w-full gap-4">
+            <div className="w-1/2">
+              <SCNMultiImagePicker
+                name="Select Images"
+                // limit={5}
+                schemaName={`images`}
+              />
+            </div>
+          </div>
 
-        <Button disabled={Loading} type="submit">
-          Submit
-        </Button>
-      </form>
-    </Form>
+          <Button disabled={Loading} type="submit">
+            Submit
+          </Button>
+        </form>
+      </Form>
+    </Layout>
   );
 };
 

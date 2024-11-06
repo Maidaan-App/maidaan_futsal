@@ -1,28 +1,11 @@
-import { Button } from "@/components/ui/button";
-import { paths } from "@/lib/paths";
-import Link from "next/link";
 import React from "react";
-import GalleryDetailPageComp from "./_components/GalleryDetailPageComp";
+import GalleryPage from "./_components/GalleryPage";
+import { currentUser } from "@/lib/auth";
 
-const page = () => {
-  return (
-    <>
-      <div className="flex items-center justify-between p-5 ">
-        <h1 className="font-semibold text-2xl">Gallery</h1>
-        <div className="flex justify-end">
-          <Link href={`${paths.admin.addgallery}`} className="self-end">
-            <Button
-              variant={"default"}
-              className="flex gap-3 items-center w-full md:w-auto"
-            >
-              Add New Images
-            </Button>
-          </Link>
-        </div>
-      </div>
-      <GalleryDetailPageComp />
-    </>
-  );
+const Page = async () => {
+  const current_user = await currentUser();
+
+  return <GalleryPage current_user={current_user} />;
 };
 
-export default page;
+export default Page;

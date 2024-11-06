@@ -2,11 +2,12 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { MINIOURL, poppins } from "@/lib/constants";
-import { useGetAllAdminPlansQuery } from "@/store/api/Admin/adminPlans";
-const Plan = () => {
-  const { data: PlansData, isLoading: PlansDataLoading } =
-    useGetAllAdminPlansQuery("");
-  console.log("PlansData:", PlansData);
+import { PLANS } from "@/lib/types";
+
+interface props {
+  PlansData: PLANS[];
+}
+const Plan = ({ PlansData }: props) => {
   return (
     <div className={`${poppins.className} rounded-[12px] bg-white p-6`}>
       <h2 className="text-lg font-medium mb-2 text-[#28353D]">Change Plan</h2>
@@ -100,7 +101,9 @@ const Plan = () => {
                 <span className="text-primary font-medium text-[32px]">
                   {plan.price}
                 </span>{" "}
-                <span className="text-[#8A92A6] text-base">for {plan.month} months</span>
+                <span className="text-[#8A92A6] text-base">
+                  for {plan.month} months
+                </span>
               </p>
             </div>
           ))}
