@@ -32,10 +32,10 @@ const Tabs = ({ current_user }: any) => {
       category: "Billing",
       icon: <Invoice01Icon size={24} color={"#00a870"} />,
     },
-    {
-      category: "Notifications",
-      icon: <Notification03Icon size={24} color={"#00a870"} />,
-    },
+    // {
+    //   category: "Notifications",
+    //   icon: <Notification03Icon size={24} color={"#00a870"} />,
+    // },
     {
       category: "Social Links",
       icon: <Share02Icon size={24} color={"#00a870"} />,
@@ -62,8 +62,8 @@ const Tabs = ({ current_user }: any) => {
         return <SecurityContent />;
       case "Billing":
         return <BillingContent BillingDetail={BillingDetail} />;
-      case "Notifications":
-        return <NotificationsContent />;
+      // case "Notifications":
+      //   return <NotificationsContent />;
       case "Social Links":
         return <SocialLinksContent ProfileDetail={ProfileDetail} />;
       default:

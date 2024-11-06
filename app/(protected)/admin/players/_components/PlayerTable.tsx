@@ -4,7 +4,10 @@ import React from "react";
 import { PLAYER } from "@/lib/types";
 import { useGetAllAdminMyPlayersQuery } from "@/store/api/Admin/adminPlayers";
 import ReusableTable, { Column } from "@/components/ReusableTable";
-import { convertToHumanReadable, convertToHumanReadableNoTime } from "@/lib/helper";
+import {
+  convertToHumanReadable,
+  convertToHumanReadableNoTime,
+} from "@/lib/helper";
 import { MINIOURL } from "@/lib/constants";
 import Loader from "@/components/Loader";
 import moment from "moment";
@@ -61,7 +64,7 @@ const columns: Column<PLAYER>[] = [
     render: (item: any) => {
       const date = moment(item.createdDate).format("MMM Do YYYY");
       const time = moment(item.createdDate).format("h:mm:ss A");
-      
+
       return (
         <div>
           <span>{date}</span>
@@ -71,7 +74,6 @@ const columns: Column<PLAYER>[] = [
       );
     },
   },
-  
 
   {
     header: "Status",
@@ -116,17 +118,14 @@ const PlayerTable = () => {
           <h1 className="text-[#232D42] font-medium text-[1.5rem] my-3 px-3 lg:px-0">
             Players
           </h1>
-
-          {PlayersData && (
-            <ReusableTable
-              data={PlayersData}
-              columns={columns}
-              filterTabs={filterTabs}
-              statusKey="status"
-              sortOptions={sortOptions}
-              searchKeys={["name", "email", "phone", "address"]}
-            />
-          )}
+          <ReusableTable
+            data={PlayersData ?? []}
+            columns={columns}
+            filterTabs={filterTabs}
+            statusKey="status"
+            sortOptions={sortOptions}
+            searchKeys={["name", "email", "phone", "address"]}
+          />
         </>
       )}
     </div>

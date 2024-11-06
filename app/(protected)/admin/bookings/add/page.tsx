@@ -26,8 +26,6 @@ const AddBooking = () => {
   const { data: CourtsData, isLoading: CourtsDataLoading } =
     useGetAllAdminCourtsQuery("");
 
-  console.log("CourtsData:", CourtsData);
-
   useEffect(() => {
     if (ExistingDetail?.name) {
       setSelectedCourt(ExistingDetail);
@@ -46,7 +44,7 @@ const AddBooking = () => {
 
   return (
     <>
-      {CourtsDataLoading ? (
+      {CourtsDataLoading || Loading ? (
         <div className="flex h-[80vh] items-center justify-center">
           <Loader />
         </div>

@@ -1,8 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { poppins } from "@/lib/constants";
+import { MINIOURL, poppins } from "@/lib/constants";
+import { useGetAllAdminPlansQuery } from "@/store/api/Admin/adminPlans";
 const Plan = () => {
+  const { data: PlansData, isLoading: PlansDataLoading } =
+    useGetAllAdminPlansQuery("");
+  console.log("PlansData:", PlansData);
   return (
     <div className={`${poppins.className} rounded-[12px] bg-white p-6`}>
       <h2 className="text-lg font-medium mb-2 text-[#28353D]">Change Plan</h2>
@@ -11,8 +15,7 @@ const Plan = () => {
       </p>
 
       {/* Plan Selection Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        {/* Basic Plan */}
+      {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <div className="border border-[#E3E3E3] flex flex-col justify-between rounded-[12px] h-[200px] p-6">
           <div className="">
             <img
@@ -24,7 +27,6 @@ const Plan = () => {
           <h3 className="text-[#28353D] font-medium text-lg mb-2">
             Kick-Off Pass
           </h3>
-          {/* <p className="text-[#00A86B] font-medium text-base">Free</p> */}
           <p className="font-normal text-base text-[#28353D]">
             Rs.{" "}
             <span className="text-primary font-medium text-[32px]">1000</span>{" "}
@@ -32,7 +34,6 @@ const Plan = () => {
           </p>
         </div>
 
-        {/* Starter Plan - Current */}
         <div className="border border-[#00A86B] relative flex flex-col justify-between rounded-[12px] h-[200px] p-6">
           <div className=" flex justify-between items-center">
             <img
@@ -54,7 +55,6 @@ const Plan = () => {
           </p>
         </div>
 
-        {/* Premium Plan */}
         <div className="border border-[#E3E3E3] flex flex-col justify-between rounded-[12px] h-[200px] p-6">
           <div className=" flex justify-between items-center">
             <img
@@ -72,6 +72,38 @@ const Plan = () => {
             <span className="text-[#8A92A6] text-base">for 12 months</span>
           </p>
         </div>
+      </div> */}
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        {PlansData &&
+          PlansData.length > 0 &&
+          PlansData.map((plan, index) => (
+            <div
+              key={index}
+              className="border border-[#00A86B] relative flex flex-col justify-between rounded-[12px] h-[200px] p-6"
+            >
+              <div className=" flex justify-between items-center">
+                <img
+                  src={`${MINIOURL}${plan.image}`}
+                  alt="Plan Icon"
+                  className="w-[80px] h-[80px] rounded-md"
+                />
+                <span className="text-[#00A86B] absolute right-4 top-4 bg-[#E9F7EF] text-sm px-3 py-1 rounded-lg">
+                  Current
+                </span>
+              </div>
+              <h3 className="text-[#28353D] font-medium text-lg mb-2">
+                {plan.name}
+              </h3>
+              <p className="font-normal text-base text-[#28353D]">
+                Rs.{" "}
+                <span className="text-primary font-medium text-[32px]">
+                  {plan.price}
+                </span>{" "}
+                <span className="text-[#8A92A6] text-base">for {plan.month} months</span>
+              </p>
+            </div>
+          ))}
       </div>
 
       {/* Progress Bar */}

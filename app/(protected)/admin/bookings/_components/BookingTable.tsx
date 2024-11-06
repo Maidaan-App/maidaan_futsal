@@ -2,7 +2,10 @@
 
 import React from "react";
 import { useGetAllAdminBookingsQuery } from "@/store/api/Admin/adminBookings";
-import { convertToHumanReadable, convertToHumanReadableNoTime } from "@/lib/helper";
+import {
+  convertToHumanReadable,
+  convertToHumanReadableNoTime,
+} from "@/lib/helper";
 import BookingTableComponent, { Column } from "./BookingTableComponent";
 import Loader from "@/components/Loader";
 import { MINIOURL } from "@/lib/constants";
@@ -89,16 +92,14 @@ const BookingTable = () => {
         </div>
       ) : (
         <>
-          {BookingsData && (
-            <BookingTableComponent
-              data={BookingsData}
-              columns={columns}
-              filterTabs={filterTabs}
-              statusKey="status"
-              sortOptions={sortOptions}
-              searchKeys={["name", "phone", "address"]}
-            />
-          )}
+          <BookingTableComponent
+            data={BookingsData ?? []}
+            columns={columns}
+            filterTabs={filterTabs}
+            statusKey="status"
+            sortOptions={sortOptions}
+            searchKeys={["name", "phone", "address"]}
+          />
         </>
       )}
     </div>

@@ -38,7 +38,7 @@ const columns: Column<any>[] = [
     render: (item: any) => {
       const date = moment(item.createdDate).format("MMM Do YYYY");
       const time = moment(item.createdDate).format("h:mm:ss A");
-      
+
       return (
         <div>
           <span>{date}</span>
@@ -71,16 +71,14 @@ const NewsEventsTable = () => {
         </div>
       ) : (
         <>
-          {NewsEventsData && (
-            <NewsEventsTableComponent
-              data={NewsEventsData}
-              columns={columns}
-              filterTabs={filterTabs}
-              statusKey="status"
-              sortOptions={sortOptions}
-              searchKeys={["title"]}
-            />
-          )}
+          <NewsEventsTableComponent
+            data={NewsEventsData ?? []}
+            columns={columns}
+            filterTabs={filterTabs}
+            statusKey="status"
+            sortOptions={sortOptions}
+            searchKeys={["title"]}
+          />
         </>
       )}
     </div>

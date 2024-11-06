@@ -14,6 +14,8 @@ export const paths = {
   },
   configuration: {
     authConfiguration: `${ROOTS.configuration}/auth`,
+    contactConfiguration: `${ROOTS.configuration}/contact`,
+    logoConfiguration: `${ROOTS.configuration}/logo`,
   },
 
   admin: {
@@ -50,6 +52,9 @@ export const paths = {
 
     amenities: `${ROOTS.admin}/amenities`,
     support: `${ROOTS.admin}/support`,
+
+    plans: `${ROOTS.admin}/plans`,
+
   },
 
   public: {

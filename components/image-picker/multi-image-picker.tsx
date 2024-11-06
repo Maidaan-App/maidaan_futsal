@@ -84,7 +84,7 @@ const SCNMultiImagePicker = ({
       >
         <div className="flex items-center justify-between gap-10">
           <img
-            src="/images/upload.png"
+            src="/images/upload-image.svg"
             alt=""
             className="w-[2.6875rem] h-[2.6875rem] opacity-90"
           />

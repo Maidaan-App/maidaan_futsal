@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, {useState } from "react";
 import {
   Select,
   SelectContent,
@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { MINIOURL, poppins } from "@/lib/constants";
+import { poppins } from "@/lib/constants";
 import { Button } from "./ui/button";
 import { Edit, EllipsisVertical, Eye, Trash, User } from "lucide-react";
 import Link from "next/link";
