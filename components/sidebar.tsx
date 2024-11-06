@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react'
-import { IconChevronsLeft, IconMenu2, IconX } from '@tabler/icons-react'
-import { Layout } from './custom/layout'
-import { Button } from './custom/button'
-import { cn } from '@/lib/utils'
-import Nav from './nav'
-import { sidelinks } from '@/data/sidelinks'
-import { Copyright } from 'lucide-react'
+import { useEffect, useState } from "react";
+import { IconChevronsLeft, IconMenu2, IconX } from "@tabler/icons-react";
+import { Layout } from "./custom/layout";
+import { Button } from "./custom/button";
+import { cn } from "@/lib/utils";
+import Nav from "./nav";
+import { sidelinks } from "@/data/sidelinks";
+import { Copyright } from "lucide-react";
+import { useGetLogoConfigQuery } from "@/store/api/Config/configs";
+import { MINIOURL } from "@/lib/constants";
 
 interface SidebarProps extends React.HTMLAttributes<HTMLElement> {
-  isCollapsed: boolean
-  setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>
+  isCollapsed: boolean;
+  setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Sidebar({
@@ -17,25 +19,25 @@ export default function Sidebar({
   isCollapsed,
   setIsCollapsed,
 }: SidebarProps) {
-  const [navOpened, setNavOpened] = useState(false)
+  const [navOpened, setNavOpened] = useState(false);
   const [mounted, setMounted] = useState(false);
   const currentYear = new Date().getFullYear();
 
+  const { data: LogoConfigData, isLoading: LogoConfigDataLoading } =
+    useGetLogoConfigQuery("");
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-
-
   /* Make body not scrollable when navBar is opened */
   useEffect(() => {
     if (navOpened) {
-      document.body.classList.add('overflow-hidden')
+      document.body.classList.add("overflow-hidden");
     } else {
-      document.body.classList.remove('overflow-hidden')
+      document.body.classList.remove("overflow-hidden");
     }
-  }, [navOpened])
+  }, [navOpened]);
 
   if (!mounted) {
     return null; // Don't render on the server
@@ -44,39 +46,56 @@ export default function Sidebar({
   return (
     <aside
       className={cn(
-        `fixed left-0 right-0 top-0 z-50 w-full border-r-2 border-r-muted transition-[width] md:bottom-0 md:right-auto md:h-svh ${isCollapsed ? 'md:w-14' : 'md:w-64'}`,
+        `fixed left-0 right-0 top-0 z-50 w-full border-r-2 border-r-muted transition-[width] md:bottom-0 md:right-auto md:h-svh ${
+          isCollapsed ? "md:w-14" : "md:w-64"
+        }`,
         className
       )}
     >
       {/* Overlay in mobile */}
       <div
         onClick={() => setNavOpened(false)}
-        className={`absolute inset-0 transition-[opacity] delay-100 duration-700 ${navOpened ? 'h-svh opacity-50' : 'h-0 opacity-0'} w-full bg-black md:hidden`}
+        className={`absolute inset-0 transition-[opacity] delay-100 duration-700 ${
+          navOpened ? "h-svh opacity-50" : "h-0 opacity-0"
+        } w-full bg-black md:hidden`}
       />
 
-      <Layout fixed className={navOpened ? 'h-svh' : ''}>
+      <Layout fixed className={navOpened ? "h-svh" : ""}>
         {/* Header */}
         <Layout.Header
           sticky
-          className='z-50 flex justify-between px-4 py-3 shadow-sm md:px-4'
+          className="z-50 flex justify-between px-4 py-3 shadow-sm md:px-4"
         >
-          <div className={`flex items-center ${!isCollapsed ? 'gap-2' : ''}`}>
-            <img src="logo.png" alt="" className='h-6 w-6' />
+          <div className={`flex items-center ${!isCollapsed ? "gap-2" : ""}`}>
+            {LogoConfigData && (
+              <img
+                src={`${MINIOURL}${LogoConfigData.logo}`}
+                alt=""
+                className="h-6 w-6"
+              />
+            )}
             <div
-              className={`flex flex-col justify-end truncate ${isCollapsed ? 'invisible w-0' : 'visible w-auto'}`}
+              className={`flex flex-col justify-end truncate ${
+                isCollapsed ? "invisible w-0" : "visible w-auto"
+              }`}
             >
-              <span className='font-medium'>Maidaan</span>
-              <span className='text-xs flex items-center gap-1'><Copyright height={12} width={12} />{currentYear}</span>
+              <span className="font-medium">Maidaan</span>
+              <span className="text-xs flex items-center gap-1">
+                <Copyright height={12} width={12} />
+                {currentYear}
+                
+                <p>All rights reserved.</p>
+              </span>
             </div>
           </div>
 
           {/* Toggle Button in mobile */}
           <Button
-            variant='ghost'
-            size='icon'
-            className='md:hidden'
-            aria-label='Toggle Navigation'
-            aria-controls='sidebar-menu'
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            aria-label="Toggle Navigation"
+            aria-controls="sidebar-menu"
             aria-expanded={navOpened}
             onClick={() => setNavOpened((prev) => !prev)}
           >
@@ -86,8 +105,10 @@ export default function Sidebar({
 
         {/* Navigation links */}
         <Nav
-          id='sidebar-menu'
-          className={`z-40 h-full flex-1 overflow-auto ${navOpened ? 'max-h-screen' : 'max-h-0 py-0 md:max-h-screen md:py-2'}`}
+          id="sidebar-menu"
+          className={`z-40 h-full flex-1 overflow-auto ${
+            navOpened ? "max-h-screen" : "max-h-0 py-0 md:max-h-screen md:py-2"
+          }`}
           closeNav={() => setNavOpened(false)}
           isCollapsed={isCollapsed}
           links={sidelinks}
@@ -96,16 +117,16 @@ export default function Sidebar({
         {/* Scrollbar width toggle button */}
         <Button
           onClick={() => setIsCollapsed((prev) => !prev)}
-          size='icon'
-          variant='outline'
-          className='absolute -right-5 top-1/2 z-50 hidden rounded-full md:inline-flex'
+          size="icon"
+          variant="outline"
+          className="absolute -right-5 top-1/2 z-50 hidden rounded-full md:inline-flex"
         >
           <IconChevronsLeft
             stroke={1.5}
-            className={`h-5 w-5 ${isCollapsed ? 'rotate-180' : ''}`}
+            className={`h-5 w-5 ${isCollapsed ? "rotate-180" : ""}`}
           />
         </Button>
       </Layout>
     </aside>
-  )
+  );
 }

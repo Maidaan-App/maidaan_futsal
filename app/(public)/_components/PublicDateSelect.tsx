@@ -5,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { CalendarDays } from "lucide-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { FaChevronDown } from "react-icons/fa";
 import { poppins } from "@/lib/constants";
 import { Carousel } from "@/components/ui/carousel";
 
@@ -34,9 +33,6 @@ export function PublicDateSelect({ selectedDate, setSelectedDate }: any) {
     setSelectedDate(dateObj.fullDate);
   };
 
-  const toggleCalendar = () => {
-    setIsOpen(!isOpen);
-  };
 
   return (
     <div className={`mt-5 ${poppins.className}`}>
@@ -47,7 +43,6 @@ export function PublicDateSelect({ selectedDate, setSelectedDate }: any) {
 
         {/* Date display with Chevron Down */}
         <p
-          onClick={toggleCalendar}
           style={{ cursor: "pointer", display: "flex", alignItems: "center" }}
           className="font-medium text-[1.125rem]"
         >

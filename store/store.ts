@@ -13,6 +13,7 @@ import { publicFutsalApi } from "./api/Public/publicFutsal";
 import { adminGalleryApi } from "./api/Admin/adminGallery";
 import { adminNewsEvents } from "./api/Admin/adminNewsEvents";
 import { adminAmenities } from "./api/Admin/adminAmenities";
+import { adminPlansApi } from "./api/Admin/adminPlans";
 
 export const store = configureStore({
   reducer: {
@@ -27,6 +28,8 @@ export const store = configureStore({
     [adminGalleryApi.reducerPath]: adminGalleryApi.reducer,
     [adminNewsEvents.reducerPath]: adminNewsEvents.reducer,
     [adminAmenities.reducerPath]: adminAmenities.reducer,
+    [adminPlansApi.reducerPath]: adminPlansApi.reducer,
+    
 
     //auths
     [authsApi.reducerPath]: authsApi.reducer,
@@ -50,6 +53,7 @@ export const store = configureStore({
       adminGalleryApi.middleware,
       adminNewsEvents.middleware,
       adminAmenities.middleware,
+      adminPlansApi.middleware,
 
       //auths
       authsApi.middleware,

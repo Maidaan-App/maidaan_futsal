@@ -142,3 +142,27 @@ export interface AMENITIES {
   amenities: AMENITIESDETAIL[];
   createdDate: Date;
 }
+
+export interface LOGOCONFIGURATION {
+  _id: string;
+  logo: string;
+  createdDate: Date;
+}
+
+export interface CONTACTCONFIGURATION {
+  _id: string;
+  whatsappLink: string;
+  phone: string;
+  callSchedule: string;
+  email: string;
+  createdDate: Date;
+}
+
+export interface PLANS {
+  _id: string;
+  image: string;
+  name: string;
+  price: string;
+  month: string;
+  createdDate: Date;
+}
