@@ -509,11 +509,11 @@ const BookingEditPage = () => {
                     {/* Totals Section */}
                     <div className="space-y-2 mt-4 text-right">
                       <div className="flex justify-between">
-                        <span>Slot's Total:</span>
+                        <span>Slot&apos;s Total:</span>
                         <span>Rs. {slotTotal}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>Item's Total:</span>
+                        <span>Item&apos;s Total:</span>
                         <span>Rs. {itemsTotal}</span>
                       </div>
                       <div className="flex justify-between">
