@@ -1,12 +1,11 @@
-import React from 'react'
-import BookingTable from './_components/BookingTable'
+import React from "react";
+import BookingTable from "./_components/BookingTable";
+import { currentUser } from "@/lib/auth";
 
-const Bookings = () => {
-  return (
-    <div>
-      <BookingTable/>
-    </div>
-  )
-}
+const Bookings = async() => {
+  const current_user = await currentUser();
 
-export default Bookings
+  return <BookingTable current_user={current_user}/>;
+};
+
+export default Bookings;

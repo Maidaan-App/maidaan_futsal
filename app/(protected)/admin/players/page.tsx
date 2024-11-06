@@ -1,12 +1,11 @@
-import React from 'react'
-import PlayerTable from './_components/PlayerTable'
+import React from "react";
+import PlayerTable from "./_components/PlayerTable";
+import { currentUser } from "@/lib/auth";
 
-const Players = () => {
-  return (
-    <div>
-      <PlayerTable />
-    </div>
-  )
-}
+const Players = async() => {
+  const current_user = await currentUser();
 
-export default Players
+  return <PlayerTable current_user={current_user} />;
+};
+
+export default Players;

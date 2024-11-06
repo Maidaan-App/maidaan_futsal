@@ -11,6 +11,10 @@ import {
 import { MINIOURL } from "@/lib/constants";
 import Loader from "@/components/Loader";
 import moment from "moment";
+import { Layout } from "@/components/custom/layout";
+import { Search } from "@/components/search";
+import ThemeSwitch from "@/components/theme-switch";
+import { UserNav } from "@/components/user-nav";
 
 const columns: Column<PLAYER>[] = [
   {
@@ -22,7 +26,7 @@ const columns: Column<PLAYER>[] = [
           <img
             src={`${MINIOURL}${data.image}`}
             alt={data.name}
-            className="w-10 h-10 rounded-full"
+            className="w-10 h-10 rounded-full object-cover"
           />
         ) : (
           <div className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center">
@@ -103,11 +107,20 @@ const sortOptions = [
   { label: "Oldest", value: "oldest" },
 ];
 
-const PlayerTable = () => {
+const PlayerTable = ({current_user}:any) => {
   const { data: PlayersData, isLoading: PlayersDataLoading } =
     useGetAllAdminMyPlayersQuery("");
 
   return (
+    <Layout>
+      {/* ===== Top Heading ===== */}
+      <Layout.Header sticky>
+        <Search />
+        <div className='ml-auto flex items-center space-x-4'>
+          <ThemeSwitch />
+          <UserNav current_user={current_user} />
+        </div>
+      </Layout.Header>
     <div className="md:p-5">
       {PlayersDataLoading ? (
         <div className="flex h-[80vh] items-center justify-center">
@@ -129,6 +142,7 @@ const PlayerTable = () => {
         </>
       )}
     </div>
+    </Layout>
   );
 };
 

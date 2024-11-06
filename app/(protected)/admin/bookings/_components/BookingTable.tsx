@@ -9,6 +9,10 @@ import {
 import BookingTableComponent, { Column } from "./BookingTableComponent";
 import Loader from "@/components/Loader";
 import { MINIOURL } from "@/lib/constants";
+import { Layout } from "@/components/custom/layout";
+import { Search } from "@/components/search";
+import ThemeSwitch from "@/components/theme-switch";
+import { UserNav } from "@/components/user-nav";
 
 const columns: Column<any>[] = [
   {
@@ -78,31 +82,41 @@ const sortOptions = [
   { label: "Oldest", value: "oldest" },
 ];
 
-const BookingTable = () => {
+const BookingTable = ({ current_user }: any) => {
   const { data: BookingsData, isLoading: BookingsDataLoading } =
     useGetAllAdminBookingsQuery("");
   return (
-    <div className="md:p-5">
-      <h1 className="text-[#232D42] font-medium text-[1.5rem] my-3 px-3 lg:px-0">
-        Bookings
-      </h1>
-      {BookingsDataLoading ? (
-        <div className="flex h-[80vh] items-center justify-center">
-          <Loader />
+    <Layout>
+      {/* ===== Top Heading ===== */}
+      <Layout.Header sticky>
+        <Search />
+        <div className="ml-auto flex items-center space-x-4">
+          <ThemeSwitch />
+          <UserNav current_user={current_user} />
         </div>
-      ) : (
-        <>
-          <BookingTableComponent
-            data={BookingsData ?? []}
-            columns={columns}
-            filterTabs={filterTabs}
-            statusKey="status"
-            sortOptions={sortOptions}
-            searchKeys={["name", "phone", "address"]}
-          />
-        </>
-      )}
-    </div>
+      </Layout.Header>
+      <div className="md:p-5">
+        <h1 className="text-[#232D42] font-medium text-[1.5rem] my-3 px-3 lg:px-0">
+          Bookings
+        </h1>
+        {BookingsDataLoading ? (
+          <div className="flex h-[80vh] items-center justify-center">
+            <Loader />
+          </div>
+        ) : (
+          <>
+            <BookingTableComponent
+              data={BookingsData ?? []}
+              columns={columns}
+              filterTabs={filterTabs}
+              statusKey="status"
+              sortOptions={sortOptions}
+              searchKeys={["name", "phone", "address"]}
+            />
+          </>
+        )}
+      </div>
+    </Layout>
   );
 };
 

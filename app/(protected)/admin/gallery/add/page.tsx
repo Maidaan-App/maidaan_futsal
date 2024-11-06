@@ -1,11 +1,12 @@
 import React from 'react'
 import GalleryDetailForm from '../_components/GalleryDetailForm'
+import { currentUser } from '@/lib/auth';
 
-const AddGallery = () => {
+const AddGallery = async() => {
+  const current_user = await currentUser();
+
   return (
-    <>
-    <GalleryDetailForm/>
-    </>
+    <GalleryDetailForm current_user={current_user}/>
   )
 }
 
