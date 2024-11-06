@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { MINIOURL, poppins } from "@/lib/constants";
-import { Edit, EllipsisVertical, Eye, Trash, User } from "lucide-react";
+import { Edit, EllipsisVertical, Eye, Trash, Trash2, User } from "lucide-react";
 import Link from "next/link";
 import { paths } from "@/lib/paths";
 import { usePathname } from "next/navigation";
@@ -23,6 +23,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Calendar02Icon, NewsIcon } from "hugeicons-react";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import AlertDialogBox from "@/components/AlertDialogBox";
+import AlertDialogBoxMultiple from "@/components/AlertDialogBoxMuliple";
 
 export type Column<T> = {
   header: string;
@@ -55,6 +57,7 @@ const NewsEventsTableComponent = <
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const [showConfirmation, setShowConfirmation] = React.useState(false);
 
   const getStatusCount = (status: string) => {
     return data.filter((item) => item[statusKey] === status).length;
@@ -122,6 +125,7 @@ const NewsEventsTableComponent = <
   return (
     <div className={`bg-white rounded-lg shadow-lg ${poppins.className} p-5`}>
       {/* Filter Tabs and Controls */}
+
       <div className="flex overflow-x-auto justify-between items-center md:space-y-0">
         <div className="flex">
           {filterTabs.map((tab) => (
@@ -188,6 +192,18 @@ const NewsEventsTableComponent = <
             New News Event
           </Button>
         </Link>
+      </div>
+
+      <div className="flex justify-end w-full">
+        {selectedItems.length > 0 && (
+          <div className="mb-4 flex items-center  w-full bg-white rounded-lg p-3">
+            <AlertDialogBoxMultiple
+              onCancel={() => setShowConfirmation(false)}
+              onConfirm={() => deleteItems}
+              text={"Delete"}
+            ></AlertDialogBoxMultiple>
+          </div>
+        )}
       </div>
 
       {/* Table Data */}
@@ -269,9 +285,11 @@ const NewsEventsTableComponent = <
                       </DropdownMenuItem>
                     </Link>
                     <div>
-                      <DropdownMenuItem className="cursor-pointer">
-                        <Trash className="w-4 h-4 mr-2" /> Delete
-                      </DropdownMenuItem>
+                      <AlertDialogBox
+                        onCancel={() => setShowConfirmation(false)}
+                        onConfirm={() => deleteItems}
+                        text={"Delete"}
+                      ></AlertDialogBox>
                     </div>
                   </DropdownMenuContent>
                 </DropdownMenu>

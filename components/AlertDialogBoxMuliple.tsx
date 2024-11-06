@@ -10,19 +10,20 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { cn } from "@/lib/utils";
-import { Trash } from "lucide-react";
+import { Trash, Trash2 } from "lucide-react";
 
-const AlertDialogBox = ({ onCancel, onConfirm, text, classname }: any) => {
+const AlertDialogBoxMultiple = ({
+  onCancel,
+  onConfirm,
+  text,
+  classname,
+}: any) => {
   return (
     <AlertDialog>
-      <AlertDialogTrigger
-        className={cn(
-          "text-sm  hover:bg-slate-100 w-full justify-start flex pl-2 py-1",
-          classname
-        )}
-      >
-        <Trash className="w-4 h-4 mr-2" />
-        {text}
+      <AlertDialogTrigger className={cn("text-sm   w-full  flex ", classname)}>
+        <button className="bg-red-600 text-white flex items-center rounded-full p-3 hover:bg-red-700 transition duration-300 shadow-md transform hover:scale-105">
+          <Trash2 className="w-5 h-5" />
+        </button>
       </AlertDialogTrigger>
 
       <AlertDialogContent>
@@ -47,4 +48,4 @@ const AlertDialogBox = ({ onCancel, onConfirm, text, classname }: any) => {
   );
 };
 
-export default AlertDialogBox;
+export default AlertDialogBoxMultiple;

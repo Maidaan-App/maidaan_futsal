@@ -14,12 +14,15 @@ import { MINIOURL } from "@/lib/constants";
 import { COURT } from "@/lib/types";
 import { useAdminDeleteCourtByIdMutation } from "@/store/api/Admin/adminCourts";
 import { toast } from "sonner";
+import AlertDialogBox from "@/components/AlertDialogBox";
 
 interface CourtCardProps {
   courtData: COURT;
 }
 
 const CourtCard: React.FC<CourtCardProps> = ({ courtData }) => {
+  const [showConfirmation, setShowConfirmation] = React.useState(false);
+
   const formatTime = (time: Date) => {
     return new Date(time).toLocaleTimeString("en-US", {
       hour: "2-digit",
@@ -85,12 +88,18 @@ const CourtCard: React.FC<CourtCardProps> = ({ courtData }) => {
                 </DropdownMenuItem>
               </Link>
 
-              <DropdownMenuItem
+              <AlertDialogBox
+                onCancel={() => setShowConfirmation(false)}
+                onConfirm={() => confirmDelete(courtData._id)}
+                text={"Delete"}
+              ></AlertDialogBox>
+
+              {/* <DropdownMenuItem
                 onClick={() => confirmDelete(courtData._id)}
                 className="text-red-500 cursor-pointer"
               >
                 <Trash className="w-4 h-4 mr-2" /> Delete
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

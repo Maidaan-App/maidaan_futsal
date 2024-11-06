@@ -44,14 +44,15 @@ const calculateTotalPrice = (
     const timeMatch = time.match(/(\d+):(\d+) (AM|PM)/);
     if (timeMatch) {
       const [, hours, minutes, period] = timeMatch;
-      const hours24 = period === "PM" && parseInt(hours) < 12
-        ? parseInt(hours) + 12
-        : period === "AM" && parseInt(hours) === 12
-        ? 0
-        : parseInt(hours);
+      const hours24 =
+        period === "PM" && parseInt(hours) < 12
+          ? parseInt(hours) + 12
+          : period === "AM" && parseInt(hours) === 12
+          ? 0
+          : parseInt(hours);
       return { hours: hours24, minutes: parseInt(minutes) };
     }
-    
+
     // Check if the time is in ISO format
     const date = new Date(time);
     if (!isNaN(date.getTime())) {
@@ -73,7 +74,9 @@ const calculateTotalPrice = (
     const shiftStartInMinutes = shiftStart.hours * 60 + shiftStart.minutes;
     const shiftEndInMinutes = shiftEnd.hours * 60 + shiftEnd.minutes;
 
-    return startInMinutes >= shiftStartInMinutes && endInMinutes <= shiftEndInMinutes;
+    return (
+      startInMinutes >= shiftStartInMinutes && endInMinutes <= shiftEndInMinutes
+    );
   };
 
   // Get the shift data from the court
@@ -116,7 +119,6 @@ const calculateTotalPrice = (
 
   return totalPrice;
 };
-
 
 const BookingConfirmationPage = ({
   setcompleteBooking,
@@ -268,12 +270,19 @@ const BookingConfirmationPage = ({
           {/* If Player Selected */}
           {selectedPlayer && (
             <div className="bg-white p-4 rounded-md  flex justify-between shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] relative">
-              <div className="flex items-center">
-                <img
-                  src={`${MINIOURL}${selectedPlayer.image}`}
-                  alt={selectedPlayer.name}
-                  className="w-[5.875rem] h-[5.875rem] rounded-full mr-4 "
-                />
+              <div className="flex items-center gap-5">
+                {selectedPlayer.image ? (
+                  <img
+                    src={`${MINIOURL}${selectedPlayer.image}`}
+                    alt={selectedPlayer.name}
+                    className="w-[5.875rem] h-[5.875rem] rounded-full mr-4 "
+                  />
+                ) : (
+                  <div className="h-20 w-20 rounded-full flex justify-center items-center bg-primary text-3xl text-white">
+                    {" "}
+                    {selectedPlayer.name[0]}
+                  </div>
+                )}
                 <div>
                   <h3 className="text-[1.125rem] font-medium mb-3">
                     {selectedPlayer.name}
@@ -339,11 +348,17 @@ const BookingConfirmationPage = ({
                             className="flex items-center p-2 hover:bg-green-50 cursor-pointer hover:border-l-4 hover:border-green-500"
                             onClick={() => handleSelectPlayer(player)}
                           >
-                            <img
-                              src={`${MINIOURL}${player.image}`}
-                              alt={player.name}
-                              className="w-8 h-8 rounded-full mr-2"
-                            />
+                            {player.image ? (
+                              <img
+                                src={`${MINIOURL}${player.image}`}
+                                alt={player.name}
+                                className="w-8 h-8 rounded-full mr-2"
+                              />
+                            ) : (
+                              <div className="h-8 w-8 mr-2 rounded-full flex justify-center items-center bg-primary text-3xl text-white p-1">
+                                {player.name[0]}
+                              </div>
+                            )}
                             <span>{player.name}</span>
                           </div>
                         ))
@@ -426,7 +441,14 @@ const BookingConfirmationPage = ({
                 <span>Total:</span>
                 <span className="text-green-500">Rs. {totalPrice}</span>
               </div>
-              <div className="flex justify-end">
+              <div className="flex justify-end items-center gap-3">
+                <button
+                  disabled={Loading}
+                  onClick={() => setcompleteBooking(false)}
+                  className="bg-white text-green-500 px-4 py-2 rounded-md  border"
+                >
+                  Cancel
+                </button>
                 <button
                   disabled={Loading}
                   type="submit"
@@ -437,13 +459,6 @@ const BookingConfirmationPage = ({
               </div>
             </form>
           </Form>
-          <button
-            disabled={Loading}
-            onClick={() => setcompleteBooking(false)}
-            className="bg-white text-green-500 px-4 py-2 rounded-md mt-4 border"
-          >
-            Cancel
-          </button>
         </div>
       </div>
     </div>

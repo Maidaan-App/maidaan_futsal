@@ -60,28 +60,34 @@ const getSlotStatus = (
 };
 
 const HoverPopover = ({ details }: { details: any }) => (
-    <div className="absolute left-0 top-0 z-10 mt-10 bg-white p-4 rounded-md flex justify-between shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px]">
-      <div className="flex items-center">
+  <div className="absolute left-0 -top-24 z-10 bg-white p-4 rounded-md flex justify-between shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] transform transition-all duration-500 ease-out scale-95 hover:scale-100 hover:shadow-lg hover:bg-opacity-90 hover:cursor-pointer">
+    <div className="flex items-center gap-5">
+      {details.player.image ? (
         <img
           src={`${MINIOURL}${details.player.image}`}
           alt={details.player.name}
-          className="w-[5.875rem] h-[5.875rem] rounded-full mr-4 "
+          className="h-24 w-24 rounded-full shadow-md border-4 border-white transition-transform duration-300 ease-in-out transform hover:scale-110"
         />
-        <div>
-          <h3 className="text-[1.125rem] font-medium mb-3">
-            {details.player.name}
-          </h3>
-          {details.player.address && (
-            <p className="font-normal text-[#8A92A6] text-[0.75rem]">
-              {details.player.address}
-            </p>
-          )}
-          <p className="text-primary font-normal text-[0.75rem]">
-            {details.player.phone}
-          </p>
+      ) : (
+        <div className="h-24 w-24 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white flex justify-center items-center text-4xl shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-110">
+          {details.player.name[0]}
         </div>
+      )}
+      <div className="flex flex-col">
+        <h3 className="text-[1.25rem] font-semibold text-gray-900 mb-1 transition-opacity duration-300 ease-in-out opacity-80 hover:opacity-100">
+          {details.player.name}
+        </h3>
+        {details.player.address && (
+          <p className="font-normal text-[#6B7280] text-sm mb-1 transition-opacity duration-300 ease-in-out opacity-70 hover:opacity-90">
+            {details.player.address}
+          </p>
+        )}
+        <p className="text-blue-600 font-medium text-sm transition-opacity duration-300 ease-in-out opacity-70 hover:opacity-90">
+          {details.player.phone}
+        </p>
       </div>
     </div>
+  </div>
 );
 
 export function TimeSlotSection({

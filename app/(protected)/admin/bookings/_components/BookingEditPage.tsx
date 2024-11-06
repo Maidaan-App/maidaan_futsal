@@ -1,7 +1,7 @@
 "use client";
 import { bookingStatusTypes, MINIOURL, poppins } from "@/lib/constants";
 import { useGetAdminBookingByIdQuery } from "@/store/api/Admin/adminBookings";
-import { X } from "lucide-react";
+import { Plus, Trash, X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -18,15 +18,32 @@ import {
 import { Input } from "@/components/ui/input";
 import { PLAYER } from "@/lib/types";
 import { useGetAllAdminPlayersQuery } from "@/store/api/Admin/adminPlayers";
-import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { InputLabel, MenuItem, Select } from "@mui/material";
 import { paths } from "@/lib/paths";
 import Loader from "@/components/Loader";
+import { Button } from "@/components/ui/button";
+import {
+  TextField,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  IconButton,
+} from "@mui/material";
+
+const itemSchema = z.object({
+  name: z.string().min(1, "Item Name is required"),
+  quantity: z.number().min(1, "Quantity must be at least 1"),
+  price: z.number().min(1, "Price must be greater than 0"),
+});
 
 const formSchema = z.object({
   name: z.string().min(1, "Full Name is required"),
   phone: z.string().min(1, "Contact is required"),
   bookingStatus: z.string().min(1, "Booking Status is required"),
   remarks: z.string().optional(),
+  itemsPurchased: z.array(itemSchema).optional(),
 });
 
 const BookingEditPage = () => {
@@ -37,6 +54,15 @@ const BookingEditPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const router = useRouter();
+  const [discount, setDiscount] = useState(0);
+  const [remarks, setRemarks] = useState("");
+
+  const [items, setItems] = useState<
+    { name: string; quantity: number; price: number }[]
+  >([]);
+  const [itemName, setItemName] = useState("");
+  const [itemQuantity, setItemQuantity] = useState(0);
+  const [itemPrice, setItemPrice] = useState(0);
 
   const { data: ExistingDetail, isLoading: Loading } =
     useGetAdminBookingByIdQuery(id);
@@ -67,6 +93,7 @@ const BookingEditPage = () => {
       phone: "",
       bookingStatus: bookingStatusTypes[0],
       remarks: "",
+      itemsPurchased: [],
     },
   });
 
@@ -82,6 +109,7 @@ const BookingEditPage = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     console.log("values:", values);
+    // console.log("Purchased items:", items);
     // try {
     //   setLoading(true);
     //   const formData = {
@@ -113,6 +141,47 @@ const BookingEditPage = () => {
   const handleRemovePlayer = () => {
     form.setValue("name", "");
     setSelectedPlayer(false);
+  };
+
+  // Handle adding an item to the list
+  const handleAddItem = () => {
+    if (!itemName || !itemQuantity || !itemPrice) return;
+    if (itemName && itemQuantity > 0 && itemPrice > 0) {
+      const newItem = {
+        name: itemName,
+        quantity: itemQuantity,
+        price: itemPrice,
+        total: itemQuantity * itemPrice,
+      };
+      setItems([...items, newItem]);
+      setItemName("");
+      setItemQuantity(0);
+      setItemPrice(0);
+      form.setValue("itemsPurchased", [...items, newItem]); // Update form value
+    }
+  };
+
+  // Handle deleting an item from the list
+  const handleDeleteItem = (index: number) => {
+    const updatedItems = items.filter((_, i) => i !== index);
+    setItems(updatedItems);
+    form.setValue("itemsPurchased", updatedItems); // Update form value
+  };
+
+  const calculateTotals = () => {
+    const slotTotal = 2000;
+    const itemsTotal = items.reduce((acc, item) => acc + item?.total, 0);
+    const subtotal = slotTotal + itemsTotal;
+    const netTotal = subtotal - discount;
+
+    return { slotTotal, itemsTotal, subtotal, netTotal };
+  };
+
+  const { slotTotal, itemsTotal, subtotal, netTotal } = calculateTotals();
+
+  const handleRemarksChange = (e: any) => {
+    setRemarks(e.target.value);
+    console.log("Remarks:", e.target.value);
   };
 
   return (
@@ -178,11 +247,19 @@ const BookingEditPage = () => {
               {ExistingDetail && selectedPlayer && (
                 <div className="bg-white p-4 rounded-md  flex justify-between shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] relative">
                   <div className="flex items-center">
-                    <img
-                      src={`${MINIOURL}${ExistingDetail?.image}`}
-                      alt={ExistingDetail.name}
-                      className="w-[5.875rem] h-[5.875rem] rounded-full mr-4 "
-                    />
+                    {ExistingDetail.image ? (
+                      <img
+                        src={`${MINIOURL}${ExistingDetail?.image}`}
+                        alt={ExistingDetail.name}
+                        className="w-[5.875rem] h-[5.875rem] rounded-full mr-4"
+                      />
+                    ) : (
+                      <div className="h-20 w-20 rounded-full flex justify-center items-center bg-primary text-3xl text-white mr-4">
+                        {" "}
+                        {ExistingDetail.name[0]}
+                      </div>
+                    )}
+
                     <div>
                       <h3 className="text-[1.125rem] font-medium mb-3">
                         {ExistingDetail.name}
@@ -250,11 +327,18 @@ const BookingEditPage = () => {
                                 className="flex items-center p-2 hover:bg-green-50 cursor-pointer hover:border-l-4 hover:border-green-500"
                                 onClick={() => handleSelectPlayer(player)}
                               >
-                                <img
-                                  src={`${MINIOURL}${player.image}`}
-                                  alt={player.name}
-                                  className="w-8 h-8 rounded-full mr-2"
-                                />
+                                {player.image ? (
+                                  <img
+                                    src={`${MINIOURL}${player.image}`}
+                                    alt={player.name}
+                                    className="w-8 h-8 rounded-full mr-2"
+                                  />
+                                ) : (
+                                  <div className="h-8 w-8 mr-2 rounded-full flex justify-center items-center bg-primary text-3xl text-white p-1">
+                                    {player.name[0]}
+                                  </div>
+                                )}
+
                                 <span>{player.name}</span>
                               </div>
                             ))
@@ -329,6 +413,137 @@ const BookingEditPage = () => {
                     />
                   </div>
 
+                  {/* Add Items Section */}
+                  <div className=" space-y-6">
+                    {/* Add Items Section */}
+                    <h2 className="text-lg font-medium">Items Purchased</h2>
+                    <div className="flex gap-4">
+                      <TextField
+                        label="Item Name"
+                        value={itemName}
+                        onChange={(e) => setItemName(e.target.value)}
+                        fullWidth
+                      />
+                      {/* <input
+                        type="number"
+                        className="border rounded p-2 w-20"
+                        placeholder="Quantity"
+                        value={itemQuantity}
+                        onChange={(e) =>
+                          setItemQuantity(parseInt(e.target.value))
+                        }
+                      />
+                      <input
+                        type="number"
+                        className="border rounded p-2 w-20"
+                        placeholder="Price"
+                        value={itemPrice}
+                        onChange={(e) =>
+                          setItemPrice(parseFloat(e.target.value))
+                        }
+                      />     */}
+
+                      <TextField
+                        label="Quantity"
+                        type="number"
+                        value={itemQuantity}
+                        onChange={(e) =>
+                          setItemQuantity(parseInt(e.target.value))
+                        }
+                        fullWidth
+                      />
+                      <TextField
+                        label="Price"
+                        type="number"
+                        value={itemPrice}
+                        onChange={(e) =>
+                          setItemPrice(parseFloat(e.target.value))
+                        }
+                        fullWidth
+                      />
+                    </div>
+
+                    <button
+                      onClick={handleAddItem}
+                      className="border-2 border-primary text-primary px-4 py-2 rounded-lg flex items-center gap-3"
+                    >
+                      <div className="border-2 border-primary rounded-md ">
+                        <Plus />
+                      </div>
+                      Add Item
+                    </button>
+
+                    {/* Items List */}
+                    {items.length > 0 && (
+                      <table className="w-full mt-4">
+                        <thead>
+                          <tr className="border-b">
+                            <th className="text-left p-2">Item Name</th>
+                            <th className="text-left p-2">Quantity</th>
+                            <th className="text-left p-2">Price</th>
+                            <th className="text-left p-2">Total</th>
+                            <th className="text-left p-2">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {items.map((item, index) => (
+                            <tr key={index} className="border-b">
+                              <td className="p-2">{item.name}</td>
+                              <td className="p-2">{item.quantity}</td>
+                              <td className="p-2">Rs. {item.price}</td>
+                              <td className="p-2">Rs. {item?.total}</td>
+                              <td className="p-2">
+                                <button
+                                  onClick={() => handleDeleteItem(index)}
+                                  className="text-red-500 hover:underline flex items-center"
+                                >
+                                  <Trash />
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    )}
+
+                    {/* Totals Section */}
+                    <div className="space-y-2 mt-4 text-right">
+                      <div className="flex justify-between">
+                        <span>Slot's Total:</span>
+                        <span>Rs. {slotTotal}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Item's Total:</span>
+                        <span>Rs. {itemsTotal}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Subtotal:</span>
+                        <span>Rs. {subtotal}</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span>Discount:</span>
+                        <input
+                          type="number"
+                          value={discount}
+                          onChange={(e) =>
+                            setDiscount(parseInt(e.target.value) || 0)
+                          }
+                          className="border rounded p-1 w-20 text-right"
+                        />
+                      </div>
+                      <textarea
+                        placeholder="Remarks..."
+                        value={remarks}
+                        onChange={handleRemarksChange}
+                        className="w-full border rounded p-2 mt-2"
+                      ></textarea>
+                      <div className="flex justify-between font-bold text-lg">
+                        <span>Net Total:</span>
+                        <span className="text-green-500">Rs. {netTotal}</span>
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="flex justify-end mb-4 mt-3 gap-2 ">
                     <span>Slot&apos;s Total:</span>
                     <span>Rs. 2000</span>
@@ -337,7 +552,14 @@ const BookingEditPage = () => {
                     <span>Total:</span>
                     <span className="text-green-500">Rs. 2000</span>
                   </div>
-                  <div className="flex justify-end">
+                  <div className="flex justify-end gap-5">
+                    <button
+                      disabled={Loading}
+                      onClick={() => router.push(paths.admin.bookings)}
+                      className="bg-white text-green-500 px-4 py-2 rounded-md  border"
+                    >
+                      Cancel
+                    </button>
                     <button
                       disabled={Loading}
                       type="submit"
@@ -348,13 +570,6 @@ const BookingEditPage = () => {
                   </div>
                 </form>
               </Form>
-              <button
-                disabled={Loading}
-                onClick={() => router.push(paths.admin.bookings)}
-                className="bg-white text-green-500 px-4 py-2 rounded-md mt-4 border"
-              >
-                Cancel
-              </button>
             </div>
           </div>
         </div>
