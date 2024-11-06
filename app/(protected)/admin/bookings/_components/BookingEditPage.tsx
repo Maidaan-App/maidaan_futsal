@@ -32,6 +32,13 @@ import {
   IconButton,
 } from "@mui/material";
 
+type Item = {
+  name: string;
+  quantity: number;
+  price: number;
+  total: number;
+};
+
 const itemSchema = z.object({
   name: z.string().min(1, "Item Name is required"),
   quantity: z.number().min(1, "Quantity must be at least 1"),
@@ -57,9 +64,11 @@ const BookingEditPage = () => {
   const [discount, setDiscount] = useState(0);
   const [remarks, setRemarks] = useState("");
 
-  const [items, setItems] = useState<
-    { name: string; quantity: number; price: number }[]
-  >([]);
+  // const [items, setItems] = useState<
+  //   { name: string; quantity: number; price: number }[]
+  // >([]);
+
+  const [items, setItems] = useState<Item[]>([]);
   const [itemName, setItemName] = useState("");
   const [itemQuantity, setItemQuantity] = useState(0);
   const [itemPrice, setItemPrice] = useState(0);
@@ -93,7 +102,7 @@ const BookingEditPage = () => {
       phone: "",
       bookingStatus: bookingStatusTypes[0],
       remarks: "",
-      itemsPurchased: [],
+      itemsPurchased: items,
     },
   });
 
@@ -147,7 +156,7 @@ const BookingEditPage = () => {
   const handleAddItem = () => {
     if (!itemName || !itemQuantity || !itemPrice) return;
     if (itemName && itemQuantity > 0 && itemPrice > 0) {
-      const newItem = {
+      const newItem: Item = {
         name: itemName,
         quantity: itemQuantity,
         price: itemPrice,
