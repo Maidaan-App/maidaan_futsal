@@ -69,7 +69,7 @@ export const sidelinks: SideLink[] = [
   {
     title: "Book Now",
     label: "",
-    href: paths.admin.addBookings,
+    href: paths.admin.booknow,
     icon: <Calendar03Icon size={18} />,
   },
   {

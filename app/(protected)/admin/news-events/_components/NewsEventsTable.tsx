@@ -7,6 +7,10 @@ import NewsEventsTableComponent, { Column } from "./NewsEventsTableComponent";
 import { useGetAllAdminNewsEventsQuery } from "@/store/api/Admin/adminNewsEvents";
 import { MINIOURL } from "@/lib/constants";
 import moment from "moment";
+import { Layout } from "@/components/custom/layout";
+import { Search } from "@/components/search";
+import ThemeSwitch from "@/components/theme-switch";
+import { UserNav } from "@/components/user-nav";
 
 const columns: Column<any>[] = [
   {
@@ -57,31 +61,41 @@ const sortOptions = [
   { label: "Oldest", value: "oldest" },
 ];
 
-const NewsEventsTable = () => {
+const NewsEventsTable = ({current_user}:any) => {
   const { data: NewsEventsData, isLoading: NewsEventsDataLoading } =
     useGetAllAdminNewsEventsQuery("");
   return (
-    <div className="md:p-5">
-      <h1 className="text-[#232D42] font-medium text-[1.5rem] my-3 px-3 lg:px-0">
-        News & Events
-      </h1>
-      {NewsEventsDataLoading ? (
-        <div className="flex h-[80vh] items-center justify-center">
-          <Loader />
+    <Layout>
+      {/* ===== Top Heading ===== */}
+      <Layout.Header sticky>
+        <Search />
+        <div className="ml-auto flex items-center space-x-4">
+          <ThemeSwitch />
+          <UserNav current_user={current_user} />
         </div>
-      ) : (
-        <>
-          <NewsEventsTableComponent
-            data={NewsEventsData ?? []}
-            columns={columns}
-            filterTabs={filterTabs}
-            statusKey="status"
-            sortOptions={sortOptions}
-            searchKeys={["title"]}
-          />
-        </>
-      )}
-    </div>
+      </Layout.Header>
+      <div className="md:p-5">
+        <h1 className="text-[#232D42] font-medium text-[1.5rem] my-3 px-3 lg:px-0">
+          News & Events
+        </h1>
+        {NewsEventsDataLoading ? (
+          <div className="flex h-[80vh] items-center justify-center">
+            <Loader />
+          </div>
+        ) : (
+          <>
+            <NewsEventsTableComponent
+              data={NewsEventsData ?? []}
+              columns={columns}
+              filterTabs={filterTabs}
+              statusKey="status"
+              sortOptions={sortOptions}
+              searchKeys={["title"]}
+            />
+          </>
+        )}
+      </div>
+    </Layout>
   );
 };
 
