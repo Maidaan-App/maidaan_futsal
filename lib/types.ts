@@ -112,6 +112,34 @@ export interface BILLINGS {
   billingPhone: string;
   billingAddress: string;
   createdDate: Date;
+  subscription?: SUBSCRIPTION;
+}
+
+export interface SUBSCRIPTION {
+  _id: string;
+  linkedUserId: string;
+  price: string;
+  planName: string;
+  subscribedDate: Date;
+  expiryDate: Date;
+  createdDate: Date;
+}
+
+export interface FUTSALPROFILEWITHSUBSCRIPTION {
+  _id: string;
+  linkedUserId: string;
+  subdomain: string;
+  name: string;
+  email: string;
+  about: string;
+  mapLink: string;
+  embeddMapLink: string;
+  phone: string;
+  address: string;
+  image: string;
+  socialLinks: socialLinksSchema;
+  createdDate: Date;
+  subscription: SUBSCRIPTION;
 }
 
 export interface GALLERY {

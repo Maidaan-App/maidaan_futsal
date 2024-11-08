@@ -46,7 +46,7 @@ const formSchema = z.object({
   email: z.string().email(),
 });
 
-const AdminProfileEditForm = ({ type, ExistingDetail, current_user }: any) => {
+const AdminProfileEditForm = ({ type, ExistingDetail }: any) => {
   const [Loading, setLoading] = useState(false);
   const [AdminAddUpdateProfile] = useAdminAddUpdateProfileMutation();
 
@@ -62,7 +62,7 @@ const AdminProfileEditForm = ({ type, ExistingDetail, current_user }: any) => {
       embeddMapLink: ExistingDetail?.embeddMapLink || "",
       about: ExistingDetail?.about || "",
       phone: ExistingDetail?.phone || "",
-      email: current_user?.email || "",
+      email: ExistingDetail?.email || "",
     },
   });
 

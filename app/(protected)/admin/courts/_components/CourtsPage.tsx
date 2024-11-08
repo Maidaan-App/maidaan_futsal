@@ -8,12 +8,24 @@ import { paths } from "@/lib/paths";
 import CourtCard from "./CourtCard";
 import { useGetAllAdminCourtsQuery } from "@/store/api/Admin/adminCourts";
 import Loader from "@/components/Loader";
+import { Layout } from "@/components/custom/layout";
+import { Search } from "@/components/search";
+import ThemeSwitch from "@/components/theme-switch";
+import { UserNav } from "@/components/user-nav";
 
-const CourtsPage = () => {
+const CourtsPage = ({current_user}:any) => {
   const { data: CourtsData, isLoading: CourtsDataLoading } =
     useGetAllAdminCourtsQuery("");
   return (
-    <>
+    <Layout>
+      {/* ===== Top Heading ===== */}
+      <Layout.Header sticky>
+        <Search />
+        <div className='ml-auto flex items-center space-x-4'>
+          <ThemeSwitch />
+          <UserNav current_user={current_user} />
+        </div>
+      </Layout.Header>
       {CourtsDataLoading ? (
         <div className="h-screen w-full flex justify-center items-center">
           <Loader />
@@ -41,7 +53,7 @@ const CourtsPage = () => {
           </div>
         </div>
       )}
-    </>
+    </Layout>
   );
 };
 

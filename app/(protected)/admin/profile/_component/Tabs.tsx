@@ -60,12 +60,7 @@ const Tabs = ({ current_user }: any) => {
   const renderContent = () => {
     switch (activeTab) {
       case "General":
-        return (
-          <GeneralContent
-            current_user={current_user}
-            ProfileDetail={ProfileDetail}
-          />
-        );
+        return <GeneralContent ProfileDetail={ProfileDetail} />;
       case "Security":
         return <SecurityContent />;
       case "Billing":
@@ -97,37 +92,38 @@ const Tabs = ({ current_user }: any) => {
         </div>
       ) : (
         <div className="py-6 container bg-[#F4F4F5] min-h-screen">
-          <div className={`${poppins.className} flex flex-col gap-6`}>
-            <h1 className="text-2xl text-[#232D42] font-medium">Account</h1>
+          {ProfileDetail && PlansData && PlansData.length > 0 && (
+            <div className={`${poppins.className} flex flex-col gap-6`}>
+              <h1 className="text-2xl text-[#232D42] font-medium">Account</h1>
+              {/* Tabs Navigation */}
+              <div className="flex gap-8 overflow-x-auto scrollbar-hide">
+                {categories.map((category, index) => (
+                  <div
+                    key={index}
+                    onClick={() => setActiveTab(category.category)}
+                    className={`flex-shrink-0 flex flex-col items-center gap-2 font-medium text-base cursor-pointer ${
+                      activeTab === category.category
+                        ? "text-primary"
+                        : "text-gray-600"
+                    }`}
+                  >
+                    <div className="flex flex-row gap-2">
+                      {" "}
+                      {category.icon}
+                      <span>{category.category}</span>
+                    </div>
 
-            {/* Tabs Navigation */}
-            <div className="flex gap-8 overflow-x-auto scrollbar-hide">
-              {categories.map((category, index) => (
-                <div
-                  key={index}
-                  onClick={() => setActiveTab(category.category)}
-                  className={`flex-shrink-0 flex flex-col items-center gap-2 font-medium text-base cursor-pointer ${
-                    activeTab === category.category
-                      ? "text-primary"
-                      : "text-gray-600"
-                  }`}
-                >
-                  <div className="flex flex-row gap-2">
-                    {" "}
-                    {category.icon}
-                    <span>{category.category}</span>
+                    {activeTab === category.category && (
+                      <div className="w-full h-[2px] bg-primary mt-2"></div>
+                    )}
                   </div>
+                ))}
+              </div>
 
-                  {activeTab === category.category && (
-                    <div className="w-full h-[2px] bg-primary mt-2"></div>
-                  )}
-                </div>
-              ))}
+              {/* Tab Content */}
+              <div className="rounded-lg">{renderContent()}</div>
             </div>
-
-            {/* Tab Content */}
-            <div className="rounded-lg">{renderContent()}</div>
-          </div>
+          )}
         </div>
       )}
     </Layout>
