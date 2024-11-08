@@ -1,12 +1,11 @@
-import React from 'react'
-import NewsEventsTable from './_components/NewsEventsTable'
+import React from "react";
+import NewsEventsTable from "./_components/NewsEventsTable";
+import { currentUser } from "@/lib/auth";
 
-const NewsEvents = () => {
-  return (
-    <div>
-      <NewsEventsTable/>
-    </div>
-  )
-}
+const NewsEvents = async () => {
+  const current_user = await currentUser();
 
-export default NewsEvents
+  return <NewsEventsTable current_user={current_user} />;
+};
+
+export default NewsEvents;

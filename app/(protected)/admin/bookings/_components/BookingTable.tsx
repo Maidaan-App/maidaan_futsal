@@ -24,7 +24,7 @@ const columns: Column<any>[] = [
           <img
             src={`${MINIOURL}${data.image}`}
             alt={data.name}
-            className="w-8 h-8 rounded-full"
+            className="w-8 h-8 rounded-full object-cover"
           />
         ) : (
           <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center">

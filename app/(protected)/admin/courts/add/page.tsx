@@ -1,13 +1,11 @@
-import { poppins } from "@/lib/constants";
 import React from "react";
-import CourtAddEditForm from "../_components/CourtAddEditForm";
+import { currentUser } from "@/lib/auth";
+import CourtAddPage from "../_components/CourtAddPage";
 
-const AddCourt = () => {
-  return (
-    <div className={`container my-5 flex flex-col gap-6 ${poppins.className}`}>
-      <CourtAddEditForm type={"Add"} />
-    </div>
-  );
+const AddCourt = async () => {
+  const current_user = await currentUser();
+
+  return <CourtAddPage current_user={current_user} />;
 };
 
 export default AddCourt;

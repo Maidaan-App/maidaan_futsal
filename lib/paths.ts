@@ -36,6 +36,7 @@ export const paths = {
     timeslots: `${ROOTS.admin}/courts/fsdf`,
     createbook: `${ROOTS.admin}/courts/confirmation`,
 
+    booknow: `${ROOTS.admin}/book-now`,
     bookings: `${ROOTS.admin}/bookings`,
     addBookings: `${ROOTS.admin}/bookings/add`,
     editBookings: `${ROOTS.admin}/bookings/edit`,

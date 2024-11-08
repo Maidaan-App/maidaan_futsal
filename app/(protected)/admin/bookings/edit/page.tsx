@@ -1,12 +1,11 @@
-import React from 'react'
-import BookingEditPage from '../_components/BookingEditPage'
+import React from "react";
+import BookingEditPage from "../_components/BookingEditPage";
+import { currentUser } from "@/lib/auth";
 
-const EditBooking = () => {
-  return (
-    <div>
-      <BookingEditPage/>
-    </div>
-  )
-}
+const EditBooking = async () => {
+  const current_user = await currentUser();
 
-export default EditBooking
+  return <BookingEditPage current_user={current_user} />;
+};
+
+export default EditBooking;
