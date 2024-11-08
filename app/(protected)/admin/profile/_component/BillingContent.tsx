@@ -10,11 +10,16 @@ interface props {
 }
 
 const BillingContent = ({ BillingDetail, PlansData }: props) => {
+  console.log("BillingDetail:",BillingDetail)
   return (
     <div className="flex flex-col gap-6">
-      {PlansData && <Plan PlansData={PlansData} />}
-      <BillingAddressContent ExistingDetail={BillingDetail} />
-      <BillingInvoice />
+      {BillingDetail && PlansData && (
+        <>
+          <Plan BillingDetail={BillingDetail} PlansData={PlansData} />
+          <BillingAddressContent ExistingDetail={BillingDetail} />
+          {/* <BillingInvoice /> */}
+        </>
+      )}
     </div>
   );
 };

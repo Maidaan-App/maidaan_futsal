@@ -1,6 +1,7 @@
 import { currentUser } from "@/lib/auth";
 import connectMongo from "@/lib/connectMongo";
 import Billings from "@/models/Billings/Billings";
+import Subscriptions from "@/models/Subscriptions/Subscriptions";
 import { NextResponse, NextRequest } from "next/server";
 
 export const POST = async (request: NextRequest) => {
@@ -48,15 +49,18 @@ export const GET = async (request: NextRequest) => {
   try {
     await connectMongo();
     if (user?.role === "admin") {
-      const doc = await Billings.findOne({ linkedUserId: user.id });
+      const doc = await Billings.findOne({ linkedUserId: user.id }) || {};
 
-      if (!doc) {
-        return NextResponse.json(
-          { message: "No Billing Found" },
-          { status: 404 }
-        );
-      }
-      return NextResponse.json(doc, { status: 200 });
+      const subscription = await Subscriptions.findOne({
+        linkedUserId: user.id,
+      });
+
+      const response = {
+        ...doc._doc,
+        subscription: subscription || null,
+      };
+
+      return NextResponse.json(response, { status: 200 });
     } else {
       return NextResponse.json({ message: "Forbidden" }, { status: 400 });
     }
