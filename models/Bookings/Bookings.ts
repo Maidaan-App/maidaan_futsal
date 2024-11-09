@@ -25,6 +25,7 @@ const bookingSchema = new Schema(
     selectedslots: [String],
     remarks: String,
     itemPurchased: [itemPurchasedSchema],
+    discount: String,
     slotsTotal: String,
     netTotal: String,
     status: {

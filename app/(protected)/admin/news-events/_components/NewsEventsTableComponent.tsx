@@ -25,6 +25,11 @@ import { Calendar02Icon, NewsIcon } from "hugeicons-react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import AlertDialogBox from "@/components/AlertDialogBox";
 import AlertDialogBoxMultiple from "@/components/AlertDialogBoxMuliple";
+import { toast } from "sonner";
+import {
+  useAdminDeleteNEWSEVENTByIdMutation,
+  useDeleteMultipleNewsEventsAdminMutation,
+} from "@/store/api/Admin/adminNewsEvents";
 
 export type Column<T> = {
   header: string;
@@ -57,7 +62,6 @@ const NewsEventsTableComponent = <
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  const [showConfirmation, setShowConfirmation] = React.useState(false);
 
   const getStatusCount = (status: string) => {
     return data.filter((item) => item[statusKey] === status).length;
@@ -94,19 +98,40 @@ const NewsEventsTableComponent = <
     );
   };
 
-  const deleteItems = () => {
-    if (confirm("Are you sure you want to delete the selected items?")) {
-      console.log("Deleting selected items:", selectedItems);
-      alert(`Deleting items with IDs: ${selectedItems.join(", ")}`);
-      setSelectedItems([]);
-    }
+  const [deleteById] = useAdminDeleteNEWSEVENTByIdMutation();
+  const [deleteMultiple] = useDeleteMultipleNewsEventsAdminMutation();
+
+  const handleMultipleDelete = async (ids: string[]) => {
+    toast.promise(
+      deleteMultiple({
+        ids: ids,
+      }).then(() => {
+        setSelectedItems([]); // Clear selected items on success
+      }),
+      {
+        loading: "Deleting...",
+        success: <b> Deleted</b>,
+        error: <b>Error while deleting</b>,
+      }
+    );
   };
 
-  const handleIndividualDelete = (_id: string) => {
-    if (confirm(`Are you sure you want to delete the item with ID: ${_id}?`)) {
-      console.log(`Deleting item with ID: ${_id}`);
-      alert(`Item with ID ${_id} deleted`);
-    }
+  const confirmDelete = async (itemId: string) => {
+    toast.promise(
+      deleteById(itemId)
+        .unwrap()
+        .then((response) => {
+          return response.message || "Deleted Successfully!";
+        })
+        .catch((error) => {
+          throw error.data.message || "Error while deleting";
+        }),
+      {
+        loading: "Deleting...",
+        success: (message) => <b>{message}</b>,
+        error: (message) => <b>{message}</b>,
+      }
+    );
   };
 
   // Pagination Logic
@@ -198,8 +223,8 @@ const NewsEventsTableComponent = <
         {selectedItems.length > 0 && (
           <div className="mb-4 flex items-center  w-full bg-white rounded-lg p-3">
             <AlertDialogBoxMultiple
-              onCancel={() => setShowConfirmation(false)}
-              onConfirm={() => deleteItems}
+              onCancel={() => null}
+              onConfirm={() => handleMultipleDelete(selectedItems)}
               text={"Delete"}
             ></AlertDialogBoxMultiple>
           </div>
@@ -286,8 +311,8 @@ const NewsEventsTableComponent = <
                     </Link>
                     <div>
                       <AlertDialogBox
-                        onCancel={() => setShowConfirmation(false)}
-                        onConfirm={() => deleteItems}
+                        onCancel={() => null}
+                        onConfirm={() => confirmDelete(item._id)}
                         text={"Delete"}
                       ></AlertDialogBox>
                     </div>

@@ -19,7 +19,47 @@ export const POST = async (request: NextRequest) => {
         linkedFutsalId: user.id,
       });
       if (existingDoc) {
-        await existingDoc.updateOne(Data);
+        if (Data.playerId) {
+          const existingPlayer = await Players.findOne({ _id: Data.playerId });
+          if (!existingPlayer) {
+            return NextResponse.json(
+              { message: "Player Not Found" },
+              { status: 404 }
+            );
+          }
+          await existingDoc.updateOne(Data);
+        } else {
+          const existingPhone = await User.findOne({ phone: Data.phone });
+          if (existingPhone) {
+            return NextResponse.json(
+              { message: "User with that Phone Number Exists" },
+              { status: 400 }
+            );
+          }
+          const userData = {
+            linkedFutsalId: user.id,
+            name: Data.name,
+            phone: Data.phone,
+            userType: "player",
+          };
+          const newUser = new User({ ...userData });
+          const playerData = {
+            linkedUserId: newUser._id,
+            name: Data.name,
+            phone: Data.phone,
+            status: "enrolled",
+          };
+          const newPlayer = new Players({ ...playerData });
+          await newUser.save();
+          await newPlayer.save();
+
+          const bookingData = {
+            ...Data,
+            linkedUserId: newUser._id,
+          };
+          await existingDoc.updateOne(bookingData);
+        }
+
         return NextResponse.json(
           { message: "Booking Updated" },
           { status: 201 }

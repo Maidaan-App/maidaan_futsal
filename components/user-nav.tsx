@@ -17,7 +17,6 @@ import Logout from "./auth/Logout";
 import { MINIOURL } from "@/lib/constants";
 
 export function UserNav({ current_user }: any) {
-  console.log("current_user:",current_user)
   return (
     <div className="flex items-center gap-5">
       {/* <div className="bg-[#F4F4F5] rounded-xl p-2 h-[2.8125rem] w-[2.8125rem] flex items-center justify-center  ">
