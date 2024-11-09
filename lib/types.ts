@@ -69,10 +69,15 @@ export interface BOOKING {
   selectedslots: string[];
   remarks: string;
   itemPurchased: itemPurchasedSchema[];
+  discount: string;
   slotsTotal: string;
   netTotal: string;
   status: string;
   createdDate: Date;
+  name?: string;
+  image?: string;
+  phone?: string;
+  playerId?:string;
 }
 
 export interface AUTHCONFIGURATION {

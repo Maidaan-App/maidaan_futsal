@@ -13,8 +13,8 @@ import { paths } from "@/lib/paths";
 import { MINIOURL } from "@/lib/constants";
 import { COURT } from "@/lib/types";
 import { useAdminDeleteCourtByIdMutation } from "@/store/api/Admin/adminCourts";
-import { toast } from "sonner";
 import AlertDialogBox from "@/components/AlertDialogBox";
+import { toast } from "sonner";
 
 interface CourtCardProps {
   courtData: COURT;

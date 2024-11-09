@@ -29,13 +29,7 @@ const columns: Column<any>[] = [
       </div>
     ),
   },
-  // {
-  //   header: "Added Date",
-  //   accessor: "createdDate",
-  //   render: (item: any) => (
-  //     <span>{convertToHumanReadable(item.createdDate)}</span>
-  //   ),
-  // },
+
   {
     header: "Added Date",
     accessor: "createdDate",

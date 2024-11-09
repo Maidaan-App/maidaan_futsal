@@ -1,4 +1,5 @@
 import { paths } from "@/lib/paths";
+import { BOOKING } from "@/lib/types";
 import { baseQuery } from "@/store/global";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
@@ -19,13 +20,13 @@ export const adminBookingsApi = createApi({
     }),
 
     //Get All Bookings
-    getAllAdminBookings: builder.query<any[], string>({
+    getAllAdminBookings: builder.query<BOOKING[], string>({
       query: () => `${paths.admin.bookings}`,
       providesTags: ["Admin Bookings"],
     }),
 
     // Booking by Id
-    getAdminBookingById: builder.query<any, string>({
+    getAdminBookingById: builder.query<BOOKING, string>({
       query: (id) => `${paths.admin.bookings}/byid?id=${id}`,
       providesTags: ["Admin Bookings"],
     }),
