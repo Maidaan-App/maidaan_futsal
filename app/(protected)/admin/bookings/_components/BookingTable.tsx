@@ -111,7 +111,7 @@ const BookingTable = ({ current_user }: any) => {
               filterTabs={filterTabs}
               statusKey="status"
               sortOptions={sortOptions}
-              searchKeys={["name", "phone", "address"]}
+              searchKeys={["name", "phone"]}
             />
           </>
         )}
