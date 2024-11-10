@@ -42,18 +42,21 @@ const getSlotStatus = (
   const dayBookings = selectedCourt?.bookings[selectedDateString];
 
   if (!dayBookings) return "Available"; // If no booking data, treat as available
-  const isReserved = dayBookings?.Reserved?.some((booking: any) =>
-    booking.selectedslots.includes(slot)
-  );
-  const isPreBooked = dayBookings?.["Pre-Booked"]?.some((booking: any) =>
-    booking.selectedslots.includes(slot)
-  );
-  const isBooked = dayBookings?.Booked?.some((booking: any) =>
-    booking.selectedslots.includes(slot)
-  );
-  if (isReserved) return "Reserved";
-  if (isPreBooked) return "Pre-Booked";
-  if (isBooked) return "Booked";
+
+  const checkBooking = (status: string) =>
+    dayBookings[status]?.find((booking: any) =>
+      booking.selectedslots.includes(slot)
+    );
+
+  const reserved = checkBooking("Reserved");
+  const preBooked = checkBooking("Pre-Booked");
+  const booked = checkBooking("Booked");
+  const completed = checkBooking("Completed");
+
+  if (reserved) return "Reserved";
+  if (preBooked) return "Pre-Booked";
+  if (booked) return "Booked";
+  if (completed) return "Completed";
   return "Available";
 };
 
@@ -86,15 +89,17 @@ export function PublicBookingSlots({ selectedCourt, selectedDate }: any) {
 
               if (slotStatus === "Booked") {
                 slotBgColor = "bg-[#FF5630] text-white";
-                isDisabled = true;
-              }
-              if (slotStatus === "Pre-Booked") {
+                isDisabled = false;
+              } else if (slotStatus === "Pre-Booked") {
                 slotBgColor = "bg-[#3169FF] text-white";
-                isDisabled = true; // Disable Pre-Booked slots
-              }
-              if (slotStatus === "Reserved") {
+                isDisabled = false;
+              } else if (slotStatus === "Reserved") {
                 slotBgColor = "bg-primary text-white";
-                isDisabled = true;
+                isDisabled = false;
+              }
+              else if (slotStatus === "Completed") {
+                slotBgColor = "bg-gray-600 text-white";
+                isDisabled = false;
               }
 
               return (
@@ -134,6 +139,10 @@ export function PublicBookingSlots({ selectedCourt, selectedDate }: any) {
           <div className="flex items-center gap-2">
             <div className="bg-[#FF5630] border h-5 w-5 rounded-md"></div>
             Booked
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="bg-gray-600 border h-5 w-5 rounded-md"></div>
+            Unavailable
           </div>
         </div>
       </div>
