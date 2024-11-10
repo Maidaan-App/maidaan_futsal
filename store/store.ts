@@ -14,6 +14,7 @@ import { adminGalleryApi } from "./api/Admin/adminGallery";
 import { adminNewsEvents } from "./api/Admin/adminNewsEvents";
 import { adminAmenities } from "./api/Admin/adminAmenities";
 import { adminPlansApi } from "./api/Admin/adminPlans";
+import { adminDashboardApi } from "./api/Admin/adminDashboard";
 
 export const store = configureStore({
   reducer: {
@@ -29,6 +30,8 @@ export const store = configureStore({
     [adminNewsEvents.reducerPath]: adminNewsEvents.reducer,
     [adminAmenities.reducerPath]: adminAmenities.reducer,
     [adminPlansApi.reducerPath]: adminPlansApi.reducer,
+    [adminDashboardApi.reducerPath]: adminDashboardApi.reducer,
+    
     
 
     //auths
@@ -54,6 +57,7 @@ export const store = configureStore({
       adminNewsEvents.middleware,
       adminAmenities.middleware,
       adminPlansApi.middleware,
+      adminDashboardApi.middleware,
 
       //auths
       authsApi.middleware,

@@ -3,12 +3,11 @@
 import React from "react";
 import { useGetAllAdminBookingsQuery } from "@/store/api/Admin/adminBookings";
 import {
-  convertToHumanReadable,
   convertToHumanReadableNoTime,
 } from "@/lib/helper";
 import BookingTableComponent, { Column } from "./BookingTableComponent";
 import Loader from "@/components/Loader";
-import { MINIOURL } from "@/lib/constants";
+import { adminBookingStatusTypes, MINIOURL } from "@/lib/constants";
 import { Layout } from "@/components/custom/layout";
 import { Search } from "@/components/search";
 import ThemeSwitch from "@/components/theme-switch";
@@ -66,6 +65,10 @@ const columns: Column<any>[] = [
             ? "bg-[#0A41CC] bg-opacity-[8%] text-[#0A41CC]"
             : item.status === "Booked"
             ? "bg-[#D8211D] bg-opacity-10 text-[#D8211D]"
+            : item.status === "Completed"
+            ? "bg-[#009858] bg-opacity-10 text-[#1e855a]"
+            : item.status === "Cancelled"
+            ? "bg-[#D8211D] bg-opacity-10 text-[#ce3e3c]"
             : ""
         } px-5 py-3 rounded-lg text-xs font-semibold`}
       >
@@ -74,8 +77,6 @@ const columns: Column<any>[] = [
     ),
   },
 ];
-
-const filterTabs = ["All", "Reserved", "Pre-Booked", "Booked"];
 
 const sortOptions = [
   { label: "Newest", value: "newest" },
@@ -108,7 +109,7 @@ const BookingTable = ({ current_user }: any) => {
             <BookingTableComponent
               data={BookingsData ?? []}
               columns={columns}
-              filterTabs={filterTabs}
+              filterTabs={adminBookingStatusTypes}
               statusKey="status"
               sortOptions={sortOptions}
               searchKeys={["name", "phone"]}

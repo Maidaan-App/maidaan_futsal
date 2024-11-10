@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -8,11 +8,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { MINIOURL, poppins } from "@/lib/constants";
-import { Edit, EllipsisVertical, User } from "lucide-react";
+import { poppins } from "@/lib/constants";
+import { Edit } from "lucide-react";
 import Link from "next/link";
 import { paths } from "@/lib/paths";
-import { usePathname } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -52,8 +51,6 @@ const BookingTableComponent = <T extends { _id: string; [key: string]: any }>({
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-
-  const pathname = usePathname();
   const getStatusCount = (status: string) => {
     return data.filter((item) => item[statusKey] === status).length;
   };
@@ -88,22 +85,6 @@ const BookingTableComponent = <T extends { _id: string; [key: string]: any }>({
         : paginatedData.map((item) => item._id)
     );
   };
-
-  const deleteItems = () => {
-    if (confirm("Are you sure you want to delete the selected items?")) {
-      console.log("Deleting selected items:", selectedItems);
-      alert(`Deleting items with IDs: ${selectedItems.join(", ")}`);
-      setSelectedItems([]);
-    }
-  };
-
-  const handleIndividualDelete = (_id: string) => {
-    if (confirm(`Are you sure you want to delete the item with ID: ${_id}?`)) {
-      console.log(`Deleting item with ID: ${_id}`);
-      alert(`Item with ID ${_id} deleted`);
-    }
-  };
-
   // Pagination Logic
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const paginatedData = filteredData.slice(
@@ -141,6 +122,10 @@ const BookingTableComponent = <T extends { _id: string; [key: string]: any }>({
                     ? "bg-[#0A41CC1A] text-blue-800"
                     : tab === "Booked"
                     ? "bg-[#FFAC301A] text-orange-800"
+                     : tab === "Completed"
+                    ? "bg-green-100 text-green-900"
+                     : tab === "Cancelled"
+                    ? "bg-[#FFAC301A] text-red-900"
                     : "bg-gray-100 text-gray-800"
                 }`}
               >

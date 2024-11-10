@@ -10,7 +10,9 @@ export const DOMAIN =
     : "http://localhost:3000/";
 
 export const statusTypes = ["pending", "enrolled", "blocked"];
-export const bookingStatusTypes = ["Reserved", "Pre-Booked", "Booked"];
+export const bookingStatusTypes = ["Reserved", "Pre-Booked", "Booked", "Completed", "Cancelled"];
+export const AddBookingStatusTypes = ["Reserved", "Pre-Booked", "Booked"];
+export const adminBookingStatusTypes = ["All" , "Reserved", "Pre-Booked", "Booked", "Completed", "Cancelled", ];
 export const courtShifts = [
   { label: "morningShift", value: "Morning Shift" },
   { label: "dayShift", value: "Day Shift" },
