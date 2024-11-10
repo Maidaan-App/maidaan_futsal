@@ -18,7 +18,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const [isCollapsed, setIsCollapsed] = useIsCollapsed();
 
   return (
-    <div className="relative h-full overflow-hidden bg-background">
+    // <div className="relative h-full overflow-hidden bg-background bg-[#F4F4F5]">
+    <div className="relative min-h-screen overflow-hidden  bg-[#F4F4F5]">
       <SkipToMain />
       <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
       <main

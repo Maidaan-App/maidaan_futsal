@@ -16,7 +16,12 @@ import { Input } from "@/components/ui/input";
 import { X } from "lucide-react";
 import { useGetAllAdminPlayersQuery } from "@/store/api/Admin/adminPlayers";
 import { PLAYER } from "@/lib/types";
-import { bookingStatusTypes, MINIOURL, poppins } from "@/lib/constants";
+import {
+  AddBookingStatusTypes,
+  bookingStatusTypes,
+  MINIOURL,
+  poppins,
+} from "@/lib/constants";
 import { toast } from "sonner";
 import { paths } from "@/lib/paths";
 import { useRouter } from "next/navigation";
@@ -275,7 +280,7 @@ const BookingConfirmationPage = ({
                   <img
                     src={`${MINIOURL}${selectedPlayer.image}`}
                     alt={selectedPlayer.name}
-                    className="w-[5.875rem] h-[5.875rem] rounded-full mr-4 "
+                    className="w-[5.875rem] h-[5.875rem] object-cover rounded-full mr-4 "
                   />
                 ) : (
                   <div className="h-20 w-20 rounded-full flex justify-center items-center bg-primary text-3xl text-white">
@@ -352,11 +357,12 @@ const BookingConfirmationPage = ({
                               <img
                                 src={`${MINIOURL}${player.image}`}
                                 alt={player.name}
-                                className="w-8 h-8 rounded-full mr-2"
+                                className="w-8 h-8 rounded-full object-cover mr-2"
                               />
                             ) : (
-                              <div className="h-8 w-8 mr-2 rounded-full flex justify-center items-center bg-primary text-3xl text-white p-1">
-                                {player.name[0]}
+                              // <div className="h-8 w-8 mr-2 rounded-full flex justify-center items-center bg-primary text-3xl text-white p-1">
+                              <div className="w-8 h-8 mr-2 bg-primary text-white rounded-full flex items-center justify-center">
+                                {player.name[0].toUpperCase()}
                               </div>
                             )}
                             <span>{player.name}</span>
@@ -401,7 +407,7 @@ const BookingConfirmationPage = ({
                           <MenuItem value="" disabled>
                             Booking Status
                           </MenuItem>
-                          {bookingStatusTypes.map((status, index) => (
+                          {AddBookingStatusTypes.map((status, index) => (
                             <MenuItem key={index} value={status}>
                               {status}
                             </MenuItem>

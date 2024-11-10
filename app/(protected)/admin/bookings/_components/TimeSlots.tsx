@@ -41,6 +41,8 @@ const getSlotStatus = (
   const selectedDateString = dateObject.toISOString().split("T")[0];
   const dayBookings = selectedCourt?.bookings[selectedDateString];
 
+  console.log("selectedCourt:",selectedCourt)
+
   if (!dayBookings) return { status: "Available", details: null };
 
   const checkBooking = (status: string) =>
@@ -51,10 +53,12 @@ const getSlotStatus = (
   const reserved = checkBooking("Reserved");
   const preBooked = checkBooking("Pre-Booked");
   const booked = checkBooking("Booked");
+  const completed = checkBooking("Completed");
 
   if (booked) return { status: "Booked", details: booked };
   if (preBooked) return { status: "Pre-Booked", details: preBooked };
   if (reserved) return { status: "Reserved", details: reserved };
+  if (completed) return { status: "Completed", details: completed };
 
   return { status: "Available", details: null };
 };
@@ -66,7 +70,7 @@ const HoverPopover = ({ details }: { details: any }) => (
         <img
           src={`${MINIOURL}${details.player.image}`}
           alt={details.player.name}
-          className="h-24 w-24 rounded-full shadow-md border-4 border-white transition-transform duration-300 ease-in-out transform hover:scale-110"
+          className="h-24 w-24 object-cover rounded-full shadow-md border-4 border-white transition-transform duration-300 ease-in-out transform hover:scale-110"
         />
       ) : (
         <div className="h-24 w-24 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white flex justify-center items-center text-4xl shadow-lg transition-transform duration-300 ease-in-out transform hover:scale-110">
@@ -155,6 +159,10 @@ export function TimeSlotSection({
                 slotBgColor = "bg-primary text-white";
                 isDisabled = true;
               }
+              else if (slotStatus === "Completed") {
+                slotBgColor = "bg-gray-600 text-white";
+                isDisabled = true;
+              }
 
               return (
                 <div
@@ -202,6 +210,10 @@ export function TimeSlotSection({
           <div className="flex items-center gap-2">
             <div className="bg-[#FF5630] border h-5 w-5 rounded-md"></div>
             Booked
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="bg-gray-600 border h-5 w-5 rounded-md"></div>
+            Unavailable
           </div>
         </div>
         <button
