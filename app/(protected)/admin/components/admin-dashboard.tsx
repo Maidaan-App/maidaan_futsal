@@ -22,8 +22,6 @@ import Loader from "@/components/Loader";
 const AdminDashboard = ({ current_user }: any) => {
   const { data: DashboardData, isLoading: DashboardDataLoading } =
     useGetAdminDashboardQuery("");
-
-  console.log("DashboardData:", DashboardData);
   return (
     <Layout>
       {/* ===== Top Heading ===== */}
@@ -67,7 +65,7 @@ const AdminDashboard = ({ current_user }: any) => {
                     </TabsList>
                   </div>
                   <TabsContent value="overview" className="space-y-4">
-                    <Cards DashboardData={DashboardData}/>
+                    <Cards DashboardData={DashboardData} />
                     <div className="grid grid-cols-1 gap-4 lg:grid-cols-7">
                       <Card className="col-span-1 lg:col-span-4">
                         <CardHeader>

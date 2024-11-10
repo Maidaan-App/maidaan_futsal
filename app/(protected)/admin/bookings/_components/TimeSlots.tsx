@@ -41,8 +41,6 @@ const getSlotStatus = (
   const selectedDateString = dateObject.toISOString().split("T")[0];
   const dayBookings = selectedCourt?.bookings[selectedDateString];
 
-  console.log("selectedCourt:",selectedCourt)
-
   if (!dayBookings) return { status: "Available", details: null };
 
   const checkBooking = (status: string) =>
@@ -145,7 +143,6 @@ export function TimeSlotSection({
                 selectedDate,
                 selectedCourt
               );
-              console.log("details:", details);
               let slotBgColor = "bg-white";
               let isDisabled = false;
 

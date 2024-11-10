@@ -1,73 +1,39 @@
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
-const data = [
-  {
-    name: "Jan",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Feb",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Mar",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Apr",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "May",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Jun",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Jul",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Aug",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Sep",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Oct",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Nov",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-  {
-    name: "Dec",
-    total: Math.floor(Math.random() * 5000) + 1000,
-  },
-];
-
 export function Overview({ DashboardData }: any) {
+  const currentYear = new Date().getFullYear();
+
   return (
     <ResponsiveContainer width="100%" height={350}>
-      <BarChart data={DashboardData.monthlyIncome}>
+      <BarChart data={DashboardData.monthlyIncome} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
         <XAxis
           dataKey="month"
           stroke="#888888"
           fontSize={12}
           tickLine={false}
           axisLine={false}
+          label={{
+            value: `Month (${currentYear})`,
+            position: 'bottom', // Position can be 'top', 'bottom', 'left', 'right'
+            offset: 10,
+            fontSize: 14,
+            fill: '#888888',
+          }}
         />
         <YAxis
           stroke="#888888"
           fontSize={12}
           tickLine={false}
           axisLine={false}
-          tickFormatter={(value) => `Rs. ${value}`}
+          tickFormatter={(value) => `${value}`}
+          label={{
+            value: 'Income (Rs.)',
+            angle: -90, // Rotates the label for vertical positioning
+            position: 'left', // 'left' or 'right'
+            fontSize: 14,
+            fill: '#888888',
+            offset: 10,
+          }}
         />
         <Bar
           dataKey="monthlyIncome"
