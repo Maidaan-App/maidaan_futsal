@@ -13,16 +13,15 @@ import Link from "next/link";
 import { MINIOURL, montserrat } from "@/lib/constants";
 import { FUTSALPROFILE, GALLERY } from "@/lib/types";
 
-
 // Define the props type for the HeroParallax component
 interface HeroParallaxProps {
   FutsalProfile: FUTSALPROFILE;
-  GalleyData: GALLERY[]
+  GalleyData: GALLERY[];
 }
 
 export const HeroParallax: React.FC<HeroParallaxProps> = ({
   FutsalProfile,
-  GalleyData
+  GalleyData,
 }) => {
   const firstRow = GalleyData.slice(0, 5);
   const secondRow = GalleyData.slice(5, 10);
@@ -82,7 +81,7 @@ export const HeroParallax: React.FC<HeroParallaxProps> = ({
         <motion.div className="flex mb-20 space-x-20">
           {secondRow.map((product) => (
             <ProductCard
-            galleryImage={product}
+              galleryImage={product}
               translate={translateXReverse}
               key={product._id}
             />
@@ -91,7 +90,7 @@ export const HeroParallax: React.FC<HeroParallaxProps> = ({
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-20">
           {thirdRow.map((product) => (
             <ProductCard
-            galleryImage={product}
+              galleryImage={product}
               translate={translateX}
               key={product._id}
             />
@@ -135,7 +134,7 @@ const Header = ({ FutsalProfile }: headerProps) => {
       </h1>
       {/* Updated paragraph animation */}
       <motion.p
-        className="max-w-2xl text-base md:text-xl mt-8 text-neutral-200"
+        className="max-w-2xl text-base text-center md:text-xl mt-8 text-neutral-200"
         initial={{ opacity: 0, y: 100 }} // Slide in from left
         animate={{ opacity: 1, y: 0 }} // Move to normal position
         transition={{
