@@ -57,13 +57,13 @@ export const paths = {
     support: `${ROOTS.admin}/support`,
 
     plans: `${ROOTS.admin}/plans`,
-
   },
 
   public: {
     landing: `${ROOTS.public}`,
     gallery: `${ROOTS.public}gallery`,
     newsEvents: `${ROOTS.public}news-and-events`,
+    bookNow: `${ROOTS.public}book-now`,
   },
 
   publicApi: {

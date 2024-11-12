@@ -39,7 +39,7 @@ const Footer = () => {
           {/* Address Information Overlay */}
           <div
             id="contact"
-            className="absolute md:top-32 bottom-5 left-5 md:left-10 bg-[#1d3535] w-[90%] md:w-[35%] h-fit flex flex-col gap-2 text-[#f1f1f1] p-4 md:p-6 rounded-3xl shadow-xl z-10"
+            className="absolute md:top-40  bottom-5 left-5 md:left-10 bg-[#1d3535] w-[90%] md:w-[35%] h-fit flex flex-col gap-2 text-[#f1f1f1] p-4 md:p-6 rounded-3xl shadow-xl z-10"
           >
             <h2 className="text-sm md:text-xl font-bold text-neutral-300">
               Contact Us

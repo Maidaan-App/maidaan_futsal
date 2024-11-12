@@ -46,7 +46,7 @@ const NewsEventsPage = () => {
               <motion.a
                 key={article.title}
                 href={`${paths.public.newsEvents}/${article.slug}`}
-                className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl"
+                className="bg-transparent rounded-lg shadow-lg overflow-hidden hover:shadow-xl "
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
@@ -58,11 +58,11 @@ const NewsEventsPage = () => {
                     className="w-full h-48 object-cover transition-transform duration-300 hover:scale-[1.02]"
                   />
                 </div>
-                <div className="p-5">
-                  <p className="text-sm text-gray-500 font-medium mb-1">
+                <div className="p-5 ">
+                  <p className="text-sm text-gray-300 font-medium mb-1">
                     {convertToHumanReadableNoTime(article.createdDate)}
                   </p>
-                  <h2 className="text-lg font-semibold text-gray-800">
+                  <h2 className="text-lg font-semibold text-gray-50">
                     {article.title}
                   </h2>
                 </div>

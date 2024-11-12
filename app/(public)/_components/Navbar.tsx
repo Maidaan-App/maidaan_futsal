@@ -70,6 +70,13 @@ const FlipLink: React.FC<FlipLinkProps> = ({ children }) => {
 
 const Navbar: React.FC<NavbarProps> = ({ isScrolled, FutsalProfile }) => {
   const handleScrollToSection = (section: string) => {
+    const target = document.getElementById(section);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handleScrollToBookNowSection = (section: string) => {
     // Check if on home page
     if (window.location.pathname === "/") {
       const target = document.getElementById(section);
@@ -78,10 +85,9 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled, FutsalProfile }) => {
       }
     } else {
       // Navigate to home page with the section in the URL
-      window.location.href = `/#${section}`;
+      window.location.href = `${paths.public.bookNow}`;
     }
   };
-
   return (
     <div
       className={`text-[#f1f1f1] transition-all duration-300 h-20 md:px-20 px-7 flex justify-center ${
@@ -98,7 +104,7 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled, FutsalProfile }) => {
             href="#book-now"
             onClick={(e) => {
               e.preventDefault();
-              handleScrollToSection("book-now");
+              handleScrollToBookNowSection("book-now");
             }}
           >
             <FlipLink>BOOK-NOW</FlipLink>

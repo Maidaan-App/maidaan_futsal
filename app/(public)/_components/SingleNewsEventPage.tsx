@@ -32,7 +32,12 @@ const SingleNewsEventPage = () => {
                     {convertToHumanReadableNoTime(NewsEventBySlug?.createdDate)}
                   </h2>
 
-                  <p className={twMerge(montserrat.className, "text-2xl mb-4")}>
+                  <p
+                    className={twMerge(
+                      montserrat.className,
+                      "text-3xl font-bold pb-4 mb-4"
+                    )}
+                  >
                     {NewsEventBySlug?.title}
                   </p>
 
