@@ -77,24 +77,25 @@ const SCNMultiImagePicker = ({
     <div className="flex flex-col gap-4">
       <Label htmlFor={schemaName}></Label>
       <div
-        className="md:w-[20.1875rem] bg-[#F0F4FC] dark:bg-gray-700 border border-[#0A41CC80] border-dashed h-[4.8125rem] gap-4 rounded-lg flex flex-col justify-center items-center hover:bg-slate-100 hover:shadow-md hover:scale-105 duration-300 p-2 md:p-0 cursor-pointer"
+        className="md:w-[20rem] bg-[#F0F4FC] dark:bg-gray-700 border border-[#0A41CC80] border-dashed h-[14.8125rem] gap-4 rounded-lg flex flex-col justify-center items-center hover:bg-slate-100 hover:shadow-md hover:scale-105 duration-300 p-2 md:p-0 cursor-pointer"
         onClick={handleContainerClick}
         onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}
       >
-        <div className="flex items-center justify-between gap-10">
+        <div className=" gap-10 p-4  dark:bg-gray-800">
           <img
             src="/images/upload-image.svg"
-            alt=""
-            className="w-[2.6875rem] h-[2.6875rem] opacity-90"
+            alt="Upload Icon"
+            className="w-[10rem] h-[10rem] opacity-90"
           />
           <div>
             <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
-              {name}
+              Drop or Select File
             </p>
-            <p className="text-sm text-gray-400">1 MB Max</p>
+            <p className="text-sm text-gray-400">Drop Files here</p>
           </div>
         </div>
+
         <Controller
           name={schemaName}
           control={control}
