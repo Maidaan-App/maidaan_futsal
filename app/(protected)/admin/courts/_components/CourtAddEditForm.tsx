@@ -313,10 +313,11 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                     name={`morningShift.startTime`}
                     render={({ field }) => (
                       <FormItem className="lg:w-1/3">
-                        <FormLabel>Start Time</FormLabel>
+                        {/* <FormLabel>Start Time</FormLabel> */}
                         <FormControl>
                           <TimePicker
                             // disabled
+                            label="Start Time"
                             value={field.value ? dayjs(field.value) : null}
                             onChange={(value) =>
                               field.onChange(value?.toDate())
@@ -333,9 +334,10 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                     name={`morningShift.endTime`}
                     render={({ field }) => (
                       <FormItem className="lg:w-1/3">
-                        <FormLabel>End Time</FormLabel>
+                        {/* <FormLabel>End Time</FormLabel> */}
                         <FormControl>
                           <TimePicker
+                            label="End Time"
                             value={field.value ? dayjs(field.value) : null}
                             onChange={(value) =>
                               field.onChange(value?.toDate())
@@ -352,9 +354,10 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                     name={`morningShift.price`}
                     render={({ field }) => (
                       <FormItem className="lg:w-1/3">
-                        <FormLabel>Price</FormLabel>
+                        {/* <FormLabel>Price</FormLabel> */}
                         <FormControl>
                           <TextField
+                            label="Price"
                             variant="outlined"
                             type="number"
                             {...field}
@@ -375,9 +378,10 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                     name={`dayShift.startTime`}
                     render={({ field }) => (
                       <FormItem className="lg:w-1/3">
-                        <FormLabel>Start Time</FormLabel>
+                        {/* <FormLabel>Start Time</FormLabel> */}
                         <FormControl>
                           <TimePicker
+                            label="Start Time"
                             value={field.value ? dayjs(field.value) : null}
                             onChange={(value) =>
                               field.onChange(value?.toDate())
@@ -394,9 +398,10 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                     name={`dayShift.endTime`}
                     render={({ field }) => (
                       <FormItem className="lg:w-1/3">
-                        <FormLabel>End Time</FormLabel>
+                        {/* <FormLabel>End Time</FormLabel> */}
                         <FormControl>
                           <TimePicker
+                            label="End Time"
                             value={field.value ? dayjs(field.value) : null}
                             onChange={(value) =>
                               field.onChange(value?.toDate())
@@ -413,9 +418,10 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                     name={`dayShift.price`}
                     render={({ field }) => (
                       <FormItem className="lg:w-1/3">
-                        <FormLabel>Price</FormLabel>
+                        {/* <FormLabel>Price</FormLabel> */}
                         <FormControl>
                           <TextField
+                            label="Price"
                             variant="outlined"
                             type="number"
                             {...field}
@@ -436,9 +442,10 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                     name={`eveningShift.startTime`}
                     render={({ field }) => (
                       <FormItem className="lg:w-1/3">
-                        <FormLabel>Start Time</FormLabel>
+                        {/* <FormLabel>Start Time</FormLabel> */}
                         <FormControl>
                           <TimePicker
+                            label="Start Time"
                             value={field.value ? dayjs(field.value) : null}
                             onChange={(value) =>
                               field.onChange(value?.toDate())
@@ -455,10 +462,11 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                     name={`eveningShift.endTime`}
                     render={({ field }) => (
                       <FormItem className="lg:w-1/3">
-                        <FormLabel>End Time</FormLabel>
+                        {/* <FormLabel>End Time</FormLabel> */}
                         <FormControl>
                           <TimePicker
                             // disabled
+                            label="End Time"
                             value={field.value ? dayjs(field.value) : null}
                             onChange={(value) =>
                               field.onChange(value?.toDate())
@@ -475,9 +483,10 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                     name={`eveningShift.price`}
                     render={({ field }) => (
                       <FormItem className="lg:w-1/3">
-                        <FormLabel>Price</FormLabel>
+                        {/* <FormLabel>Price</FormLabel> */}
                         <FormControl>
                           <TextField
+                            label="Price"
                             variant="outlined"
                             type="number"
                             {...field}
@@ -498,9 +507,10 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                     name={`holidayShift.startTime`}
                     render={({ field }) => (
                       <FormItem className="lg:w-1/3">
-                        <FormLabel>Start Time</FormLabel>
+                        {/* <FormLabel>Start Time</FormLabel> */}
                         <FormControl>
                           <TimePicker
+                            label="Start Time"
                             value={field.value ? dayjs(field.value) : null}
                             onChange={(value) =>
                               field.onChange(value?.toDate())
@@ -517,9 +527,10 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                     name={`holidayShift.endTime`}
                     render={({ field }) => (
                       <FormItem className="lg:w-1/3">
-                        <FormLabel>End Time</FormLabel>
+                        {/* <FormLabel>End Time</FormLabel> */}
                         <FormControl>
                           <TimePicker
+                            label="End Time"
                             value={field.value ? dayjs(field.value) : null}
                             onChange={(value) =>
                               field.onChange(value?.toDate())
@@ -536,9 +547,10 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                     name={`holidayShift.price`}
                     render={({ field }) => (
                       <FormItem className="lg:w-1/3">
-                        <FormLabel>Price</FormLabel>
+                        {/* <FormLabel>Price</FormLabel> */}
                         <FormControl>
                           <TextField
+                            label="Price"
                             variant="outlined"
                             type="number"
                             {...field}
