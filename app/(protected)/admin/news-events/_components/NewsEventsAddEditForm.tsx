@@ -22,6 +22,7 @@ import { poppins } from "@/lib/constants";
 import { paths } from "@/lib/paths";
 import { useAdminAddUpdateNewsEventsMutation } from "@/store/api/Admin/adminNewsEvents";
 import ReactQuillEditor from "@/components/ReactQuillEditor";
+import { FaSpinner } from "react-icons/fa";
 
 const formSchema = z.object({
   image: z.any(),
@@ -169,9 +170,16 @@ const NewsEventsAddEditForm = ({ type, ExistingDetail }: any) => {
               <Button
                 type="submit"
                 disabled={Loading}
-                className="bg-primary text-[#f1f1f1] px-5 rounded-md py-1 hover:bg-blue-900"
+                className={`bg-primary text-[#f1f1f1] px-5 rounded-md py-1 hover:bg-[#33b98d]  Loading ? "bg-blue-700 cursor-not-allowed" : ""`}
               >
-                Submit
+                {Loading ? (
+                  <>
+                    <FaSpinner className="animate-spin mr-2" />
+                    Submitting
+                  </>
+                ) : (
+                  "Submit"
+                )}
               </Button>
             </div>
           </div>

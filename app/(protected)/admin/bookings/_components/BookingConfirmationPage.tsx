@@ -27,6 +27,8 @@ import { paths } from "@/lib/paths";
 import { useRouter } from "next/navigation";
 import { useAdminAddUpdateBookingsMutation } from "@/store/api/Admin/adminBookings";
 import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Button } from "@/components/ui/button";
+import { FaSpinner } from "react-icons/fa";
 
 const formSchema = z.object({
   name: z.string().min(1, "Full Name is required"),
@@ -455,13 +457,21 @@ const BookingConfirmationPage = ({
                 >
                   Cancel
                 </button>
-                <button
-                  disabled={Loading}
+
+                <Button
                   type="submit"
-                  className="bg-primary text-white px-4 py-2 rounded-md"
+                  disabled={Loading}
+                  className={`bg-primary text-[#f1f1f1] px-5 rounded-md py-1 hover:bg-[#33b98d]  Loading ? "bg-blue-700 cursor-not-allowed" : ""`}
                 >
-                  Submit
-                </button>
+                  {Loading ? (
+                    <>
+                      <FaSpinner className="animate-spin mr-2" />
+                      Submitting
+                    </>
+                  ) : (
+                    "Submit"
+                  )}
+                </Button>
               </div>
             </form>
           </Form>

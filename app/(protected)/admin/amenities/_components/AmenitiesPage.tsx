@@ -19,6 +19,7 @@ import {
   FaShower,
   FaLock,
   FaCheckCircle,
+  FaSpinner,
 } from "react-icons/fa";
 import { toast } from "sonner";
 
@@ -148,7 +149,7 @@ const AmenitiesPage = ({ current_user }: any) => {
                 />
                 <button
                   onClick={handleAddFeature}
-                  className="bg-primary hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition duration-300 ease-in-out"
+                  className="bg-primary hover:bg-[#33b98d] text-white px-6 py-3 rounded-lg transition duration-300 ease-in-out"
                 >
                   Add Feature
                 </button>
@@ -187,12 +188,18 @@ const AmenitiesPage = ({ current_user }: any) => {
 
             <div className="flex justify-end w-full md:px-8">
               <Button
-                onClick={handleSubmit}
                 type="submit"
                 disabled={Loading}
-                className="bg-primary text-[#f1f1f1] px-8 py-3 mt-12 rounded-lg transition duration-300 ease-in-out hover:bg-blue-900"
+                className={`bg-primary text-[#f1f1f1] px-5 rounded-md py-1 hover:bg-[#33b98d]  Loading ? "bg-blue-700 cursor-not-allowed" : ""`}
               >
-                Submit
+                {Loading ? (
+                  <>
+                    <FaSpinner className="animate-spin mr-2" />
+                    Submitting
+                  </>
+                ) : (
+                  "Submit"
+                )}
               </Button>
             </div>
           </div>

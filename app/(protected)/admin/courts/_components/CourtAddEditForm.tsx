@@ -24,6 +24,7 @@ import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { useAdminAddUpdateCourtsMutation } from "@/store/api/Admin/adminCourts";
+import { FaSpinner } from "react-icons/fa";
 
 // Custom schema with time validation
 const formSchema = z
@@ -567,9 +568,16 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                 <Button
                   type="submit"
                   disabled={Loading}
-                  className="bg-primary text-[#f1f1f1] px-5 rounded-md py-1 hover:bg-blue-900"
+                  className={`bg-primary text-[#f1f1f1] px-5 rounded-md py-1 hover:bg-[#33b98d]  Loading ? "bg-blue-700 cursor-not-allowed" : ""`}
                 >
-                  Submit
+                  {Loading ? (
+                    <>
+                      <FaSpinner className="animate-spin mr-2" />
+                      Submitting
+                    </>
+                  ) : (
+                    "Submit"
+                  )}
                 </Button>
               </div>
             </div>

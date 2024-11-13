@@ -22,6 +22,7 @@ import SCNSingleImagePicker from "@/components/image-picker/SCNSingleImagePicker
 import { poppins } from "@/lib/constants";
 import { useAdminAddUpdatePlayersMutation } from "@/store/api/Admin/adminPlayers";
 import { paths } from "@/lib/paths";
+import { FaSpinner } from "react-icons/fa";
 
 const formSchema = z.object({
   image: z.any(),
@@ -34,7 +35,7 @@ const formSchema = z.object({
   }),
   email: z.string().optional(),
 });
-
+true;
 const PlayerAddEditForm = ({ type, ExistingDetail }: any) => {
   const [Loading, setLoading] = useState(false);
   const router = useRouter();
@@ -78,7 +79,10 @@ const PlayerAddEditForm = ({ type, ExistingDetail }: any) => {
       //   return;
       // }
       let ImageUrl = null;
-      if (values.image && values.image != `${MINIOURL}${ExistingDetail?.image}`) {
+      if (
+        values.image &&
+        values.image != `${MINIOURL}${ExistingDetail?.image}`
+      ) {
         ImageUrl = await uploadToMinIO(values.image, "players");
         if (ImageUrl === "") {
           toast.error("Image Upload Failed Please try again");
@@ -213,9 +217,16 @@ const PlayerAddEditForm = ({ type, ExistingDetail }: any) => {
               <Button
                 type="submit"
                 disabled={Loading}
-                className="bg-primary text-[#f1f1f1] px-5 rounded-md py-1 hover:bg-blue-900"
+                className={`bg-primary text-[#f1f1f1] px-5 rounded-md py-1 hover:bg-[#33b98d]  Loading ? "bg-blue-700 cursor-not-allowed" : ""`}
               >
-                Submit
+                {Loading ? (
+                  <>
+                    <FaSpinner className="animate-spin mr-2" />
+                    Submitting
+                  </>
+                ) : (
+                  "Submit"
+                )}
               </Button>
             </div>
           </div>

@@ -16,6 +16,7 @@ import { Layout } from "@/components/custom/layout";
 import { Search } from "@/components/search";
 import ThemeSwitch from "@/components/theme-switch";
 import { UserNav } from "@/components/user-nav";
+import { FaSpinner } from "react-icons/fa";
 
 const FormSchema = z.object({
   images: z.array(z.any()).min(1, "Please select at least one image."),
@@ -95,8 +96,19 @@ const GalleryDetailForm = ({ current_user }: any) => {
             </div>
           </div>
 
-          <Button disabled={Loading} type="submit">
-            Submit
+          <Button
+            type="submit"
+            disabled={Loading}
+            className={`bg-primary text-[#f1f1f1] px-5 rounded-md py-1 hover:bg-[#33b98d]  Loading ? "bg-blue-700 cursor-not-allowed" : ""`}
+          >
+            {Loading ? (
+              <>
+                <FaSpinner className="animate-spin mr-2" />
+                Submitting
+              </>
+            ) : (
+              "Submit"
+            )}
           </Button>
         </form>
       </Form>
