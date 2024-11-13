@@ -15,13 +15,18 @@ import { Layout } from "@/components/custom/layout";
 import { Search } from "@/components/search";
 import ThemeSwitch from "@/components/theme-switch";
 import { UserNav } from "@/components/user-nav";
+import Link from "next/link";
+import { paths } from "@/lib/paths";
 
 const columns: Column<PLAYER>[] = [
   {
     header: "Name",
     accessor: "name",
     render: (data) => (
-      <div className="flex items-center gap-2">
+      <Link
+        href={`${paths.admin.players}/profile?id=${data._id}`}
+        className="flex items-center gap-2"
+      >
         {data.image ? (
           <img
             src={`${MINIOURL}${data.image}`}
@@ -37,16 +42,9 @@ const columns: Column<PLAYER>[] = [
           <p>{data.name}</p>
           <p className="text-[#919eab] text-sm">{data?.email}</p>
         </span>
-      </div>
+      </Link>
     ),
   },
-
-  // {
-  //   header: "Email",
-  //   accessor: "email",
-  //   render: (data) =>
-  //     data.email ? data.email : <div className="flex ">-</div>,
-  // },
   { header: "Phone", accessor: "phone" },
 
   {
@@ -55,13 +53,6 @@ const columns: Column<PLAYER>[] = [
     render: (data) =>
       data.address ? data.address : <div className="flex ">-</div>,
   },
-  // {
-  //   header: "Created Date",
-  //   accessor: "createdDate",
-  //   render: (item: any) => (
-  //     <span>{convertToHumanReadable(item.createdDate)}</span>
-  //   ),
-  // },
   {
     header: "Created Date",
     accessor: "createdDate",
@@ -107,7 +98,7 @@ const sortOptions = [
   { label: "Oldest", value: "oldest" },
 ];
 
-const PlayerTable = ({current_user}:any) => {
+const PlayerTable = ({ current_user }: any) => {
   const { data: PlayersData, isLoading: PlayersDataLoading } =
     useGetAllAdminMyPlayersQuery("");
 
@@ -116,32 +107,32 @@ const PlayerTable = ({current_user}:any) => {
       {/* ===== Top Heading ===== */}
       <Layout.Header sticky>
         <Search />
-        <div className='ml-auto flex items-center space-x-4'>
+        <div className="ml-auto flex items-center space-x-4">
           <ThemeSwitch />
           <UserNav current_user={current_user} />
         </div>
       </Layout.Header>
-    <div className="md:p-5">
-      {PlayersDataLoading ? (
-        <div className="flex h-[80vh] items-center justify-center">
-          <Loader />
-        </div>
-      ) : (
-        <>
-          <h1 className="text-[#232D42] font-medium text-[1.5rem] my-3 px-3 lg:px-0">
-            Players
-          </h1>
-          <ReusableTable
-            data={PlayersData ?? []}
-            columns={columns}
-            filterTabs={filterTabs}
-            statusKey="status"
-            sortOptions={sortOptions}
-            searchKeys={["name", "email", "phone", "address"]}
-          />
-        </>
-      )}
-    </div>
+      <div className="md:p-5">
+        {PlayersDataLoading ? (
+          <div className="flex h-[80vh] items-center justify-center">
+            <Loader />
+          </div>
+        ) : (
+          <>
+            <h1 className="text-[#232D42] font-medium text-[1.5rem] my-3 px-3 lg:px-0">
+              Players
+            </h1>
+            <ReusableTable
+              data={PlayersData ?? []}
+              columns={columns}
+              filterTabs={filterTabs}
+              statusKey="status"
+              sortOptions={sortOptions}
+              searchKeys={["name", "email", "phone", "address"]}
+            />
+          </>
+        )}
+      </div>
     </Layout>
   );
 };

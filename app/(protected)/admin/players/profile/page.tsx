@@ -1,6 +1,6 @@
 import React from "react";
 import { currentUser } from "@/lib/auth";
-import PlayerProfileTabs from "../_components/PlayerProfileTabs";
+import PlayerProfileTabs from "./_playerprofilecomponents/PlayerProfileTabs";
 
 const Page = async () => {
   const current_user = await currentUser();

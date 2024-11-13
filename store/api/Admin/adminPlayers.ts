@@ -15,11 +15,11 @@ export const adminPlayersApi = createApi({
       providesTags: ["Admin Players"],
     }),
 
-       //Get All My Players
-       getAllAdminMyPlayers: builder.query<PLAYER[], string>({
-        query: () => `${paths.admin.players}/myplayers`,
-        providesTags: ["Admin Players"],
-      }),
+    //Get All My Players
+    getAllAdminMyPlayers: builder.query<PLAYER[], string>({
+      query: () => `${paths.admin.players}/myplayers`,
+      providesTags: ["Admin Players"],
+    }),
 
     // Player by Id
     getAdminPlayerById: builder.query<PLAYER, string>({
@@ -32,9 +32,9 @@ export const adminPlayersApi = createApi({
       query: (id) => ({
         url: `${paths.admin.players}?id=${id}`,
         method: "DELETE",
-      }),  
+      }),
       invalidatesTags: ["Admin Players"],
-    }), 
+    }),
 
     //Add Update Players
     AdminAddUpdatePlayers: builder.mutation<{ message: string }, any>({
@@ -55,7 +55,7 @@ export const adminPlayersApi = createApi({
         url: `${paths.admin.players}/deletemultiple`,
         method: "DELETE",
         body: body,
-      }),   
+      }),
       invalidatesTags: ["Admin Players"],
     }),
   }),
@@ -67,5 +67,5 @@ export const {
   useDeleteMultiplePlayersAdminMutation,
   useGetAdminPlayerByIdQuery,
   useGetAllAdminPlayersQuery,
-  useGetAllAdminMyPlayersQuery
+  useGetAllAdminMyPlayersQuery,
 } = adminPlayersApi;

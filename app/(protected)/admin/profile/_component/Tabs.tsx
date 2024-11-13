@@ -1,10 +1,8 @@
 "use client";
 import { poppins } from "@/lib/constants";
 import React, { useState } from "react";
-import GeneralContent from "./GeneralContent";
 import SecurityContent from "./SecurityContent";
 import BillingContent from "./BillingContent";
-import NotificationsContent from "./NotificationsContent";
 import SocialLinksContent from "./SocialLinksContent";
 import { useGetAdminMyPlayerByIdQuery } from "@/store/api/Admin/adminProfile";
 import { useGetAdminMyBillingByIdQuery } from "@/store/api/Admin/adminBillings";
@@ -23,6 +21,7 @@ import ThemeSwitch from "@/components/theme-switch";
 import { UserNav } from "@/components/user-nav";
 import Loader from "@/components/Loader";
 import { useGetAllAdminPlansQuery } from "@/store/api/Admin/adminPlans";
+import GeneralContent from "./GeneralContent";
 
 const Tabs = ({ current_user }: any) => {
   const categories = [

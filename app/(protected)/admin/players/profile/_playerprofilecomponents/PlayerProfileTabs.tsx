@@ -18,15 +18,23 @@ import ThemeSwitch from "@/components/theme-switch";
 import { UserNav } from "@/components/user-nav";
 import Loader from "@/components/Loader";
 import { useGetAllAdminPlansQuery } from "@/store/api/Admin/adminPlans";
-import GeneralContent from "../../profile/_component/GeneralContent";
-import SecurityContent from "../../profile/_component/SecurityContent";
-import BillingContent from "../../profile/_component/BillingContent";
-import SocialLinksContent from "../../profile/_component/SocialLinksContent";
 import Reports from "./Reports";
-import PastBookings from "./PastBookings";
 import UpcomingBookings from "./UpcomingBookings";
+import { useSearchParams } from "next/navigation";
+import { useGetAdminPlayerByIdQuery } from "@/store/api/Admin/adminPlayers";
+import PlayerGeneralContent from "./PlayerGeneralContent";
+import PastBookings from "./PastBookings";
+import { useGetAdminPlayerBookingByIdQuery } from "@/store/api/Admin/adminBookings";
 
 const PlayerProfileTabs = ({ current_user }: any) => {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id") as string;
+  const { data: PlayerDetails, isLoading: Loading } =
+    useGetAdminPlayerByIdQuery(id);
+
+  const { data: BookingsData, isLoading: BookingsDataLoading } =
+    useGetAdminPlayerBookingByIdQuery(id);
+
   const categories = [
     {
       category: "General",
@@ -50,19 +58,16 @@ const PlayerProfileTabs = ({ current_user }: any) => {
 
   const { data: ProfileDetail, isLoading: profileLoading } =
     useGetAdminMyPlayerByIdQuery("");
-  const { data: BillingDetail, isLoading: billingLoading } =
-    useGetAdminMyBillingByIdQuery("");
-  const { data: PlansData, isLoading: PlansDataLoading } =
-    useGetAllAdminPlansQuery("");
+
 
   const renderContent = () => {
     switch (activeTab) {
       case "General":
-        return <GeneralContent ProfileDetail={ProfileDetail} />;
+        return <PlayerGeneralContent ExistingDetail={PlayerDetails} />;
       case "Upcoming Bookings":
-        return <UpcomingBookings />;
+        return <UpcomingBookings BookingsData={BookingsData.upcomingBookings}/>;
       case "Past Bookings":
-        return <PastBookings />;
+        return <PastBookings BookingsData={BookingsData.pastBookings}/>;
       case "Reports":
         return <Reports />;
       default:
@@ -80,13 +85,13 @@ const PlayerProfileTabs = ({ current_user }: any) => {
           <UserNav current_user={current_user} />
         </div>
       </Layout.Header>
-      {profileLoading || billingLoading || PlansDataLoading ? (
+      {profileLoading || Loading || BookingsDataLoading ? (
         <div className="flex h-[80vh] items-center justify-center">
           <Loader />
         </div>
       ) : (
         <div className="py-6 container bg-[#F4F4F5] min-h-screen">
-          {ProfileDetail && PlansData && PlansData.length > 0 && (
+          {ProfileDetail && BookingsData && (
             <div className={`${poppins.className} flex flex-col gap-6`}>
               <h1 className="text-2xl text-[#232D42] font-medium">
                 Player&apos;s Profile

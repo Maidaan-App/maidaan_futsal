@@ -2,9 +2,7 @@
 
 import React from "react";
 import { useGetAllAdminBookingsQuery } from "@/store/api/Admin/adminBookings";
-import {
-  convertToHumanReadableNoTime,
-} from "@/lib/helper";
+import { convertToHumanReadableNoTime } from "@/lib/helper";
 import BookingTableComponent, { Column } from "./BookingTableComponent";
 import Loader from "@/components/Loader";
 import { adminBookingStatusTypes, MINIOURL } from "@/lib/constants";
@@ -12,13 +10,18 @@ import { Layout } from "@/components/custom/layout";
 import { Search } from "@/components/search";
 import ThemeSwitch from "@/components/theme-switch";
 import { UserNav } from "@/components/user-nav";
+import Link from "next/link";
+import { paths } from "@/lib/paths";
 
 const columns: Column<any>[] = [
   {
     header: "Player Name",
     accessor: "name",
     render: (data) => (
-      <div className="flex items-center gap-2">
+      <Link
+        href={`${paths.admin.players}/profile?id=${data.playerId}`}
+        className="flex items-center gap-2"
+      >
         {data.image ? (
           <img
             src={`${MINIOURL}${data.image}`}
@@ -30,11 +33,13 @@ const columns: Column<any>[] = [
             {data.name.charAt(0).toUpperCase()}
           </div>
         )}
-        <span>{data.name}</span>
-      </div>
+        <span className="flex flex-col">
+          <p>{data.name}</p>
+          <p className="text-[#919eab] text-sm">{data.phone}</p>
+        </span>
+      </Link>
     ),
   },
-  { header: "Phone", accessor: "phone" },
   {
     header: "Booked Date",
     accessor: "selectedDate",
@@ -53,6 +58,14 @@ const columns: Column<any>[] = [
       </span>
     ),
   },
+  {
+    header: "Amount",
+    accessor: "netTotal",
+    render: (item: any) => (
+      <span>{`Rs. ${item.netTotal}`}</span>
+    ),
+  },
+
   {
     header: "Status",
     accessor: "status",
