@@ -22,7 +22,7 @@ import lgRotate from "lightgallery/plugins/rotate";
 import { useEffect, useState } from "react";
 import { useGetPublicFutsalGalleryQuery } from "@/store/api/Public/publicFutsal";
 import { GALLERY } from "@/lib/types";
-import { MINIOURL } from "@/lib/constants";
+import { MINIOURL, montserrat } from "@/lib/constants";
 import Loader from "@/components/Loader";
 
 export function GalleryComponent() {
@@ -39,7 +39,9 @@ export function GalleryComponent() {
     console.log("lightGallery has been initialized");
   };
   return (
-    <div className="App md:px-20 md:py-10 px-10 py-5 bg-[#172b2a]">
+    <div
+      className={`App md:px-20 md:py-10 px-10 py-5 bg-[#172b2a] ${montserrat.className}`}
+    >
       {GalleyDataLoading ? (
         <div className="flex h-[100vh] items-center justify-center">
           <Loader />
@@ -49,7 +51,7 @@ export function GalleryComponent() {
           <h2 className="text-center text-[#f1f1f1] font-bold text-xl md:text-4xl mb-6">
             Gallery
           </h2>
-          <p className="text-center text-gray-400 mb-6 mx-4 md:mb-12 md:mx-6">
+          <p className=" text-gray-400 mb-6 mx-4 md:mb-12 md:mx-6  text-base text-center md:text-xl ">
             Explore moments captured from our tournaments, friendly matches, and
             futsal events.
           </p>
