@@ -48,7 +48,7 @@ export const NewsAndEvents = ({ NewsEventsData }: props) => {
       <div className="flex justify-center mt-12">
         <Link
           href={paths.public.newsEvents}
-          className="w-full md:w-fit rounded px-8 py-3 text-xl text-white transition-colors hover:bg-neutral-700"
+          className="w-fit md:w-fit rounded px-8 py-3 text-xl text-white transition-colors hover:bg-neutral-700"
         >
           View All <FiArrowUpRight className="inline ml-2" />
         </Link>
@@ -92,12 +92,11 @@ const StickyImage: React.FC<{ imgUrl: string }> = ({ imgUrl }) => {
         backgroundImage: `url(${imgUrl})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        height: `calc(100vh - ${IMG_PADDING * 2}px)`,
         top: IMG_PADDING,
         scale,
       }}
       ref={targetRef}
-      className="sticky z-0 overflow-hidden rounded-3xl"
+      className="sticky z-0 overflow-hidden rounded-3xl h-[50vh] md:h-[100vh]" // Responsive height
     >
       <motion.div
         className="absolute inset-0 bg-neutral-950/70"
@@ -129,12 +128,10 @@ const OverlayCopy: React.FC<{ subheading: string; heading: string }> = ({
         opacity,
       }}
       ref={targetRef}
-      className="absolute left-0 top-0 flex h-screen w-full flex-col items-center justify-center text-[#f1f1f1]"
+      className="absolute left-0 top-0 flex h-[50vh] md:h-screen w-full flex-col items-center justify-center px-4 text-[#f1f1f1]"
     >
-      <p className="mb-2 text-center text-lg md:mb-4 md:text-xl">
-        {subheading}
-      </p>
-      <p className="text-center text-3xl md:text-4xl font-bold">{heading}</p>
+      <p className="mb-2 text-center md:mb-4 md:text-xl">{subheading}</p>
+      <p className="text-center  md:text-4xl font-bold">{heading}</p>
     </motion.div>
   );
 };
@@ -148,13 +145,13 @@ const ExampleContent = ({ NewsEventsData }: exampleProps) => (
     <div className="flex flex-col items-center">
       {/* <div className="text-[#28353D] flex flex-col gap-4"> */}
       <p
-        className="mb-4 text-lg text-neutral-100 md:text-xl line-clamp-4"
+        className="mb-4 text-neutral-100 md:text-xl line-clamp-4"
         dangerouslySetInnerHTML={{ __html: NewsEventsData.description }}
       ></p>
       {/* </div> */}
       <Link
         href={`${paths.public.newsEvents}/${NewsEventsData.slug}`}
-        className="w-full rounded bg-white px-8 py-3 text-xl text-black transition-colors hover:bg-neutral-700 md:w-fit"
+        className="w-fit rounded bg-white px-8 py-3 md:text-xl text-black transition-colors hover:bg-neutral-700 md:w-fit"
       >
         Learn more <FiArrowUpRight className="inline" />
       </Link>

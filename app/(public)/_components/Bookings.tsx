@@ -3,9 +3,12 @@ import React, { useEffect, useState } from "react";
 import { COURT } from "@/lib/types";
 import { PublicBookingSlots } from "./PublicBookingSlots";
 import { PublicDateSelect } from "./PublicDateSelect";
+import { DateSection } from "@/app/(protected)/admin/bookings/_components/DateSection";
+import { TimeSlotSection } from "@/app/(protected)/admin/bookings/_components/TimeSlots";
+import { montserrat } from "@/lib/constants";
 
 interface props {
-  CourtsData : COURT[];
+  CourtsData: COURT[];
 }
 
 const Bookings = ({ CourtsData }: props) => {
@@ -24,7 +27,10 @@ const Bookings = ({ CourtsData }: props) => {
   };
 
   return (
-    <div className="md:px-20 px-10 bg-[#f0f0f1] py-20" id="book-now">
+    <div
+      className={`md:px-20 px-7 bg-[#f0f0f1] py-20 ${montserrat.className}`}
+      id="book-now"
+    >
       <div>
         <p className="text-center text-[#172b2a] font-bold text-xl flex justify-center items-center gap-3 md:text-4xl">
           <span>
@@ -43,7 +49,7 @@ const Bookings = ({ CourtsData }: props) => {
           <button
             key={court._id}
             onClick={() => handleCourtClick(court)}
-            className={`px-1 py-2  ${
+            className={`px-1 py-2 md:text-base text-xs ${
               selectedCourt?._id === court._id
                 ? "border-b-2 border-primary text-[#00A76F]"
                 : "border-gray-300 text-[#00A76F]"
@@ -59,6 +65,10 @@ const Bookings = ({ CourtsData }: props) => {
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
           />
+          {/* <DateSection
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+          /> */}
           <PublicBookingSlots
             selectedCourt={selectedCourt}
             selectedDate={selectedDate}

@@ -76,7 +76,8 @@ export function PublicBookingSlots({ selectedCourt, selectedDate }: any) {
             <h1 className="text-[1.125rem] font-medium">Time slots</h1>
           </div>
 
-          <div className="px-3 my-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {/* Responsive grid with adjustments for mobile */}
+          <div className=" my-5 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 md:gap-4">
             {timeSlots.map((slot, index) => {
               const slotStatus = getSlotStatus(
                 slot,
@@ -89,17 +90,16 @@ export function PublicBookingSlots({ selectedCourt, selectedDate }: any) {
 
               if (slotStatus === "Booked") {
                 slotBgColor = "bg-[#FF5630] text-white";
-                isDisabled = false;
+                isDisabled = true;
               } else if (slotStatus === "Pre-Booked") {
                 slotBgColor = "bg-[#3169FF] text-white";
-                isDisabled = false;
+                isDisabled = true;
               } else if (slotStatus === "Reserved") {
                 slotBgColor = "bg-primary text-white";
-                isDisabled = false;
-              }
-              else if (slotStatus === "Completed") {
+                isDisabled = true;
+              } else if (slotStatus === "Completed") {
                 slotBgColor = "bg-gray-600 text-white";
-                isDisabled = false;
+                isDisabled = true;
               }
 
               return (
@@ -109,10 +109,12 @@ export function PublicBookingSlots({ selectedCourt, selectedDate }: any) {
                       selectedIndices.includes(index)
                         ? "border-2 border-primary"
                         : ""
-                    } ${isDisabled ? "cursor-not-allowed" : ""}`} // Add styles for disabled
+                    } ${isDisabled ? "cursor-not-allowed opacity-70" : ""}`} // Add styles for disabled
                   >
-                    <CardContent className="flex items-center justify-center px-5 py-5 flex-col">
-                      <span className="text-lg font-medium">{slot}</span>
+                    <CardContent className="flex items-center justify-center px-2 md:px-5 py-4 flex-col">
+                      <span className="text-[0.65rem] md:text-lg font-medium">
+                        {slot}
+                      </span>
                     </CardContent>
                   </Card>
                 </div>
@@ -122,28 +124,27 @@ export function PublicBookingSlots({ selectedCourt, selectedDate }: any) {
         </>
       )}
 
-      <div className="flex items-center justify-between pb-10 px-4">
-        <div className="flex items-center gap-6 w-full">
-          <div className="flex items-center gap-2">
-            <div className="bg-white border h-5 w-5 rounded-md"></div>
-            Available
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="bg-primary border h-5 w-5 rounded-md"></div>
-            Reserved
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="bg-blue-600 border h-5 w-5 rounded-md"></div>
-            Pre-Booked
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="bg-[#FF5630] border h-5 w-5 rounded-md"></div>
-            Booked
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="bg-gray-600 border h-5 w-5 rounded-md"></div>
-            Unavailable
-          </div>
+      {/* Responsive legend */}
+      <div className="flex flex-wrap items-center pb-10 px-4 gap-3 sm:gap-4 md:gap-6">
+        <div className="flex items-center gap-1 sm:gap-2">
+          <div className="bg-white border h-4 w-4 sm:h-5 sm:w-5 rounded-md"></div>
+          <span className="text-xs sm:text-sm md:text-base">Available</span>
+        </div>
+        <div className="flex items-center gap-1 sm:gap-2">
+          <div className="bg-primary border h-4 w-4 sm:h-5 sm:w-5 rounded-md"></div>
+          <span className="text-xs sm:text-sm md:text-base">Reserved</span>
+        </div>
+        <div className="flex items-center gap-1 sm:gap-2">
+          <div className="bg-blue-600 border h-4 w-4 sm:h-5 sm:w-5 rounded-md"></div>
+          <span className="text-xs sm:text-sm md:text-base">Pre-Booked</span>
+        </div>
+        <div className="flex items-center gap-1 sm:gap-2">
+          <div className="bg-[#FF5630] border h-4 w-4 sm:h-5 sm:w-5 rounded-md"></div>
+          <span className="text-xs sm:text-sm md:text-base">Booked</span>
+        </div>
+        <div className="flex items-center gap-1 sm:gap-2">
+          <div className="bg-gray-600 border h-4 w-4 sm:h-5 sm:w-5 rounded-md"></div>
+          <span className="text-xs sm:text-sm md:text-base">Unavailable</span>
         </div>
       </div>
     </div>
