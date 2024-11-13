@@ -178,7 +178,7 @@ const AmenitiesPage = ({ current_user }: any) => {
                       type="checkbox"
                       checked={feature.isAvailable}
                       // onChange={() => handleCheckboxChange(index)}
-                      className="mr-2"
+                      className="mr-2 "
                     />
                     Available
                   </label>
