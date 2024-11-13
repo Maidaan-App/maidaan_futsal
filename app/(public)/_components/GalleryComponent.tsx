@@ -8,7 +8,7 @@ import "lightgallery/css/lg-zoom.css";
 import "lightgallery/css/lg-thumbnail.css";
 import "lightgallery/css/lg-autoplay.css";
 import "lightgallery/css/lg-fullscreen.css";
-import "lightgallery/css/lg-share.css";
+// import "lightgallery/css/lg-share.css";
 import "lightgallery/css/lg-rotate.css";
 import "./gallery.css";
 
@@ -17,7 +17,7 @@ import lgThumbnail from "lightgallery/plugins/thumbnail";
 import lgZoom from "lightgallery/plugins/zoom";
 import lgAutoplay from "lightgallery/plugins/autoplay";
 import lgFullscreen from "lightgallery/plugins/fullscreen";
-import lgShare from "lightgallery/plugins/share";
+// import lgShare from "lightgallery/plugins/share";
 import lgRotate from "lightgallery/plugins/rotate";
 import { useEffect, useState } from "react";
 import { useGetPublicFutsalGalleryQuery } from "@/store/api/Public/publicFutsal";
@@ -63,7 +63,7 @@ export function GalleryComponent() {
               lgAutoplay,
               lgFullscreen,
               lgRotate,
-              lgShare,
+              // lgShare,
             ]}
           >
             {Images.map((image, index) => {
