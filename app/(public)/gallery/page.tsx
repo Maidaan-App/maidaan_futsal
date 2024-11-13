@@ -1,8 +1,8 @@
 import React from "react";
-import GalleryPage from "../_components/GalleryPage";
+import { GalleryComponent } from "../_components/GalleryComponent";
 
 const Page = () => {
-  return <GalleryPage />;
+  return <GalleryComponent />;
 };
 
 export default Page;
