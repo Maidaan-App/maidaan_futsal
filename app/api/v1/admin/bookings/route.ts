@@ -8,6 +8,7 @@ import { NextResponse, NextRequest } from "next/server";
 export const POST = async (request: NextRequest) => {
   console.log("Running POST request: Admin Add/Update Booking");
   const user = await currentUser();
+  const currentDate = Date.now()
 
   try {
     const Data = await request.json();
@@ -41,13 +42,16 @@ export const POST = async (request: NextRequest) => {
             name: Data.name,
             phone: Data.phone,
             userType: "player",
+            createdDate: currentDate
+
           };
           const newUser = new User({ ...userData });
           const playerData = {
             linkedUserId: newUser._id,
             name: Data.name,
             phone: Data.phone,
-            status: "enrolled",
+            status: "pending",
+            createdDate: currentDate
           };
           const newPlayer = new Players({ ...playerData });
           await newUser.save();
@@ -84,6 +88,7 @@ export const POST = async (request: NextRequest) => {
             remarks: Data.remarks,
             slotsTotal: Data.slotsTotal,
             netTotal: Data.netTotal,
+            createdDate: currentDate
           });
           await newDoc.save();
           return NextResponse.json(
@@ -103,13 +108,16 @@ export const POST = async (request: NextRequest) => {
             name: Data.name,
             phone: Data.phone,
             userType: "player",
+            createdDate: currentDate
           };
           const newUser = new User({ ...userData });
           const playerData = {
             linkedUserId: newUser._id,
             name: Data.name,
             phone: Data.phone,
-            status: "enrolled",
+            status: "pending",
+            createdDate: currentDate
+
           };
           const newPlayer = new Players({ ...playerData });
 
@@ -123,6 +131,7 @@ export const POST = async (request: NextRequest) => {
             remarks: Data.remarks,
             slotsTotal: Data.slotsTotal,
             netTotal: Data.netTotal,
+            createdDate: currentDate
           });
           await newUser.save();
           await newPlayer.save();
