@@ -30,11 +30,18 @@ export const adminBookingsApi = createApi({
       query: (id) => `${paths.admin.bookings}/byid?id=${id}`,
       providesTags: ["Admin Bookings"],
     }),
+
+    //Player Booking by Id
+    getAdminPlayerBookingById: builder.query<any, string>({
+      query: (id) => `${paths.admin.bookings}/player?id=${id}`,
+      providesTags: ["Admin Bookings"],
+    }),
   }),
 });
 
 export const {
   useAdminAddUpdateBookingsMutation,
   useGetAllAdminBookingsQuery,
-  useGetAdminBookingByIdQuery
+  useGetAdminBookingByIdQuery,
+  useGetAdminPlayerBookingByIdQuery,
 } = adminBookingsApi;
