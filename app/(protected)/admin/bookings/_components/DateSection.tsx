@@ -11,11 +11,16 @@ import {
 } from "@/components/ui/carousel";
 import { CalendarDays } from "lucide-react";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"; 
+import "react-datepicker/dist/react-datepicker.css";
 import { FaChevronDown } from "react-icons/fa";
 import { poppins } from "@/lib/constants";
 
-export function DateSection({ selectedDate, setSelectedDate,setSelectedTimeSlots,setSelectedIndices }: any) {
+export function DateSection({
+  selectedDate,
+  setSelectedDate,
+  setSelectedTimeSlots,
+  setSelectedIndices,
+}: any) {
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const today = new Date();
   const [isOpen, setIsOpen] = useState(false);
@@ -30,7 +35,6 @@ export function DateSection({ selectedDate, setSelectedDate,setSelectedTimeSlots
       fullDate: date,
     };
   });
-  
 
   // Set today's date as the default selected date
   useEffect(() => {
@@ -39,8 +43,8 @@ export function DateSection({ selectedDate, setSelectedDate,setSelectedTimeSlots
 
   const handleDateClick = (dateObj: { fullDate: Date }) => {
     setSelectedDate(dateObj.fullDate); // Set the full Date object in the state
-    setSelectedTimeSlots([])
-    setSelectedIndices([])
+    setSelectedTimeSlots([]);
+    setSelectedIndices([]);
   };
 
   const toggleCalendar = () => {
@@ -93,7 +97,7 @@ export function DateSection({ selectedDate, setSelectedDate,setSelectedTimeSlots
           {dates.map((dateObj, index) => (
             <CarouselItem
               key={index}
-              className="pl-1 md:basis-1/2 lg:basis-1/6"
+              className="pl-1  md:basis-1/2 lg:basis-1/6"
             >
               <div className="p-1">
                 <Card

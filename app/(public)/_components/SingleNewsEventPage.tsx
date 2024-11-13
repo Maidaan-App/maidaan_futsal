@@ -16,7 +16,7 @@ const SingleNewsEventPage = () => {
 
   return (
     <div
-      className={`bg-[#182b2a] min-h-screen md:py-10 ${montserrat.className}`}
+      className={`bg-[#182b2a] min-h-screen md:py-10 pb-7 ${montserrat.className}`}
     >
       {NewsEventLoading ? (
         <div className="flex h-[100vh] items-center justify-center">
@@ -25,17 +25,17 @@ const SingleNewsEventPage = () => {
       ) : (
         <div>
           {NewsEventBySlug && (
-            <TracingBeam className="px-6">
+            <TracingBeam className="px-9 ">
               <div className="max-w-2xl mx-auto antialiased pt-4 text-white relative">
                 <div className="">
-                  <h2 className="bg-black text-white rounded-full text-sm w-fit px-4 py-1 mb-4">
+                  <h2 className="bg-black text-white rounded-full text-xs md:text-sm w-fit md:px-4 px-3 py-1 mb-4">
                     {convertToHumanReadableNoTime(NewsEventBySlug?.createdDate)}
                   </h2>
 
                   <p
                     className={twMerge(
                       montserrat.className,
-                      "text-3xl font-bold pb-4 mb-4"
+                      "md:text-3xl font-bold pb-4 mb-4"
                     )}
                   >
                     {NewsEventBySlug?.title}
@@ -55,6 +55,7 @@ const SingleNewsEventPage = () => {
                       dangerouslySetInnerHTML={{
                         __html: NewsEventBySlug?.description as string,
                       }}
+                      className="md:text-lg text-xs"
                     ></p>
                     {/* {NewsEventBySlug?.description} */}
                   </div>

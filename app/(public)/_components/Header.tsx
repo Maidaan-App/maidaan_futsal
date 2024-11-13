@@ -8,7 +8,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false); // State to track if the page is scrolled
 
   const { data: FutsalProfile, isLoading: FutsalProfileLoading } =
-  useGetPublicFutsalProfileQuery("");
+    useGetPublicFutsalProfileQuery("");
   const handleScroll = () => {
     const currentScrollY = window.scrollY;
     setIsScrolled(currentScrollY > 10); // Change this value to adjust when the effect activates
@@ -28,13 +28,14 @@ const Header = () => {
       style={{
         position: "sticky",
         top: "0", // Always stick to the top
-        zIndex: 1000, // Ensure it's above other content
+        zIndex: 10, // Ensure it's above other content
         width: "100%", // Make sure header takes full width
         transition:
           "background-color 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out", // Smooth transition for effects
       }}
     >
-      <Navbar FutsalProfile={FutsalProfile} isScrolled={isScrolled} /> {/* Pass isScrolled to Navbar */}
+      <Navbar FutsalProfile={FutsalProfile} isScrolled={isScrolled} />{" "}
+      {/* Pass isScrolled to Navbar */}
     </div>
   );
 };

@@ -62,7 +62,7 @@ export const HeroParallax: React.FC<HeroParallaxProps> = ({
   return (
     <div
       ref={ref}
-      className="h-[300vh]  mb-20 antialiased relative flex flex-col [perspective:1000px] [transform-style:preserve-3d]"
+      className="md:h-[300vh] h-[220vh]  mb-20 antialiased relative flex flex-col [perspective:1000px] [transform-style:preserve-3d]"
     >
       <Header FutsalProfile={FutsalProfile} />
       <motion.div
@@ -162,7 +162,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <motion.div
       style={{ x: translate }}
-      className="h-96 w-[30rem] relative flex-shrink-0"
+      className="lg:h-96 h-52 w-[20rem] lg:w-[30rem] relative flex-shrink-0"
     >
       <Image
         // src={galleryImage.image}
