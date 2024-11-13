@@ -4,7 +4,8 @@ import PlayerBookingTable from './PlayerBookingTable'
 const Reports = () => {
   return (
     <div>
-      <PlayerBookingTable/>
+      Reports
+      {/* <PlayerBookingTable/> */}
     </div>
   )
 }
