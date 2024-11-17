@@ -188,6 +188,26 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
     }
   }, [ExistingDetail]);
 
+  const openingTime = form.watch("openingTime");
+  const closingTime = form.watch("closingTime");
+  const morningEndTime = form.watch("morningShift.endTime");
+  const dayEndTime = form.watch("dayShift.endTime");
+
+  useEffect(() => {
+    if (openingTime) {
+      form.setValue("morningShift.startTime", openingTime);
+    }
+    if(closingTime){
+      form.setValue("eveningShift.endTime", closingTime);
+    }
+    if(morningEndTime){
+      form.setValue("dayShift.startTime", morningEndTime);
+    }
+    if(dayEndTime){
+      form.setValue("eveningShift.startTime", dayEndTime);
+    }
+  }, [openingTime,closingTime,morningEndTime,dayEndTime]);
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setLoading(true);
@@ -274,6 +294,7 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                         <TimePicker
                           label="Opening Time"
                           value={field.value ? dayjs(field.value) : null}
+                          views={["hours"]}
                           onChange={(value) => field.onChange(value?.toDate())}
                           className="w-full"
                           ampm
@@ -293,6 +314,7 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                         <TimePicker
                           label="Closing Time"
                           value={field.value ? dayjs(field.value) : null}
+                          views={["hours"]}
                           onChange={(value) => field.onChange(value?.toDate())}
                           className="w-full"
                           ampm
@@ -320,6 +342,7 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                             // disabled
                             label="Start Time"
                             value={field.value ? dayjs(field.value) : null}
+                            views={["hours"]}
                             onChange={(value) =>
                               field.onChange(value?.toDate())
                             }
@@ -340,6 +363,7 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                           <TimePicker
                             label="End Time"
                             value={field.value ? dayjs(field.value) : null}
+                            views={["hours"]}
                             onChange={(value) =>
                               field.onChange(value?.toDate())
                             }
@@ -384,6 +408,7 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                           <TimePicker
                             label="Start Time"
                             value={field.value ? dayjs(field.value) : null}
+                            views={["hours"]}
                             onChange={(value) =>
                               field.onChange(value?.toDate())
                             }
@@ -404,6 +429,7 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                           <TimePicker
                             label="End Time"
                             value={field.value ? dayjs(field.value) : null}
+                            views={["hours"]}
                             onChange={(value) =>
                               field.onChange(value?.toDate())
                             }
@@ -448,6 +474,7 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                           <TimePicker
                             label="Start Time"
                             value={field.value ? dayjs(field.value) : null}
+                            views={["hours"]}
                             onChange={(value) =>
                               field.onChange(value?.toDate())
                             }
@@ -469,6 +496,7 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                             // disabled
                             label="End Time"
                             value={field.value ? dayjs(field.value) : null}
+                            views={["hours"]}
                             onChange={(value) =>
                               field.onChange(value?.toDate())
                             }
@@ -513,6 +541,7 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                           <TimePicker
                             label="Start Time"
                             value={field.value ? dayjs(field.value) : null}
+                            views={["hours"]}
                             onChange={(value) =>
                               field.onChange(value?.toDate())
                             }
@@ -533,6 +562,7 @@ const CourtAddEditForm = ({ type, ExistingDetail }: any) => {
                           <TimePicker
                             label="End Time"
                             value={field.value ? dayjs(field.value) : null}
+                            views={["hours"]}
                             onChange={(value) =>
                               field.onChange(value?.toDate())
                             }

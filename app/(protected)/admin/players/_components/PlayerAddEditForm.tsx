@@ -30,9 +30,14 @@ const formSchema = z.object({
     message: "Please Enter Full Name",
   }),
   address: z.string().optional(),
-  phone: z.string().min(2, {
-    message: "Phone Number is required",
-  }),
+  phone: z
+    .string()
+    .min(7, {
+      message: "Invalid Phone Number",
+    })
+    .max(10, {
+      message: "Invalid Phone Number",
+    }),
   email: z.string().optional(),
 });
 true;
