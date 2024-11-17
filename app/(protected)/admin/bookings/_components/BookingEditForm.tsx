@@ -58,15 +58,13 @@ const BookingEditForm = ({ ExistingDetail, playerLists }: props) => {
   const [isFocused, setIsFocused] = useState(false);
   const [Loading, setLoading] = useState(false);
   const router = useRouter();
-  const [discount, setDiscount] = useState(
-    parseInt(ExistingDetail.discount) || 0
-  );
+  const [discount, setDiscount] = useState(parseInt(ExistingDetail.discount));
   const [items, setItems] = useState<Item[]>(
     ExistingDetail.itemPurchased || []
   );
   const [itemName, setItemName] = useState("");
-  const [itemQuantity, setItemQuantity] = useState(0);
-  const [itemPrice, setItemPrice] = useState(0);
+  const [itemQuantity, setItemQuantity] = useState<number>();
+  const [itemPrice, setItemPrice] = useState<number>();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -105,7 +103,10 @@ const BookingEditForm = ({ ExistingDetail, playerLists }: props) => {
 
   // Handle adding an item to the list
   const handleAddItem = () => {
-    if (!itemName || !itemQuantity || !itemPrice) return;
+    if (!itemName || !itemQuantity || !itemPrice) {
+      toast.error("Please Fill Up First")
+      return;
+    }
     if (itemName && itemQuantity > 0 && itemPrice > 0) {
       const newItem: Item = {
         name: itemName,
@@ -135,7 +136,7 @@ const BookingEditForm = ({ ExistingDetail, playerLists }: props) => {
       0
     );
     const subtotal = slotTotal + itemsTotal;
-    const netTotal = subtotal - discount;
+    const netTotal = subtotal - (discount ? discount : 0);
 
     return { slotTotal, itemsTotal, subtotal, netTotal };
   };
@@ -317,8 +318,8 @@ const BookingEditForm = ({ ExistingDetail, playerLists }: props) => {
                                 className="w-8 h-8 rounded-full mr-2 object-cover"
                               />
                             ) : (
-                              <div className="h-8 w-8 mr-2 rounded-full flex justify-center items-center bg-primary text-3xl text-white p-1">
-                                {player.name[0]}
+                              <div className="w-8 h-8 mr-2 bg-primary text-white rounded-full flex items-center justify-center">
+                                {player.name[0].toUpperCase()}
                               </div>
                             )}
 
@@ -411,14 +412,28 @@ const BookingEditForm = ({ ExistingDetail, playerLists }: props) => {
                     label="Quantity"
                     type="number"
                     value={itemQuantity}
-                    onChange={(e) => setItemQuantity(parseInt(e.target.value))}
+                    // onChange={(e) => setItemQuantity(parseInt(e.target.value))}
+                    onChange={(e) => {
+                      let value = parseInt(e.target.value);
+                      if (value < 0) {
+                        value = -value;
+                      }
+                      setItemQuantity(value);
+                    }}
                     fullWidth
                   />
                   <TextField
                     label="Price"
                     type="number"
                     value={itemPrice}
-                    onChange={(e) => setItemPrice(parseFloat(e.target.value))}
+                    // onChange={(e) => setItemPrice(parseFloat(e.target.value))}
+                    onChange={(e) => {
+                      let value = parseFloat(e.target.value);
+                      if (value < 0) {
+                        value = -value;
+                      }
+                      setItemPrice(value);
+                    }}
                     fullWidth
                   />
                 </div>
@@ -490,9 +505,11 @@ const BookingEditForm = ({ ExistingDetail, playerLists }: props) => {
                       type="number"
                       value={discount}
                       onChange={(e) => {
-                        let value = parseInt(e.target.value) || 0;
+                        let value = parseInt(e.target.value);
                         if (value < 0) {
-                          value = -value; // Make the value negative if it's positive
+                          value = -value;
+                        } else if (value > subtotal) {
+                          value = subtotal;
                         }
                         setDiscount(value);
                       }}

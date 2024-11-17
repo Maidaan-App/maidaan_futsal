@@ -5,6 +5,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Clock } from "lucide-react";
 import { toast } from "sonner";
 import { MINIOURL } from "@/lib/constants";
+import Link from "next/link";
+import { paths } from "@/lib/paths";
 
 const formatTime = (time: Date) => {
   return new Date(time).toLocaleTimeString("en-US", {
@@ -41,6 +43,8 @@ const getSlotStatus = (
   const selectedDateString = dateObject.toISOString().split("T")[0];
   const dayBookings = selectedCourt?.bookings[selectedDateString];
 
+  console.log("dayBookings:",dayBookings)
+
   if (!dayBookings) return { status: "Available", details: null };
 
   const checkBooking = (status: string) =>
@@ -62,7 +66,7 @@ const getSlotStatus = (
 };
 
 const HoverPopover = ({ details }: { details: any }) => (
-  <div className="absolute left-0 -top-24 z-10 bg-white p-4 rounded-md flex justify-between shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] transform transition-all duration-500 ease-out scale-95 hover:scale-100 hover:shadow-lg hover:bg-opacity-90 hover:cursor-pointer">
+  <Link href={`${paths.admin.editBookings}?id=${details._id}`} className="absolute left-0 -top-24 z-10 bg-white p-4 rounded-md flex justify-between shadow-[rgba(7,_65,_210,_0.1)_0px_9px_30px] transform transition-all duration-500 ease-out scale-95 hover:scale-100 hover:shadow-lg hover:bg-opacity-90 hover:cursor-pointer">
     <div className="flex items-center gap-5">
       {details.player.image ? (
         <img
@@ -89,7 +93,7 @@ const HoverPopover = ({ details }: { details: any }) => (
         </p>
       </div>
     </div>
-  </div>
+  </Link>
 );
 
 export function TimeSlotSection({
