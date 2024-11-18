@@ -162,7 +162,6 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
 
   const onSubmit = async (values: z.infer<typeof reportSchema>) => {
     console.log("Report Information:", values);
-    alert(`Form submitted with: ${JSON.stringify(values)}`);
   };
 
   return (
