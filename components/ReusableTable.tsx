@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -10,7 +10,14 @@ import {
 } from "@/components/ui/select";
 import { poppins } from "@/lib/constants";
 import { Button } from "./ui/button";
-import { Edit, EllipsisVertical, Eye, Trash, User } from "lucide-react";
+import {
+  Edit,
+  EllipsisVertical,
+  Eye,
+  MessageCircleWarning,
+  Trash,
+  User,
+} from "lucide-react";
 import Link from "next/link";
 import { paths } from "@/lib/paths";
 import { usePathname } from "next/navigation";
@@ -20,7 +27,27 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const reportSchema = z.object({
+  category: z.string().min(1, "Report category is required"),
+  description: z
+    .string()
+    .min(10, "Description must be at least 10 characters long")
+    .max(500, "Description must be less than 500 characters"),
+});
 
 export type Column<T> = {
   header: string;
@@ -49,9 +76,9 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [sortOrder, setSortOrder] = useState<string>(sortOptions[0].value);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-
   const pathname = usePathname();
   const isPlayertableRoute = pathname === paths.admin.players;
 
@@ -116,6 +143,25 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
     if (page > 0 && page <= totalPages) {
       setCurrentPage(page);
     }
+  };
+
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = "hidden"; // Disable scrolling
+    } else {
+      document.body.style.overflow = "auto"; // Re-enable scrolling
+    }
+    return () => {
+      document.body.style.overflow = "auto"; // Clean up on unmount
+    };
+  }, [isModalOpen]);
+
+  const form = useForm<z.infer<typeof reportSchema>>({
+    resolver: zodResolver(reportSchema),
+  });
+
+  const onSubmit = async (values: z.infer<typeof reportSchema>) => {
+    console.log("Report Information:", values);
   };
 
   return (
@@ -243,27 +289,14 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
                   </td>
                 ))}
 
-                {/* <DropdownMenu>
-                  <DropdownMenuTrigger className="p-5">
-                    <EllipsisVertical />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem>
-                      <Link
-                        href={`${paths.admin.editPlayers}?id=${item._id}`}
-                        className="text-primary mr-2 px-5 py-2 rounded-full"
-                      >
-                        Edit
-                      </Link>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu> */}
                 <DropdownMenu>
                   <DropdownMenuTrigger className="p-5">
                     <BsThreeDotsVertical className="w-6 h-6" />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="shadow-md">
-                    <Link href={`${paths.admin.players}/profile?id=${item._id}`}>
+                    <Link
+                      href={`${paths.admin.players}/profile?id=${item._id}`}
+                    >
                       <DropdownMenuItem className="cursor-pointer">
                         <Eye className="w-4 h-4 mr-2" /> View
                       </DropdownMenuItem>
@@ -273,6 +306,12 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
                         <Edit className="w-4 h-4 mr-2" /> Edit
                       </DropdownMenuItem>
                     </Link>
+                    <DropdownMenuItem
+                      className="cursor-pointer"
+                      onClick={() => setIsModalOpen(true)}
+                    >
+                      <MessageCircleWarning className="w-4 h-4 mr-2" /> Report
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </tr>
@@ -280,6 +319,109 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
           </tbody>
         </table>
       </div>
+
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+          onClick={() => setIsModalOpen(false)}
+        >
+          {/* Modal Content */}
+          <div
+            className="bg-white w-[90%] max-w-md p-6 rounded-lg shadow-lg transform transition duration-300 ease-out animate-slide-in"
+            onClick={(e) => e.stopPropagation()} // Prevent click propagation
+          >
+            <h2 className="text-[1.5rem] font-medium mb-4 text-[#28353D]">
+              Report Player
+            </h2>
+
+            {/* Report Category */}
+
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)} // Properly handles and validates form submission
+                className="mt-4 w-full space-y-3"
+              >
+                <FormField
+                  control={form.control}
+                  name="category"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="w-full border-[1px] border-[#919EAB33] border-opacity-20 py-5">
+                              <SelectValue placeholder="Select a report category" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="Category 1">
+                              Category 1
+                            </SelectItem>
+                            <SelectItem value="Category 2">
+                              Category 2
+                            </SelectItem>
+                            <SelectItem value="Category 3">
+                              Category 3
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <textarea
+                          {...field}
+                          placeholder="Provide a detailed description"
+                          className="w-full border-[1px] border-[#919EAB33] border-opacity-20 px-5 py-5 rounded-xl"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="flex justify-end gap-4">
+                  <button
+                    className="bg-primary text-white py-2 px-4 rounded-lg hover:bg-green-600"
+                    type="submit"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </Form>
+          </div>
+        </div>
+      )}
+
+      <style>
+        {`
+          @keyframes slide-in {
+            from {
+              transform: translateY(-50%);
+              opacity: 0;
+            }
+            to {
+              transform: translateY(0);
+              opacity: 1;
+            }
+          }
+          .animate-slide-in {
+            animation: slide-in 0.4s ease-out forwards;
+          }
+        `}
+      </style>
 
       {/* Pagination Controls */}
       <div className="mt-4 flex justify-between items-center">
