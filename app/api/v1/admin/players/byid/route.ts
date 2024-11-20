@@ -1,5 +1,6 @@
 import { currentUser } from "@/lib/auth";
 import connectMongo from "@/lib/connectMongo";
+import Bookings from "@/models/Bookings/Bookings";
 import Players from "@/models/Users/Players";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -24,8 +25,25 @@ export const GET = async (request: NextRequest) => {
           { status: 404 }
         );
       }
+
+      const completedBookings = await Bookings.find({
+        linkedUserId:player.linkedUserId,
+        linkedFutsalId: user.id,
+        status: "Completed",
+      });
+
+      const totalHoursPlayed = completedBookings.reduce(
+        (total, booking) => total + (booking.selectedslots?.length || 0),
+        0
+      );
+
+      const response = {
+        ...player._doc,
+        completedBookingCount: completedBookings.length || 0,
+        totalHoursPlayed: totalHoursPlayed ?? 0,
+      };
       if (player.linkedUserId?.linkedFutsalId.toString() === user.id) {
-        return NextResponse.json(player, { status: 200 });
+        return NextResponse.json(response, { status: 200 });
       } else {
         return NextResponse.json({ message: "Forbidden" }, { status: 400 });
       }

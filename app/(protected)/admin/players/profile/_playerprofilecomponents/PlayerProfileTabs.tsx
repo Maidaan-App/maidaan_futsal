@@ -35,10 +35,9 @@ const PlayerProfileTabs = ({ current_user }: any) => {
   const { data: BookingsData, isLoading: BookingsDataLoading } =
     useGetAdminPlayerBookingByIdQuery(id);
 
-  const { data: ReportsData, isLoading: ReportsDataLoading } =
+  const { data: reportsData, isLoading: reportsDataLoading } =
   useGetAdminPlayerReportsByIdQuery(id);
 
-  console.log("ReportsData:", ReportsData);
 
   const categories = [
     {
@@ -75,7 +74,7 @@ const PlayerProfileTabs = ({ current_user }: any) => {
       case "Past Bookings":
         return <PastBookings BookingsData={BookingsData.pastBookings} />;
       case "Reports":
-        return <Reports />;
+        return <Reports reportsData={reportsData} ExistingDetail={PlayerDetails} />;
       default:
         return null;
     }
@@ -91,7 +90,7 @@ const PlayerProfileTabs = ({ current_user }: any) => {
           <UserNav current_user={current_user} />
         </div>
       </Layout.Header>
-      {profileLoading || Loading || BookingsDataLoading ? (
+      {profileLoading || Loading || BookingsDataLoading ||reportsDataLoading  ? (
         <div className="flex h-[80vh] items-center justify-center">
           <Loader />
         </div>

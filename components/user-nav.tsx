@@ -33,7 +33,9 @@ export function UserNav({ current_user }: any) {
                 src={`${MINIOURL}${current_user.image}`}
                 alt={current_user.name}
               />
-              <AvatarFallback>{current_user.name.charAt(0).toUpperCase()}</AvatarFallback>
+              <AvatarFallback>
+                {current_user.name.charAt(0).toUpperCase()}
+              </AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
@@ -49,11 +51,13 @@ export function UserNav({ current_user }: any) {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem>
-              <Link href={paths.admin.profile}>Profile</Link>
-              {/* <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut> */}
-            </DropdownMenuItem>
+          <Link  href={paths.admin.profile}>
+
+          <DropdownMenuGroup >
+              <DropdownMenuItem className="cursor-pointer">
+                Profile
+                {/* <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut> */}
+              </DropdownMenuItem>
             {/* <DropdownMenuItem>
               Billing
               <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
@@ -64,6 +68,8 @@ export function UserNav({ current_user }: any) {
             </DropdownMenuItem> */}
             {/* <DropdownMenuItem>New Team</DropdownMenuItem> */}
           </DropdownMenuGroup>
+          </Link>
+
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             <Logout />

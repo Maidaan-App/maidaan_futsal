@@ -13,6 +13,8 @@ export const statusTypes = ["pending", "enrolled", "blocked"];
 export const bookingStatusTypes = ["Reserved", "Pre-Booked", "Booked", "Completed", "Cancelled"];
 export const AddBookingStatusTypes = ["Reserved", "Pre-Booked", "Booked"];
 export const adminBookingStatusTypes = ["All" , "Reserved", "Pre-Booked", "Booked", "Completed", "Cancelled", ];
+export const adminReportCategoryTypes = ["All" , "Payment Issue", "Behaviour Issue", "Profanity", "Equipement Damage", "Other", ];
+export const ReportCategoryTypes = ["Payment Issue", "Behaviour Issue", "Profanity", "Equipement Damage", "Other", ];
 export const courtShifts = [
   { label: "morningShift", value: "Morning Shift" },
   { label: "dayShift", value: "Day Shift" },
