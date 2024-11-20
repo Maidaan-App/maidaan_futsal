@@ -21,7 +21,7 @@ import { useGetAllAdminPlansQuery } from "@/store/api/Admin/adminPlans";
 import Reports from "./Reports";
 import UpcomingBookings from "./UpcomingBookings";
 import { useSearchParams } from "next/navigation";
-import { useGetAdminPlayerByIdQuery } from "@/store/api/Admin/adminPlayers";
+import { useGetAdminPlayerByIdQuery, useGetAdminPlayerReportsByIdQuery } from "@/store/api/Admin/adminPlayers";
 import PlayerGeneralContent from "./PlayerGeneralContent";
 import PastBookings from "./PastBookings";
 import { useGetAdminPlayerBookingByIdQuery } from "@/store/api/Admin/adminBookings";
@@ -34,6 +34,11 @@ const PlayerProfileTabs = ({ current_user }: any) => {
 
   const { data: BookingsData, isLoading: BookingsDataLoading } =
     useGetAdminPlayerBookingByIdQuery(id);
+
+  const { data: ReportsData, isLoading: ReportsDataLoading } =
+  useGetAdminPlayerReportsByIdQuery(id);
+
+  console.log("ReportsData:", ReportsData);
 
   const categories = [
     {
@@ -59,15 +64,16 @@ const PlayerProfileTabs = ({ current_user }: any) => {
   const { data: ProfileDetail, isLoading: profileLoading } =
     useGetAdminMyPlayerByIdQuery("");
 
-
   const renderContent = () => {
     switch (activeTab) {
       case "General":
         return <PlayerGeneralContent ExistingDetail={PlayerDetails} />;
       case "Upcoming Bookings":
-        return <UpcomingBookings BookingsData={BookingsData.upcomingBookings}/>;
+        return (
+          <UpcomingBookings BookingsData={BookingsData.upcomingBookings} />
+        );
       case "Past Bookings":
-        return <PastBookings BookingsData={BookingsData.pastBookings}/>;
+        return <PastBookings BookingsData={BookingsData.pastBookings} />;
       case "Reports":
         return <Reports />;
       default:

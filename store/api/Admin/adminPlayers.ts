@@ -1,5 +1,5 @@
 import { paths } from "@/lib/paths";
-import { PLAYER } from "@/lib/types";
+import { PLAYER, PLAYERREPORT } from "@/lib/types";
 import { baseQuery } from "@/store/global";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
@@ -58,6 +58,24 @@ export const adminPlayersApi = createApi({
       }),
       invalidatesTags: ["Admin Players"],
     }),
+
+    //Reports
+
+    // Players Reports by Id
+    getAdminPlayerReportsById: builder.query<PLAYERREPORT[], string>({
+      query: (id) => `${paths.admin.playersReport}?id=${id}`,
+      providesTags: ["Admin Players"],
+    }),
+
+    //Report Player
+    AdminPlayerReport: builder.mutation<{ message: string }, any>({
+      query: ({ ...body }) => ({
+        url: `${paths.admin.playersReport}`,
+        method: "POST",
+        body: body,
+      }),
+      invalidatesTags: ["Admin Players"],
+    }),
   }),
 });
 
@@ -68,4 +86,7 @@ export const {
   useGetAdminPlayerByIdQuery,
   useGetAllAdminPlayersQuery,
   useGetAllAdminMyPlayersQuery,
+
+  useAdminPlayerReportMutation,
+  useGetAdminPlayerReportsByIdQuery
 } = adminPlayersApi;

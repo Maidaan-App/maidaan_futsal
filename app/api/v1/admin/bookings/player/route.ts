@@ -183,9 +183,6 @@ export const GET = async (request: NextRequest) => {
           }
         }
 
-        console.log("pastBookings:", pastBookings);
-        console.log("upcomingBookings:", upcomingBookings);
-
         const response = {
           pastBookings,
           upcomingBookings,

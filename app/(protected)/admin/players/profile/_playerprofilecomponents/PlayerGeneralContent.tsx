@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { MINIOURL } from "@/lib/constants";
 import SCNSingleImagePicker from "@/components/image-picker/SCNSingleImagePicker";
 import { poppins } from "@/lib/constants";
-import { useAdminAddUpdatePlayersMutation } from "@/store/api/Admin/adminPlayers";
+import { useAdminAddUpdatePlayersMutation, useAdminPlayerReportMutation } from "@/store/api/Admin/adminPlayers";
 import { paths } from "@/lib/paths";
 import { FaSpinner } from "react-icons/fa";
 import { MessageCircleWarning } from "lucide-react";
@@ -49,16 +49,19 @@ const reportSchema = z.object({
   category: z.string().min(1, "Report category is required"),
   description: z
     .string()
-    .min(10, "Description must be at least 10 characters long")
+    .min(5, "Description must be at least 5 characters long")
     .max(500, "Description must be less than 500 characters"),
 });
 
 const PlayerGeneralContent = ({ ExistingDetail }: any) => {
   const [Loading, setLoading] = useState(false);
+  const [reporting, setReporting] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const router = useRouter();
   const [AdminAddUpdatePlayer] = useAdminAddUpdatePlayersMutation();
+  const [AdminReportPlayer] = useAdminPlayerReportMutation();
+  
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -103,7 +106,28 @@ const PlayerGeneralContent = ({ ExistingDetail }: any) => {
   });
 
   const onSub = async (values: z.infer<typeof reportSchema>) => {
-    console.log("Report Detail", values);
+    try {
+      setReporting(true);
+      const response = await AdminReportPlayer({
+        ...values,
+        linkedPlayerId: ExistingDetail.linkedPlayerId
+      }).unwrap();
+      if (response) {
+        toast.success(response.message);
+        setReporting(false);
+        setIsModalOpen(false)
+        formModal.resetField("category")
+        formModal.resetField("description")
+      } else {
+        toast.error(`Something Went Wrong`);
+        setReporting(false);
+      }
+    } catch (error: any) {
+      toast.error(error.data.message);
+      setReporting(false);
+    } finally {
+      setReporting(false);
+    }
   };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -392,12 +416,26 @@ const PlayerGeneralContent = ({ ExistingDetail }: any) => {
                 />
 
                 <div className="flex justify-end gap-4">
-                  <button
+                  {/* <button
                     className="bg-primary text-white py-2 px-4 rounded-lg hover:bg-green-600"
                     type="submit"
                   >
                     Submit
-                  </button>
+                  </button> */}
+                  <Button
+                    type="submit"
+                    disabled={reporting}
+                    className={`bg-primary text-[#f1f1f1] px-5 rounded-md py-1 hover:bg-[#33b98d]  Loading ? "bg-blue-700 cursor-not-allowed" : ""`}
+                  >
+                    {reporting ? (
+                      <>
+                        <FaSpinner className="animate-spin mr-2" />
+                        Reporting
+                      </>
+                    ) : (
+                      "Report"
+                    )}
+                  </Button>
                 </div>
               </form>
             </Form>

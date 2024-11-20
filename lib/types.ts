@@ -28,6 +28,16 @@ export interface PLAYER {
   createdDate: Date;
 }
 
+
+export interface PLAYERREPORT {
+  _id: string;
+  linkedPlayerId: string;
+  linkedFutsalId: string;
+  category: string;
+  description: string;
+  reportedDate: Date;
+}
+
 export interface shiftDetailSchema {
   startTime: String;
   endTime: String;

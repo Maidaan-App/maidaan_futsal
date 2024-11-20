@@ -30,6 +30,8 @@ export const paths = {
     addPlayers: `${ROOTS.admin}/players/add`,
     editPlayers: `${ROOTS.admin}/players/edit`,
     playersProfile: `${ROOTS.admin}/players/profile`,
+    playersReport: `${ROOTS.admin}/players/report`,
+
 
     courts: `${ROOTS.admin}/courts`,
     addCourts: `${ROOTS.admin}/courts/add`,
