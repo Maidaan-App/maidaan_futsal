@@ -10,10 +10,13 @@ import TextField from "@mui/material/TextField";
 import { toast } from "sonner";
 import { uploadToMinIO } from "@/lib/helper";
 import { useRouter } from "next/navigation";
-import { MINIOURL } from "@/lib/constants";
+import { MINIOURL, ReportCategoryTypes } from "@/lib/constants";
 import SCNSingleImagePicker from "@/components/image-picker/SCNSingleImagePicker";
 import { poppins } from "@/lib/constants";
-import { useAdminAddUpdatePlayersMutation, useAdminPlayerReportMutation } from "@/store/api/Admin/adminPlayers";
+import {
+  useAdminAddUpdatePlayersMutation,
+  useAdminPlayerReportMutation,
+} from "@/store/api/Admin/adminPlayers";
 import { paths } from "@/lib/paths";
 import { FaSpinner } from "react-icons/fa";
 import { MessageCircleWarning } from "lucide-react";
@@ -50,7 +53,7 @@ const reportSchema = z.object({
   description: z
     .string()
     .min(5, "Description must be at least 5 characters long")
-    .max(500, "Description must be less than 500 characters"),
+    .max(100, "Description must be less than 100 characters"),
 });
 
 const PlayerGeneralContent = ({ ExistingDetail }: any) => {
@@ -61,7 +64,6 @@ const PlayerGeneralContent = ({ ExistingDetail }: any) => {
   const router = useRouter();
   const [AdminAddUpdatePlayer] = useAdminAddUpdatePlayersMutation();
   const [AdminReportPlayer] = useAdminPlayerReportMutation();
-  
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -110,14 +112,14 @@ const PlayerGeneralContent = ({ ExistingDetail }: any) => {
       setReporting(true);
       const response = await AdminReportPlayer({
         ...values,
-        linkedPlayerId: ExistingDetail.linkedPlayerId
+        linkedPlayerId: ExistingDetail.linkedUserId._id,
       }).unwrap();
       if (response) {
         toast.success(response.message);
         setReporting(false);
-        setIsModalOpen(false)
-        formModal.resetField("category")
-        formModal.resetField("description")
+        setIsModalOpen(false);
+        formModal.resetField("category");
+        formModal.resetField("description");
       } else {
         toast.error(`Something Went Wrong`);
         setReporting(false);
@@ -288,7 +290,7 @@ const PlayerGeneralContent = ({ ExistingDetail }: any) => {
               <div className="w-1/2 flex gap-5">
                 <div className="flex flex-col items-center border-r-2 pr-3 gap-3">
                   <h1 className="text-[1.25rem] font-semibold text-[#28353D] leading-[1.25rem]">
-                    150
+                    {ExistingDetail.totalHoursPlayed}
                   </h1>
                   <p className="text-[#8A92A6] font-normal leading-[1.25rem]">
                     Total Hours Played
@@ -296,20 +298,20 @@ const PlayerGeneralContent = ({ ExistingDetail }: any) => {
                 </div>
                 <div className="flex flex-col items-center border-r-2 pr-3 gap-3">
                   <h1 className="text-[1.25rem] font-semibold text-[#28353D] leading-[1.25rem]">
-                    15
+                  {ExistingDetail.completedBookingCount}
                   </h1>
                   <p className="text-[#8A92A6] font-normal leading-[1.25rem]">
-                    Rank
+                  Total Completed Bookings
                   </p>
                 </div>
-                <div className="flex flex-col items-center border-r-2 pr-3 gap-3">
+                {/* <div className="flex flex-col items-center border-r-2 pr-3 gap-3">
                   <h1 className="text-[1.25rem] font-semibold text-[#28353D] leading-[1.25rem]">
                     150
                   </h1>
                   <p className="text-[#8A92A6] font-normal leading-[1.25rem]">
                     Points
                   </p>
-                </div>
+                </div> */}
               </div>
 
               <div className="w-1/2 flex justify-end ">
@@ -381,15 +383,11 @@ const PlayerGeneralContent = ({ ExistingDetail }: any) => {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="Category 1">
-                              Category 1
-                            </SelectItem>
-                            <SelectItem value="Category 2">
-                              Category 2
-                            </SelectItem>
-                            <SelectItem value="Category 3">
-                              Category 3
-                            </SelectItem>
+                            {ReportCategoryTypes.map((data, index) => (
+                              <SelectItem key={index} value={data}>
+                                {data}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                       </FormControl>

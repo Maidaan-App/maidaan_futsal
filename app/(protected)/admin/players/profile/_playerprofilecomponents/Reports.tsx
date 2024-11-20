@@ -1,13 +1,21 @@
-import React from 'react'
-import PlayerBookingTable from './PlayerBookingTable'
+import React from "react";
+import PlayerReportTable from "./PlayerReportTable";
+import { PLAYERREPORT } from "@/lib/types";
 
-const Reports = () => {
-  return (
-    <div>
-      Reports
-      {/* <PlayerBookingTable/> */}
-    </div>
-  )
+interface props {
+  reportsData: PLAYERREPORT[] | undefined;
+  ExistingDetail: any;
 }
 
-export default Reports
+const Reports = ({ reportsData, ExistingDetail }: props) => {
+  return (
+    <div>
+      <PlayerReportTable
+        reportsData={reportsData}
+        ExistingDetail={ExistingDetail}
+      />
+    </div>
+  );
+};
+
+export default Reports;

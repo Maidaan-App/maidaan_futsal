@@ -5,7 +5,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 
 export const adminPlayersApi = createApi({
   reducerPath: "adminPlayersApi",
-  tagTypes: ["Admin Players"],
+  tagTypes: ["Admin Players", "Admin Player Report"],
   baseQuery: baseQuery,
   keepUnusedDataFor: 2,
   endpoints: (builder) => ({
@@ -64,7 +64,7 @@ export const adminPlayersApi = createApi({
     // Players Reports by Id
     getAdminPlayerReportsById: builder.query<PLAYERREPORT[], string>({
       query: (id) => `${paths.admin.playersReport}?id=${id}`,
-      providesTags: ["Admin Players"],
+      providesTags: ["Admin Player Report"],
     }),
 
     //Report Player
@@ -74,7 +74,7 @@ export const adminPlayersApi = createApi({
         method: "POST",
         body: body,
       }),
-      invalidatesTags: ["Admin Players"],
+      invalidatesTags: ["Admin Player Report"],
     }),
   }),
 });
@@ -88,5 +88,5 @@ export const {
   useGetAllAdminMyPlayersQuery,
 
   useAdminPlayerReportMutation,
-  useGetAdminPlayerReportsByIdQuery
+  useGetAdminPlayerReportsByIdQuery,
 } = adminPlayersApi;
