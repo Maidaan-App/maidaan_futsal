@@ -40,12 +40,15 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAdminPlayerReportMutation } from "@/store/api/Admin/adminPlayers";
+import { toast } from "sonner";
+import { FaSpinner } from "react-icons/fa";
 
 const reportSchema = z.object({
   category: z.string().min(1, "Report category is required"),
   description: z
     .string()
-    .min(10, "Description must be at least 10 characters long")
+    .min(5, "Description must be at least 5 characters long")
     .max(500, "Description must be less than 500 characters"),
 });
 
@@ -81,6 +84,9 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
   const itemsPerPage = 10;
   const pathname = usePathname();
   const isPlayertableRoute = pathname === paths.admin.players;
+  const [AdminReportPlayer] = useAdminPlayerReportMutation();
+  const [Loading, setLoading] = useState(false);
+  const [linkedPlayerId, setLinkedPlayerId] = useState("");
 
   const getStatusCount = (status: string) => {
     return data.filter((item) => item[statusKey] === status).length;
@@ -117,21 +123,6 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
     );
   };
 
-  const deleteItems = () => {
-    if (confirm("Are you sure you want to delete the selected items?")) {
-      console.log("Deleting selected items:", selectedItems);
-      alert(`Deleting items with IDs: ${selectedItems.join(", ")}`);
-      setSelectedItems([]);
-    }
-  };
-
-  const handleIndividualDelete = (_id: string) => {
-    if (confirm(`Are you sure you want to delete the item with ID: ${_id}?`)) {
-      console.log(`Deleting item with ID: ${_id}`);
-      alert(`Item with ID ${_id} deleted`);
-    }
-  };
-
   // Pagination Logic
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   const paginatedData = filteredData.slice(
@@ -161,7 +152,29 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
   });
 
   const onSubmit = async (values: z.infer<typeof reportSchema>) => {
-    console.log("Report Information:", values);
+    try {
+      setLoading(true);
+      const response = await AdminReportPlayer({
+        ...values,
+        linkedPlayerId,
+      }).unwrap();
+      if (response) {
+        toast.success(response.message);
+        setLoading(false);
+        setLinkedPlayerId("");
+        setIsModalOpen(false);
+        form.resetField("category")
+        form.resetField("description")
+      } else {
+        toast.error(`Something Went Wrong`);
+        setLoading(false);
+      }
+    } catch (error: any) {
+      toast.error(error.data.message);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -308,7 +321,10 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
                     </Link>
                     <DropdownMenuItem
                       className="cursor-pointer"
-                      onClick={() => setIsModalOpen(true)}
+                      onClick={() => {
+                        setLinkedPlayerId(item.linkedUserId);
+                        setIsModalOpen(true);
+                      }}
                     >
                       <MessageCircleWarning className="w-4 h-4 mr-2" /> Report
                     </DropdownMenuItem>
@@ -392,12 +408,26 @@ const ReusableTable = <T extends { _id: string; [key: string]: any }>({
                 />
 
                 <div className="flex justify-end gap-4">
-                  <button
+                  {/* <button
                     className="bg-primary text-white py-2 px-4 rounded-lg hover:bg-green-600"
                     type="submit"
                   >
                     Submit
-                  </button>
+                  </button> */}
+                  <Button
+                    type="submit"
+                    disabled={Loading}
+                    className={`bg-primary text-[#f1f1f1] px-5 rounded-md py-1 hover:bg-[#33b98d]  Loading ? "bg-blue-700 cursor-not-allowed" : ""`}
+                  >
+                    {Loading ? (
+                      <>
+                        <FaSpinner className="animate-spin mr-2" />
+                        Reporting
+                      </>
+                    ) : (
+                      "Report"
+                    )}
+                  </Button>
                 </div>
               </form>
             </Form>
