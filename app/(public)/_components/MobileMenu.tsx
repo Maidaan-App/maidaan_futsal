@@ -3,7 +3,7 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { MINIOURL } from "@/lib/constants";
+import { MINIOURL, montserrat } from "@/lib/constants";
 import { FUTSALPROFILE } from "@/lib/types";
 import { paths } from "@/lib/paths";
 
@@ -74,14 +74,21 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ FutsalProfile }) => {
 
   return (
     <>
-      <button
+      <div
+        className={`flex items-center justify-center ${montserrat.className} pointer  `}
         onClick={toggleMenu}
-        className="text-white md:hidden p-4 focus:outline-none"
       >
-        <span className="block w-6 h-0.5 bg-white mb-2"></span>
-        <span className="block w-6 h-0.5 bg-white mb-2"></span>
-        <span className="block w-6 h-0.5 bg-white mb-2"></span>
-      </button>
+        {" "}
+        <button className="text-white md:hidden p-3 focus:outline-none rounded-s-sm  bg-[#001715]">
+          <span className="block w-6 h-0.5 bg-[#feff01] mb-1"></span>
+          <span className="block w-6 h-0.5 bg-[#feff01] mb-1"></span>
+          <span className="block w-6 h-0.5 bg-[#feff01] mb-1"></span>
+        </button>
+        <p className="p-2 pointer ">
+          {" "}
+          <FlipLink>MENU</FlipLink>
+        </p>
+      </div>
 
       {/* Mobile Menu Canvas */}
       <motion.div
@@ -103,12 +110,20 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ FutsalProfile }) => {
         exit={{ x: "-100%" }} // Slide back down when closed
       >
         {/* Close Button */}
-        <button
+        {/* Close Button */}
+        <div
+          className={`flex absolute bottom-5 right-[35%] rounded-sm   items-center justify-center bg-[#c1cbc9]    ${montserrat.className} pointer  `}
           onClick={toggleMenu}
-          className="absolute top-4 right-4 text-2xl font-bold text-white"
         >
-          &times;
-        </button>
+          {" "}
+          <button className="text-white md:hidden px-4 py-2  focus:outline-none rounded-s-sm  bg-[#001715]">
+            <span className="p-0 m-0">X</span>
+          </button>
+          <p className="px-2 py-1 text-[#001715]  pointer">
+            {" "}
+            <FlipLink>CLOSE</FlipLink>
+          </p>
+        </div>
 
         <ul className="flex flex-col space-y-6">
           <li>

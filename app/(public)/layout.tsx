@@ -21,7 +21,7 @@ const Layout: React.FC<LayoutProps> = async ({ children }) => {
       <Header />
       <main className="flex-grow relative">
         {/* Floating Menu Button: Only visible on mobile */}
-        <div className="fixed bottom-5 right-5 z-50 bg-blue-500 text-white p-4 rounded-full shadow-lg lg:hidden">
+        <div className="fixed bottom-5 right-[35%]   z-50 bg-[#c1cbc9] text-[#001715] rounded-sm shadow-lg lg:hidden">
           <MobileMenu FutsalProfile={futsalProfile} />
         </div>
 
