@@ -45,16 +45,16 @@ const AdminDashboard = ({ current_user }: any) => {
                   <h1 className="text-2xl font-bold tracking-tight">
                     Dashboard
                   </h1>
-                  <div className="flex items-center space-x-2">
+                  {/* <div className="flex items-center space-x-2">
                     <Button>Download</Button>
-                  </div>
+                  </div> */}
                 </div>
                 <Tabs
                   orientation="vertical"
                   defaultValue="overview"
                   className="space-y-4"
                 >
-                  <div className="w-full overflow-x-auto pb-2">
+                  {/* <div className="w-full overflow-x-auto pb-2">
                     <TabsList>
                       <TabsTrigger value="overview">Overview</TabsTrigger>
                       <TabsTrigger value="analytics">Analytics</TabsTrigger>
@@ -63,7 +63,7 @@ const AdminDashboard = ({ current_user }: any) => {
                         Notifications
                       </TabsTrigger>
                     </TabsList>
-                  </div>
+                  </div> */}
                   <TabsContent value="overview" className="space-y-4">
                     <Cards DashboardData={DashboardData} />
                     <div className="grid grid-cols-1 gap-4 lg:grid-cols-7">
