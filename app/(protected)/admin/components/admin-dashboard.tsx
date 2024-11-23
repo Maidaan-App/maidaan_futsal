@@ -67,14 +67,16 @@ const AdminDashboard = ({ current_user }: any) => {
                   <TabsContent value="overview" className="space-y-4">
                     <Cards DashboardData={DashboardData} />
                     <div className="grid grid-cols-1 gap-4 lg:grid-cols-7">
-                      <Card className="col-span-1 lg:col-span-4">
+                    <Overview DashboardData={DashboardData} />
+
+                      {/* <Card className="col-span-1 lg:col-span-4">
                         <CardHeader>
                           <CardTitle>Overview</CardTitle>
                         </CardHeader>
                         <CardContent className="pl-2">
                           <Overview DashboardData={DashboardData} />
                         </CardContent>
-                      </Card>
+                      </Card> */}
                       <Card className="col-span-1 lg:col-span-3">
                         <CardHeader>
                           <CardTitle>Recent Bookings</CardTitle>
