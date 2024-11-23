@@ -125,10 +125,12 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ FutsalProfile }) => {
       const target = document.getElementById(section);
       if (target) {
         target.scrollIntoView({ behavior: "smooth" });
+        toggleMenu();
       }
     } else {
       // Navigate to home page with the section in the URL
       window.location.href = `${paths.public.bookNow}`;
+      toggleMenu();
     }
   };
   const handleScrollToSection = (section: string) => {
