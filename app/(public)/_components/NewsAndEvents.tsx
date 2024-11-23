@@ -26,7 +26,7 @@ interface props {
 export const NewsAndEvents = ({ NewsEventsData }: props) => {
   return (
     <div className={`${montserrat.className} py-20`}>
-      <h1 className="md:text-4xl text-2xl font-bold mb-12 text-center text-[#f1f1f1]">
+      <h1 className="md:text-4xl text-2xl font-bold mb-12 text-center uppercase text-[#f1f1f1]">
         NEWS AND EVENTS
       </h1>
       <TextParallaxContent

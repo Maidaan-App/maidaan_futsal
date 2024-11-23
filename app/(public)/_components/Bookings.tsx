@@ -32,7 +32,7 @@ const Bookings = ({ CourtsData }: props) => {
       id="book-now"
     >
       <div>
-        <p className="text-center text-[#172b2a] font-bold text-4xl flex justify-center items-center gap-3 md:text-4xl uppercase">
+        <p className="text-center text-[#172b2a] font-bold text-2xl flex justify-center items-center mb-4 gap-3 md:text-4xl uppercase">
           <span>
             {selectedDate?.toDateString() === today.toDateString()
               ? "Today's"
