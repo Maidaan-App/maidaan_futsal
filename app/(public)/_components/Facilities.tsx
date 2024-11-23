@@ -39,7 +39,9 @@ const Facilities = ({ AmenitiesData }: Props) => {
     <div
       className={`py-16 px-6 flex flex-col items-center text-[#f1f1f1] ${montserrat.className}`}
     >
-      <h1 className="text-4xl font-bold mb-12 text-center">AMENITIES</h1>
+      <h1 className="md:text-4xl text-2xl uppercase font-bold mb-12 text-center">
+        AMENITIES
+      </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center max-w-6xl w-full">
         {availableFeatures.map((feature, index) => (
           <motion.div

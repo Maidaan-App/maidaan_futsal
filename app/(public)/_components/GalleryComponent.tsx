@@ -48,9 +48,10 @@ export function GalleryComponent() {
         </div>
       ) : (
         <div>
-          <h2 className="text-center text-[#f1f1f1] font-bold text-xl md:text-4xl mb-6">
+          <h2 className="text-center text-[#f1f1f1] font-bold text-xl md:text-4xl mb-6 uppercase">
             Gallery
           </h2>
+
           <p className=" text-gray-400 mb-6 mx-4 md:mb-12 md:mx-6  text-base text-center md:text-xl ">
             Explore moments captured from our tournaments, friendly matches, and
             futsal events.

@@ -64,7 +64,7 @@ export const PublicDateSelect: React.FC<PublicDateSelectProps> = ({
         <p
           style={{ cursor: "pointer", display: "flex", alignItems: "center" }}
           className="font-medium md:text-[1.125rem] text-xs"
-          onClick={() => setIsOpen(!isOpen)}
+          // onClick={() => setIsOpen(!isOpen)}
         >
           <span>
             {selectedDate?.toLocaleDateString("en-US", { weekday: "long" })},{" "}
