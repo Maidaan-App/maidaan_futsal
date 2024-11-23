@@ -15,7 +15,7 @@ const Courts = ({ CourtsData }: props) => {
       className={`py-20 md:mx-20 mx-10 flex flex-col gap-10 font-medium ${montserrat.className}`}
     >
       {/* Title */}
-      <h2 className="text-center text-[#f1f1f1] font-bold text-xl md:text-4xl">
+      <h2 className="text-center text-[#f1f1f1] font-bold text-4xl uppercase md:text-4xl">
         Our Courts
       </h2>
 
