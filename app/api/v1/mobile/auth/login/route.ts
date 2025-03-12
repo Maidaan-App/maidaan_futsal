@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({ message: "Login Successfull" }, { status: 201 });
+    return NextResponse.json(existingUser, { status: 201 });
   } catch (error: any) {
     return NextResponse.json(
       { error: "Invalid request body" },
