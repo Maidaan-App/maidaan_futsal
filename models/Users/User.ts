@@ -3,10 +3,11 @@ import { Schema, model, models, Model } from "mongoose";
 
 const Userchema = new Schema(
   {
-    linkedFutsalId: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
+    // linkedFutsalId: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "User",
+    // },
+    linkedFutsalId: String,
     name: String,
     image: String,
     password: String,
